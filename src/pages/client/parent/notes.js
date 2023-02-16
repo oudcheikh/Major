@@ -1,0 +1,70 @@
+import * as React from 'react';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import formattedDate from "../../../utils"
+
+
+
+
+const formattedDate = (d) => {
+
+  
+  let month = ("0" + (d.getMonth() + 1)).slice(-2);
+  let day = ("0" + d.getDate()).slice(-2);
+  const year = String(d.getFullYear());
+  const hour = String(d.getHours());
+  const minutes = String(d.getMinutes());
+
+  return `${day}/${month}/${year}-${hour}h${minutes}`;
+};
+
+
+export default function NotesHistory(Props) {
+
+  
+ 
+  
+  return (
+
+
+    
+    <div>
+
+{Props.notes.map((item) =>   <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography> Chapitre : {item.chapitre} | Note Globale : {item.note_globale} </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+          comprehension : {item.comprehension} 
+          </Typography>
+          <Typography>
+          effort : {item.effort} 
+          </Typography>
+          <Typography>
+          environment : {item.environment} 
+          </Typography>
+          <Typography>
+          ponctualite : {item.ponctualite} 
+          </Typography>
+
+          <Typography>
+          date : {formattedDate(item.course_date.toDate())} 
+          </Typography>
+          
+        </AccordionDetails>
+      </Accordion>
+      )}
+    
+
+      
+    </div>
+  );
+}
