@@ -45,20 +45,24 @@ export default function CreditModal(Props) {
     
     const querySnapshotCredit = collection(db, "Users", prof_uid, "Credit")
 
-    const docRef = await addDoc(querySnapshotCredit, {
+    const docRef = await addDoc(querySnapshotCredit, 
+      
+      {
       added_value: Props.credit_value,
       by: "Admin",
       email : user.email,
       old_credit: profProfileSnap.data().credit,
       created_at : new Date(),
       operation : "old_credit : " + profProfileSnap.data().credit + "  udpate_value : " + Props.credit_value, 
-    });
+    }
+    );
 
     await updateDoc(profProfile, {
       credit: parseInt(profProfileSnap.data().credit) + parseInt(Props.credit_value)
    });
 
    setOpen(false)
+
    const phone = ""
    const data = ""
    const uid = prof_uid
@@ -66,6 +70,7 @@ export default function CreditModal(Props) {
    {
      state: { phone, data, uid },
    });
+   
 
   };
 

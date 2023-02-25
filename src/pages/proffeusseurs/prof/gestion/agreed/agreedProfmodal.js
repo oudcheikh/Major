@@ -30,7 +30,7 @@ export default function AgreedProf(Props) {
   const agreedProf = async () => {
 
   
-    const prof_uid = Props.props.uid;
+    const prof_uid = Props.prof;
     const profProfile = doc(db, "Users", prof_uid);
     const profProfileSnap = await getDoc(profProfile);
 
@@ -43,6 +43,20 @@ export default function AgreedProf(Props) {
      await updateDoc(profProfile, {
        isAgreed: true
     });
+
+    const querySnapshotTrackValidation = collection(db, "Users", prof_uid, "TrackValidation")
+    const docRef = await addDoc(querySnapshotTrackValidation, 
+    
+    {
+
+      by: user.email,
+      date : new Date(),
+      type_validation: "Agreed",
+      type : "isAgreed" , 
+      remarque : " ", 
+    });
+
+    Props.setisagreed(true)
 
    setOpen(false)
 
@@ -59,7 +73,7 @@ export default function AgreedProf(Props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Vous voulez Agreed le prof  {Props.props.firstname}
+            Vous voulez Agreed le prof
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 

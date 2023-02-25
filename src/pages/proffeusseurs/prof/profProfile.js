@@ -162,7 +162,7 @@ const goToCredit = () => {
     setValue(newValue);
   };
 
-
+console.log("lllllllllllllllll tets .............")
 
   return (
     <div>
@@ -196,8 +196,20 @@ const goToCredit = () => {
             </Typography> */}
             
             <Typography variant="h5" color="text.secondary">
-              Notation : {profile.notation}
+            city : {profile.city}
             </Typography>
+
+
+            <Typography variant="h5" color="text.secondary">
+            quartier : {profile.quartier}
+            </Typography>
+
+            
+            <Typography variant="h5" color="text.secondary">
+            adresse : {profile.adress}
+            </Typography>
+
+
           </CardContent>
         </Card>
       </Box>

@@ -30,7 +30,7 @@ export default function BlockProf(Props) {
   const block = async () => {
 
   //   const current_cours = Props.coursToBeActivated;
-    const prof_uid = Props.props.uid;
+    const prof_uid = Props.prof;
     const profProfile = doc(db, "Users", prof_uid);
     const profProfileSnap = await getDoc(profProfile);
 
@@ -43,6 +43,21 @@ export default function BlockProf(Props) {
      await updateDoc(profProfile, {
       isBlocked: true
     });
+
+
+
+  const querySnapshotTrackValidation = collection(db, "Users", prof_uid, "TrackValidation")
+  const docRef = await addDoc(querySnapshotTrackValidation, 
+    
+    {
+
+      by: user.email,
+      date : new Date(),
+      type_validation: "Block",
+      type : "isBlocked" , 
+      remarque : " ", 
+    });
+    Props.setisblocked(true)
 
    setOpen(false)
 
@@ -59,7 +74,7 @@ export default function BlockProf(Props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          Vous voulez blocker le prof prof d  {Props.props.firstname}
+          Vous voulez blocker le prof 
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 

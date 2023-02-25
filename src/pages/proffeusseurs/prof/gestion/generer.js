@@ -24,7 +24,7 @@ const currencies = [
   },
 ];
 
-export default function Gerer() {
+export default function Gerer(Props) {
   
   
   const [user, loading, error] = useAuthState(auth);
@@ -32,12 +32,47 @@ export default function Gerer() {
   const [value, setValue] = React.useState();
   const [checkedIsActive, setCheckedIsActive] = React.useState(true);
   const [checkedIsBloked, setCheckedIsBloked] = React.useState(true);
+  const [profile, setProfile] = React.useState({});
+
+  const [isactif, setisactif] = React.useState(false);
+  const [isagreed, setisagreed] = React.useState(false);
+  const [isblocked, setisblocked] = React.useState(false);
+  
+  
 
 
   const { state } = useLocation();
 
-  
 
+  const fetchAllClient = async () => {
+  const prof_uid = Props.prof ;
+
+  const profProfile = doc(db, "Users", prof_uid);
+  const profProfileSnap = await getDoc(profProfile);
+
+  console.log("____èèèèèèèèèèèèè-------------", prof_uid)
+  
+    if (profProfileSnap.exists()) {
+      setProfile(profProfileSnap.data())
+      setisactif(profProfileSnap.data().isActif)
+      setisagreed(profProfileSnap.data().isAgreed)
+      setisblocked(profProfileSnap.data().isBlocked)
+
+
+
+      
+    
+    } else {
+      console.log("``");
+    }
+  }
+
+  React.useEffect(() => {
+ 
+
+    fetchAllClient();
+    
+  }, []);
 
   const handleChangeIsActive = (event) => {
 
@@ -69,7 +104,7 @@ export default function Gerer() {
     >
     </Box>
 
-    {!state.data.isAgreed &&
+    {!isagreed &&
          <Box
          sx={{
              display: 'flex',
@@ -80,11 +115,31 @@ export default function Gerer() {
              borderRadius: 1,
            }}
          >
-           <AgreedProf props = {state.data} />
+           <AgreedProf isagreed = {isagreed} setisagreed = {setisagreed} prof = {Props.prof} />
          </Box>
          }
 
-    {state.data.isAgreed &&
+    {isagreed &&
+         <Box
+         sx={{
+             display: 'flex',
+             justifyContent: 'center',
+             p: 1,
+             m: 1,
+             bgcolor: 'background.paper',
+             borderRadius: 1,
+           }}
+         >  
+         
+           <DesagreedProf isagreed = {isagreed} setisagreed = {setisagreed} prof = {Props.prof} />
+         </Box>
+         }
+
+
+
+    
+
+{!isblocked &&
          <Box
          sx={{
              display: 'flex',
@@ -95,13 +150,11 @@ export default function Gerer() {
              borderRadius: 1,
            }}
          >
-           <DesagreedProf props = {state.data} />
+           <BlockProf isblocked = {isblocked} setisblocked = {setisblocked} prof = {Props.prof} />
          </Box>
          }
 
-
-
-    {!state.data.isActif &&
+    {isblocked &&
          <Box
          sx={{
              display: 'flex',
@@ -112,11 +165,12 @@ export default function Gerer() {
              borderRadius: 1,
            }}
          >
-           <ActiveProf props = {state.data} />
+        
+           <DeblockProf isblocked = {isblocked} setisblocked = {setisblocked} prof = {Props.prof}/>
          </Box>
          }
 
-    {state.data.isActif &&
+{!isactif &&
          <Box
          sx={{
              display: 'flex',
@@ -127,11 +181,11 @@ export default function Gerer() {
              borderRadius: 1,
            }}
          >
-           <DeactiveProf props = {state.data} />
+           <ActiveProf isactif = {isactif} setisactif = {setisactif} prof = {Props.prof} />
          </Box>
          }
 
-{!state.data.isBlocked &&
+    {isactif &&
          <Box
          sx={{
              display: 'flex',
@@ -142,25 +196,9 @@ export default function Gerer() {
              borderRadius: 1,
            }}
          >
-           <BlockProf props = {state.data} />
+           <DeactiveProf isactif = {isactif} setisactif = {setisactif} prof = {Props.prof} />
          </Box>
          }
-
-    {state.data.isBlocked &&
-         <Box
-         sx={{
-             display: 'flex',
-             justifyContent: 'center',
-             p: 1,
-             m: 1,
-             bgcolor: 'background.paper',
-             borderRadius: 1,
-           }}
-         >
-           <DeblockProf props = {state.data} />
-         </Box>
-         }
-
 
     </div>
   );

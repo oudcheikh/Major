@@ -1,12 +1,24 @@
 import * as React from 'react';
+import { useState, createContext, useContext } from "react";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { query, collection, getDocs,getDoc,setDoc ,arrayUnion, arrayRemove,updateDoc, where, doc, onSnapshot } from "firebase/firestore";
+import { query, addDoc, collection, getDocs,getDoc,setDoc ,arrayUnion, arrayRemove,updateDoc, where, doc, onSnapshot } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 
+function transformArray(array) {
+  let transformedArray = [];
+  
+  for (let i = 0; i < array.length; i++) {
+    let splitArray = array[i].split(" - ");
+    transformedArray.push({ level: splitArray[0], name: splitArray[1] });
+  }
+  
+  return transformedArray;
+}
 
 const style = {
   position: 'absolute',
@@ -29,9 +41,12 @@ export default function DesactiverModal(Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
+  
+
 
   const updateCours = async () => {
-   
+  
    
     
    const current_cours = Props.coursToBeDesactivated;
@@ -49,13 +64,74 @@ export default function DesactiverModal(Props) {
         return value != current_cours;
     });
 
+
+    let current_offer = transformArray([current_cours])[0]
+    var OffreToValidateList = myprofile.offerToValidate
+  
+    var valueInoffer = myprofile.offer.filter(function(value){ 
+      return value.level == current_offer.level 
+      && value.name ==current_offer.name ;
+  });
+
+  var theNewOffreToValidate   = OffreToValidateList.concat(valueInoffer[0])
+
+
+  var newoffer = myprofile.offer.filter(function(value)
+  { 
+    return value.id != valueInoffer[0].id ;
+});
+    
+   
+  console.log("________________________________ : myDesactiveCourses : ", myDesactiveCourses)
+  console.log("________________________________ : filtered  : ", filtered)
+  console.log("________________________________ : newoffer : ", newoffer)
+  console.log("________________________________ : theNewOffreToValidate  : ", theNewOffreToValidate)
+
+
    
     await updateDoc(profProfile, {
       courses: filtered,
       coursesToValidate: myDesactiveCourses, 
    });
 
-    setOpen(false)
+
+  
+  await updateDoc(profProfile, {
+    offer: newoffer,
+    offerToValidate: theNewOffreToValidate, 
+ });
+
+
+
+const querySnapshotTrackValidation = collection(db, "Users", prof_uid, "TrackValidation")
+
+const docRef = await addDoc(querySnapshotTrackValidation, 
+  
+  {
+
+    by: user.email,
+    cours:current_cours,
+    date : new Date(),
+    type_validation: "desactive",
+    type : "cours" , 
+    remarque : " ", 
+  });
+
+  Props.setCourses(filtered)
+
+  setOpen(false);
+
+
+
+  // const phone = ""
+  //  const data = ""
+  //  const uid = prof_uid
+  //  navigate("/profProfile",
+  //  {
+  //    state: { phone, data, uid },
+  //  });
+
+
 
   };
 

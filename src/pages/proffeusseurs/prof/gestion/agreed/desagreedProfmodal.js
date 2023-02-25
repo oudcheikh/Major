@@ -31,7 +31,7 @@ export default function DesagreedProf(Props) {
 
 
   //   const current_cours = Props.coursToBeActivated;
-    const prof_uid = Props.props.uid;
+    const prof_uid = Props.prof;
     const profProfile = doc(db, "Users", prof_uid);
     const profProfileSnap = await getDoc(profProfile);
 
@@ -45,7 +45,22 @@ export default function DesagreedProf(Props) {
        isAgreed: false
     });
 
-   setOpen(false)
+
+    
+    const querySnapshotTrackValidation = collection(db, "Users", prof_uid, "TrackValidation")
+  const docRef = await addDoc(querySnapshotTrackValidation, 
+    
+    {
+
+      by: user.email,
+      date : new Date(),
+      type_validation: "desAgreed",
+      type : "isAgreed" , 
+      remarque : " ", 
+    });
+    Props.setisagreed(false);
+
+   setOpen(false);
 
   };
 
@@ -60,7 +75,7 @@ export default function DesagreedProf(Props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          Vous voulez desagreeder le prof {Props.props.firstname}
+          Vous voulez desagreeder le prof 
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 

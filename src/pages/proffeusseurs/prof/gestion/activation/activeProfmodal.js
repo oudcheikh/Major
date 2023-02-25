@@ -30,7 +30,7 @@ export default function ActiveProf(Props) {
   const activeProf = async () => {
 
   
-    const prof_uid = Props.props.uid;
+    const prof_uid = Props.prof;
     const profProfile = doc(db, "Users", prof_uid);
     const profProfileSnap = await getDoc(profProfile);
 
@@ -44,6 +44,19 @@ export default function ActiveProf(Props) {
        isActif: true
     });
 
+  const querySnapshotTrackValidation = collection(db, "Users", prof_uid, "TrackValidation")
+  const docRef = await addDoc(querySnapshotTrackValidation, 
+    
+    {
+
+      by: user.email,
+      date : new Date(),
+      type_validation: "Actif",
+      type : "isActif" , 
+      remarque : " ", 
+    });
+
+    Props.setisactif(true);
    setOpen(false)
 
   };
@@ -59,7 +72,7 @@ export default function ActiveProf(Props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Vous voulez activer le prof  {Props.props.firstname}
+            Vous voulez activer le prof  
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 

@@ -48,6 +48,7 @@ export default function ActiveOffre(Props) {
     if (profProfileSnap.exists()) {
       
       setProfile(profProfileSnap.data())
+    
       setCourses(profProfileSnap.data().courses)
     } else {
       console.log("``");
@@ -65,7 +66,6 @@ export default function ActiveOffre(Props) {
   
   return (
     <div>
-
 {courses.map((item) =>   <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -75,7 +75,7 @@ export default function ActiveOffre(Props) {
           <Typography> {item} </Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <DesactiverModal prof = {profuid} coursToBeDesactivated = {item}/>
+        <DesactiverModal prof = {profuid} setCourses = {setCourses} coursToBeDesactivated = {item}/>
         </AccordionDetails>
       </Accordion>
       )} 

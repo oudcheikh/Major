@@ -48,7 +48,7 @@ export default function DesActiveOffre(Props) {
     const profProfileSnap = await getDoc(profProfile);
     setProfuid(prof_uid);
     if (profProfileSnap.exists()) {
-      console.log("``");
+      console.log("`-------------------fffffffffffffffffffff----------------------------------`", profProfileSnap.data().coursesToValidate);
       setProfile(profProfileSnap.data())
       setCourses(profProfileSnap.data().coursesToValidate)
     } else {
@@ -77,7 +77,8 @@ export default function DesActiveOffre(Props) {
         </AccordionSummary>
 
         <AccordionDetails>
-        <ActiverOffreModal prof = {profuid} coursToBeActivated = {item}/>
+        <ActiverOffreModal prof = {profuid} 
+        setCourses = {setCourses} coursToBeActivated = {item}/>
         </AccordionDetails>
       </Accordion>
       )}

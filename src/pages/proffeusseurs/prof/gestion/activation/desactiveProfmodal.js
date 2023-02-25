@@ -30,7 +30,7 @@ export default function DeactiveProf(Props) {
   const desactiveProf = async () => {
 
   //   const current_cours = Props.coursToBeActivated;
-    const prof_uid = Props.props.uid;
+    const prof_uid = Props.prof;
     const profProfile = doc(db, "Users", prof_uid);
     const profProfileSnap = await getDoc(profProfile);
 
@@ -43,6 +43,20 @@ export default function DeactiveProf(Props) {
      await updateDoc(profProfile, {
        isActif: false
     });
+
+    const querySnapshotTrackValidation = collection(db, "Users", prof_uid, "TrackValidation")
+    const docRef = await addDoc(querySnapshotTrackValidation, 
+    
+    {
+
+      by: user.email,
+      date : new Date(),
+      type_validation: "desActif",
+      type : "isActif" , 
+      remarque : " ", 
+    });
+
+    Props.setisactif(false);
 
    setOpen(false)
 
@@ -59,7 +73,7 @@ export default function DeactiveProf(Props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          Vous voulez desactiver le prof prof d  {Props.props.firstname}
+          Vous voulez desactiver le prof prof d 
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
