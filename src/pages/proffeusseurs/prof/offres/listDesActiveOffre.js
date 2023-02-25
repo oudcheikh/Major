@@ -48,7 +48,6 @@ export default function DesActiveOffre(Props) {
     const profProfileSnap = await getDoc(profProfile);
     setProfuid(prof_uid);
     if (profProfileSnap.exists()) {
-      console.log("`-------------------fffffffffffffffffffff----------------------------------`", profProfileSnap.data().coursesToValidate);
       setProfile(profProfileSnap.data())
       setCourses(profProfileSnap.data().coursesToValidate)
     } else {

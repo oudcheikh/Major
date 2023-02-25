@@ -162,7 +162,7 @@ const goToCredit = () => {
     setValue(newValue);
   };
 
-console.log("lllllllllllllllll tets .............")
+
 
   return (
     <div>

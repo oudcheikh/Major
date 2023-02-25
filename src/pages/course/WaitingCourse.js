@@ -96,7 +96,7 @@ export default function WaitingCourse() {
       element.course_uid = doc.id ;
       allCourses.push(element);
       
-      console.log("doc uid " , element)
+      
       setSllpendingcourses(allCourses => [...allCourses, element]);
 
     });

@@ -82,11 +82,6 @@ export default function DesactiverModal(Props) {
 });
     
    
-  console.log("________________________________ : myDesactiveCourses : ", myDesactiveCourses)
-  console.log("________________________________ : filtered  : ", filtered)
-  console.log("________________________________ : newoffer : ", newoffer)
-  console.log("________________________________ : theNewOffreToValidate  : ", theNewOffreToValidate)
-
 
    
     await updateDoc(profProfile, {

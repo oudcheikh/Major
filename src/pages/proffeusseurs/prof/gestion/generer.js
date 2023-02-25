@@ -50,7 +50,7 @@ export default function Gerer(Props) {
   const profProfile = doc(db, "Users", prof_uid);
   const profProfileSnap = await getDoc(profProfile);
 
-  console.log("____èèèèèèèèèèèèè-------------", prof_uid)
+
   
     if (profProfileSnap.exists()) {
       setProfile(profProfileSnap.data())
