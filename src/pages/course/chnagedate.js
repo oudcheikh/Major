@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Link, useNavigate } from "react-router-dom";
 import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -31,6 +32,7 @@ export default function UpdateCourseDateTime(Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
 
   const [valueDateTile, setValue] = React.useState(new Date());
 
@@ -60,6 +62,9 @@ export default function UpdateCourseDateTime(Props) {
       statut_date : new Date()
    });
 
+
+   // Props.setdatecours(valueDateTile.toDate())
+
    // await deleteDoc(doc(db, "In_Process", Props.props.course_uid));
 
    
@@ -75,6 +80,23 @@ export default function UpdateCourseDateTime(Props) {
  });
   } else {
   }
+
+
+  const querySnapshotTrackProcess = collection(db, "Users",prof_uid, "Courses", Props.props.course_uid, "TrackProcess")
+
+  const docReef = await addDoc(querySnapshotTrackProcess, 
+    
+    {
+
+      by: user.email,
+      old_date : Props.props.date,
+      date : new Date(),
+      satus: "change_date", 
+      remarque : " ", 
+    });
+
+
+    navigate("/waitingcourse",)
 
 
    setOpen(false)

@@ -45,7 +45,8 @@ export default function Course() {
   const [clients, setClient ] = useState([]);
   const [profile, setProfile] = React.useState({});
   const [cours, setCours] = React.useState([]);
-  const [allclients, setAlltClient ] = useState([])
+  const [datecours, setdatecours] = React.useState();
+  const [allclients, setAlltClient ] = useState([]);
   const navigate = useNavigate();
 
 

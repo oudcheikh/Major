@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { query, collection, addDoc, getDocs, getDoc, setDoc, deleteDoc, arrayUnion, arrayRemove, updateDoc, where, doc, onSnapshot } from "firebase/firestore";
@@ -26,6 +27,7 @@ export default function AnnulCourse(Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
 
   async function updateProperty(db, prof_uid, course_uid, property, value) {
     try {
@@ -55,23 +57,42 @@ export default function AnnulCourse(Props) {
     
     const docRef = doc(db, "Users", prof_uid, "Courses", Props.props.course_uid)
 
-    // const docRef = await updateDoc(querySnapshotCourses, {
-    //   statut: -4
-    // });
-
+    
     await updateDoc(docRef, {
+      cancel_date  : new Date, 
       statut: -4,
       statut_date : new Date()
    });
+
+   const querySnapshotTrackValidation = collection(db, "Users",prof_uid, "Courses", Props.props.course_uid, "TrackProcess")
+   
+
+    const docReef = await addDoc(querySnapshotTrackValidation, 
+      
+      {
+
+        by: user.email,
+        date : new Date(),
+        satus: "cancel", 
+        remarque : " ", 
+      });
+
+
 
    try {
     await deleteDoc(doc(db, "In_Process", Props.props.course_uid));
   }
   catch(err) {
-    console.log("le document n'exite pas dabs la collection In_Progress ....")
+    console.log("le document n'exite pas dans la collection In_Progress ....")
   }
 
    
+  navigate("/waitingcourse",
+  
+  )
+  
+  ;
+
 
    setOpen(false)
 

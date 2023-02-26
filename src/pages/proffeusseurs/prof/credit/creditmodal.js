@@ -66,6 +66,7 @@ export default function CreditModal(Props) {
    const phone = ""
    const data = ""
    const uid = prof_uid
+   
    navigate("/profProfile",
    {
      state: { phone, data, uid },

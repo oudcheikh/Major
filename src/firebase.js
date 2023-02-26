@@ -22,16 +22,14 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-
-  apiKey: "AIzaSyBSwhTnxxxxxxxxxxxxxxx",
-  authDomain: "major-xxxxxxxxxxxxxxxxxx",
-  databaseURL: "https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxdatabase.app",
+  apiKey: "AIzaSyBSwhTnr4zt3sqF-Wysf9SbQhrN23q2WLI",
+  authDomain: "major-24a8b.firebaseapp.com",
+  databaseURL: "https://major-24a8b-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "major-24a8b",
-  storageBucket: "majorxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  messagingSenderId: "8xxxxx8xxxxxx86xxxxxxxxxxxxxxxxxx",
-  appId: "x1x:x8x8xx8x605xxxxxxxxxxxxxxxxxxxxxxxxx8",
-  measurementId: "xxxxxxxxxxxxxxJN"
-  
+  storageBucket: "major-24a8b.appspot.com",
+  messagingSenderId: "88860572937",
+  appId: "1:88860572937:web:4b42e089552c5b5c4427d8",
+  measurementId: "G-Q9G5J16FJN"
 };
 
 const app = initializeApp(firebaseConfig);
