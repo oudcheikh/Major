@@ -6,7 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { query, collection, getDocs, getDoc, where, doc, onSnapshot } from "firebase/firestore";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../firebase";
+import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db, functions} from "../../firebase";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { DataGrid } from '@mui/x-data-grid';
 import AssignCourseModal from "./assignecoursemodal"
@@ -18,7 +19,6 @@ const formattedDate = (d) => {
 
   return `${day}/${month}/${year}`;
 };
-
 
 
 const calculDistabce = (loc, locC) => {
@@ -59,6 +59,12 @@ const currencies = [
 
 export default function ProfDispo() {
   
+
+  const searchProf = httpsCallable(functions, 'adminSearchProf');
+
+  
+
+  console.log(" addMessage addMessage addMessage addMessage : ")
   
   const [user, loading, error] = useAuthState(auth);
   const [currency, setCurrency] = React.useState('EUR');
@@ -74,6 +80,18 @@ export default function ProfDispo() {
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
+
+
+
+  searchProf({ courseKey: state.state.data.course_uid,  clientUid : state.state.data.client_uid})
+  .then((result) => {
+    // Read result of the Cloud Function.
+    /** @type {any} */
+    const data = result.data;
+    const sanitizedMessage = data.text;
+
+    
+  });
 
 
   

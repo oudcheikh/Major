@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+ import { getFunctions } from 'firebase/functions';
 import {
   GoogleAuthProvider,
   getAuth,
@@ -35,6 +36,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const functions = getFunctions(app, 'europe-west1');
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -89,6 +91,7 @@ const logout = () => {
 export {
   auth,
   db,
+  functions,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
