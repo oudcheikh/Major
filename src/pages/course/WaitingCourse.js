@@ -30,8 +30,6 @@ const formatCourUserType = (status) => {
   }
 };
 
-
-
 const formatCoursStatus = (status) => {
   if (status == 0) {
     return "Nouveau cours";

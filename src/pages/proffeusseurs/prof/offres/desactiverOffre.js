@@ -41,13 +41,15 @@ export default function DesactiverModal(Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let [isDisabled, setIsDisabled] = React.useState(false);
+
   const navigate = useNavigate();
   
 
 
   const updateCours = async () => {
   
-   
+    setIsDisabled(true);
     
    const current_cours = Props.coursToBeDesactivated;
    const prof_uid = Props.prof;
@@ -117,7 +119,7 @@ const docRef = await addDoc(querySnapshotTrackValidation,
   setOpen(false);
 
 
-
+  setIsDisabled(false);
   // const phone = ""
   //  const data = ""
   //  const uid = prof_uid
@@ -148,7 +150,7 @@ const docRef = await addDoc(querySnapshotTrackValidation,
             {Props.prof.coursToBeDesactivated}
           </Typography>
           
-          <Button onClick={updateCours}>Valider</Button>
+          <Button onClick={updateCours} disabled={isDisabled}>Valider</Button>
         </Box>
       </Modal>
     </div>

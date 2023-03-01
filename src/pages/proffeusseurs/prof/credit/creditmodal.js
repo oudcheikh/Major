@@ -29,9 +29,13 @@ export default function CreditModal(Props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+  let [isDisabled, setIsDisabled] = React.useState(false);
+
+
+
   const updateCours = async () => {
 
-    
+    setIsDisabled(true)
     const current_cours = Props.coursToBeActivated;
     const prof_uid = Props.props;
     const profProfile = doc(db, "Users", prof_uid);
@@ -91,7 +95,7 @@ export default function CreditModal(Props) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
           </Typography>
-          <Button onClick={updateCours}>Valider</Button>
+          <Button onClick={updateCours} disabled={isDisabled}>Valider</Button>
         </Box>
       </Modal>
     </div>

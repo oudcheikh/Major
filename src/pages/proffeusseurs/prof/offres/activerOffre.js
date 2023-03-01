@@ -66,9 +66,12 @@ export default function ActiverOffreModal(Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let [isDisabled, setIsDisabled] = React.useState(false);
   const navigate = useNavigate();
 
   const updateCours = async () => {
+
+    setIsDisabled(true);
    
    const current_cours = Props.coursToBeActivated;
    const prof_uid = Props.prof;
@@ -139,6 +142,7 @@ export default function ActiverOffreModal(Props) {
     Props.setCourses(filtered)
 
     setOpen(false);
+    setIsDisabled(false);
 
    
     
@@ -167,7 +171,7 @@ export default function ActiverOffreModal(Props) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Proffesseur : {Props.prof.firstname}
           </Typography>
-          <Button onClick={updateCours}>Valider</Button>
+          <Button onClick={updateCours} disabled={isDisabled}>Valider</Button>
         </Box>
         
       </Modal>

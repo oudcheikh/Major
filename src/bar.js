@@ -166,11 +166,11 @@ const ResponsiveAppBar = () => {
                 Cours en attentes d'attribution
           </Button>
 
-          <Button 
+          {/* <Button 
             onClick={goTodyCours}
             sx={{ my: 2, color: 'white', display: 'block' }}>
             Cours d'aujourd'hui
-          </Button>
+          </Button> */}
           
           <Button 
             onClick={goToProfs}

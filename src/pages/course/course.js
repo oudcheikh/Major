@@ -35,7 +35,7 @@ const formattedDate = (dtime) => {
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
 
-export default function Course() {
+export default function Course(Props) {
   
   
   const [user, loading, error] = useAuthState(auth);
@@ -50,8 +50,11 @@ export default function Course() {
   const navigate = useNavigate();
 
 
-
+  console.log(" thi props : " , Props)
+  
   const { state } = useLocation();
+
+
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };

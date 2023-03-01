@@ -9,12 +9,25 @@ import { query, getDocs, where, getDoc, doc,collectionGroup ,onSnapshot,collecti
 import Link from '@mui/material/Link'
 import Button from '@mui/material/Button';
 
+
+function orderByCreatedAt(arr) {
+  return arr.sort((a, b) => {
+    return a.subscription_date
+    <
+     b.subscription_date
+     ? 1 : -1;
+  });
+}
+
 const formattedDate = (d) => {
-  let month = ("0" +(d.getMonth()+1)).slice(-2);
+
+  let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
   const year = String(d.getFullYear());
+  const hour = String(d.getHours());
+  const minutes = String(d.getMinutes());
 
-  return `${day}/${month}/${year}`;
+  return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
 
 export default function ListProf() {
@@ -24,6 +37,7 @@ export default function ListProf() {
   const [clients, setClient] = useState([])
   const [allclients, setAlltClient] = useState([])
   const [allclientssecond, setAlltClientsecond] = useState([])
+  let [allprofs, setAllprofs] = useState([])
   const navigate = useNavigate();
 
   const goToProfProfile = (phone, data, uid) => {
@@ -38,8 +52,12 @@ export default function ListProf() {
     { field: 'firstname', headerName: 'First name', width: 130 },
     { field: 'lastname', headerName: 'lastname', width: 130 },
     { field: 'phone', headerName: 'phone', width: 130 },
-    { field: 'notation', headerName: 'notation', width: 130 },
-    { field: 'quartier', headerName: 'quartier', width: 130 },
+    //credit
+    { field: 'credit', headerName: 'credit', width: 110 },
+    { field: 'notation', headerName: 'notation', width: 110 },
+    { field: 'isActif', headerName: 'isActif', width: 130 },
+    { field: 'isBlocked', headerName: 'isBlocked', width: 130 },
+    { field: 'isAgreed', headerName: 'isAgreed', width: 130 },
 
     {
       field: 'subscription_date',
@@ -109,15 +127,15 @@ export default function ListProf() {
     fetchAllClient();
   }, [user, loading]);
 
-
+ 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 650, width: '100%' }}>
       <DataGrid
-        rows={allclientssecond}
+        rows={orderByCreatedAt(allclientssecond)}
         getRowId={(row) => row.phone}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[20]}
         checkboxSelection
       />
     </div>

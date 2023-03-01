@@ -3,10 +3,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "./../../firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db, functions } from "./../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { query, collection, addDoc, getDocs, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, where, doc, onSnapshot } from "firebase/firestore";
-
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 const style = {
   position: 'absolute',
@@ -26,39 +27,46 @@ export default function AssignCourseModal(Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let [isDisabled, setIsDisabled] = React.useState(false);
+  const navigate = useNavigate();
+
+  const adminAttributeCourse = httpsCallable(functions, 'adminAttributeCourse');
+
+  
   const updateCours = async () => {
 
-
+    setIsDisabled(true)
+  adminAttributeCourse({
     
+  "courseKey" : Props.course.data.course_uid,  
+  "clientUid" :  Props.course.data.client_uid,
+  "profUid" : Props.state.value
+
+})
+     .then((result) => {
+       // Read result of the Cloud Function.
+       /** @type {any} */
+       const data = result.data;
+       const sanitizedMessage = data.text;
+       
+
+       if (data.success) {
+        setOpen(false);
+
+        navigate("/waitingcourse");
+        
+
+       }
+
+       else {
+        setOpen(false);
+       }
+
+  //     const profList = data.profList;
+     });
     
-    // il faut mettre a jour le vours prof 
-    // Props.state.row.lastname
-    //
-
-//     const current_cours = Props.coursToBeActivated;
-//     const prof_uid = Props.props;
-//     const profProfile = doc(db, "Users", prof_uid);
-//     const profProfileSnap = await getDoc(profProfile);
-
-//     if (profProfileSnap.exists()) {
-//       console.log("``");
-//     } else {
-//       console.log("``");
-//     } 
-//     const querySnapshotCredit = collection(db, "Users", prof_uid, "Credit")
-
-//     const docRef = await addDoc(querySnapshotCredit, {
-//       added_value: Props.credit_value,
-//       by: "admin",
-//       old_credit: profProfileSnap.data().credit,
-//       created_at : new Date(),
-//       operation : "old_credit : " + profProfileSnap.data().credit + "  udpate_value : " + Props.credit_value, 
-//     });
-//     await updateDoc(profProfile, {
-//       credit: parseInt(profProfileSnap.data().credit) + parseInt(Props.credit_value)
-//    });
-
-   setOpen(false)
+  
+  
 
   };
 
@@ -80,7 +88,7 @@ export default function AssignCourseModal(Props) {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           </Typography>
-          <Button onClick={updateCours}>Valider</Button>
+          <Button onClick={updateCours} disabled={isDisabled}>Valider</Button>
         </Box>
       </Modal>
     </div>

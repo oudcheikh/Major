@@ -24,12 +24,13 @@ const formattedDate = (d) => {
 const calculDistabce = (loc, locC) => {
 
   
-  const lat1 = loc._lat;
-  const lon1 = loc._long;
+  const lat1 = loc._latitude;
+  const lon1 = loc._longitude;
   const lat2 = locC._lat;
   const lon2 = locC._long;
   let dist;
 
+ 
   if ((lat1 == lat2) && (lon1 == lon2)) {
     dist = 0;
   } else {
@@ -63,8 +64,6 @@ export default function ProfDispo() {
   const searchProf = httpsCallable(functions, 'adminSearchProf');
 
   
-
-  console.log(" addMessage addMessage addMessage addMessage : ")
   
   const [user, loading, error] = useAuthState(auth);
   const [currency, setCurrency] = React.useState('EUR');
@@ -83,36 +82,6 @@ export default function ProfDispo() {
 
 
 
-  searchProf({ courseKey: state.state.data.course_uid,  clientUid : state.state.data.client_uid})
-  .then((result) => {
-    // Read result of the Cloud Function.
-    /** @type {any} */
-    const data = result.data;
-    const sanitizedMessage = data.text;
-
-    
-  });
-
-
-  
-// booking_date: {seconds: 1640364222, nanoseconds: 467339000}
-// client_uid: "kpNJZv4rGrcw6j4yqOX5iVIEIV52"
-// course: "Lycée - Sciences Naturelles"
-// date: {seconds: 1641040200, nanoseconds: 0}
-// duration: "1"
-// kid: "Aghlahoum"
-// noted: false
-// price: 320
-// prof: ""
-// prof_number: ""
-// prof_uid: ""
-// statut: 0
-// .collection("Users").where("courses", "array-contains", "Collège - Mathématique")
-// statut_date: {seconds: 0, nanoseconds: 0}
-// userType: 1
-
-
-
 const FindProf = async () =>{
 
 
@@ -127,28 +96,41 @@ const FindProf = async () =>{
                               where("userType", "==", 2),
                               where("courses", "array-contains", state.state.data.course)
                               );
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
-      querySnapshot.forEach((doc) => {
-        myallClients.push(doc.data());
+
+    searchProf({ courseKey: state.state.data.course_uid,  clientUid : state.state.data.client_uid})
+    .then((result) => {
+      // Read result of the Cloud Function.
+      /** @type {any} */
+      const data = result.data;
+      const sanitizedMessage = data.text;
+
+      const profList = data.profList;
+  
+      
+      console.log("__________________________ profList : ", profList)
+
+      profList.forEach(element => {
         
-        const element = doc.data()
+  
+        myallClients.push(element);
+
         
-        element["uid"] = doc.id
-        const distance = calculDistabce(element.location, clientProfileSnap.data().location)
+        
+    
+        const distance = calculDistabce(element["location"], clientProfileSnap.data().location)
         element["distance"] = distance
 
-        
-        
         setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
-
-      }
-      );
       
+      });
+
 
     }
+    
+    );
+
    
-    )
   
     
   };
@@ -171,13 +153,7 @@ const FindProf = async () =>{
     { field: 'distance', headerName: 'distance en KM', width: 130 },
     
     {
-      field: 'subscription_date',
-      headerName: 'subscription_date',
-      valueFormatter: (params) => formattedDate(params.value.toDate()) ,
-          width: 200
-    },
-    {
-      field: "id",
+      field: "uid",
       headerName: 'prof',
       renderCell: (cellValues) => {
         return (
@@ -186,13 +162,15 @@ const FindProf = async () =>{
           //   color="primary">
           //   Assigner
           // </Button>
-          <AssignCourseModal state = {cellValues} course = {state.state.data}/>
+          <AssignCourseModal state = {cellValues} course = {state.state}/>
         );
       }
     }
   ];
 
 
+
+  console.log("allclientssecond : ", allclientssecond)
 
   return (
 
