@@ -163,19 +163,21 @@ const ResponsiveAppBar = () => {
                 onClick={goToWaitingCourses}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                Cours en attentes d'attribution
+                Cours en attente d'attribution
           </Button>
 
-          {/* <Button 
+        
+          <Button 
             onClick={goTodyCours}
             sx={{ my: 2, color: 'white', display: 'block' }}>
-            Cours d'aujourd'hui
-          </Button> */}
+            Cours Comfirmés
+          </Button> 
+        
           
           <Button 
             onClick={goToProfs}
             sx={{ my: 2, color: 'white', display: 'block' }}>
-            Proffeseur
+            Professeurs
           </Button>
 
             <Button 

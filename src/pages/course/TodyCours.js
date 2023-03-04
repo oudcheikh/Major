@@ -10,6 +10,17 @@ import { decrement, increment } from '../../features/counter/counterSlice'
 import Button from '@mui/material/Button';
 
 
+
+function orderByCreatedAt(arr) {
+  return arr.sort((a, b) => {
+    return a.date
+    <
+     b.date
+     ? 1 : -1;
+  });
+}
+
+
 const formattedDate = (d) => {
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
@@ -20,17 +31,18 @@ const formattedDate = (d) => {
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
 
-const formatCourUserType = (status) => {
-  if (status == 1) {
+const formatCourUserType = (userType) => {
+
+
+  console.log("userType .................... =================" , userType )
+  if (userType == 1) {
     return "Parent d'élève";
   }
-  if (status == 3)
+  if (userType == 3)
   {
     return "Élève-étudiant"
   }
 };
-
-
 
 const formatCoursStatus = (status) => {
   if (status == 0) {
@@ -58,40 +70,15 @@ const formatCoursStatus = (status) => {
   {
     return "Professeur absent"
   }
+
+
+
+
+
+
+
   
 };
-
-const fetchAllClient = async () => {
-
-  console.log(" appel function ........................ : ")
-  const timeObj = Timestamp.fromDate(new Date());
-  var todayDate = new Date(); 
-  const allCourses = [];
-
-  const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 1), where('date', '>', timeObj ) );
-
-  // const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 1));
-  const querySnapshot = await getDocs(courses);
-
-
-  console.log("querySnapshot : ", querySnapshot)
-
-  querySnapshot.forEach((doc) => {
-
-    const element = doc.data()
-    element.course_uid = doc.id ;
-    allCourses.push(element);
-
-
-    console.log("element ........................ : " , element)
-    
-    
-    // setSllpendingcourses(allCourses => [...allCourses, element]);
-
-  });
-  return allCourses;
-};
-
 
 
 export default function WaitingCourse() {
@@ -107,7 +94,30 @@ export default function WaitingCourse() {
   const [mycourses, setMycourses] = useState([])
   const navigate = useNavigate();
 
- 
+  const fetchAllClient = async () => {
+
+
+    const timeObj = Timestamp.fromDate(new Date());
+    const allCourses = [];
+    const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 1),
+    where('userType', 'in', [1, 3])
+    , where('date', '>', timeObj ) );
+    const querySnapshot = await getDocs(courses);
+    // setMycourses(allCourses)
+    let id = 0;
+    querySnapshot.forEach((doc) => {
+
+      const element = doc.data()
+      element.course_uid = doc.id ;
+      allCourses.push(element);
+      id = id + 1;
+      element["id"] = id;
+      setSllpendingcourses(allCourses => [...allCourses, element]);
+
+    });
+    setMycourses(allCourses)
+  };
+
   const getRole = async ()=> {
 
     const profProfile = doc(db, "Admin",  user["uid"]);
@@ -117,18 +127,13 @@ export default function WaitingCourse() {
    
   }
 
-  getRole()
+  useEffect(() => {
+    getRole()
     if (loading) return;
     if (!user) return navigate("/");
-    console.log("fetchall ................... : ", fetchAllClient());
-
-  // useEffect(() => {
-  //   getRole()
-  //   if (loading) return;
-  //   if (!user) return navigate("/");
-  //   console.log("fetchall ................... : ", fetchAllClient());
-  //   setSllpendingcourses(allpendingcourses)
-  // }, []);
+    fetchAllClient();
+    setSllpendingcourses(allpendingcourses)
+  }, [user, loading]);
 
 
   const goToCourse = (data, uid) => {
@@ -141,7 +146,7 @@ export default function WaitingCourse() {
     
   };
 
-const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
+
 
   const columns = [
 
@@ -190,18 +195,17 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
 
   ];
 
- 
-  console.log("tttttttttttttttttttt test : " , mycourses)
+ console.log("mycourses : ", mycourses)
+
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {/* <DataGrid
-        rows={mycourses}
+      <DataGrid
+        rows={orderByCreatedAt(mycourses)}
         getRowId={(row) => row.course_uid}
         columns={columns}
         pageSize={20}
         rowsPerPageOptions={[20]} 
-      /> */}
-      test
+      />
     </div>
   );
 }

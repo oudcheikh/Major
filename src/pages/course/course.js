@@ -50,11 +50,12 @@ export default function Course(Props) {
   const navigate = useNavigate();
 
 
-  console.log(" thi props : " , Props)
+  
   
   const { state } = useLocation();
 
 
+  console.log(" The state is ................................... : " , state)
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
@@ -117,7 +118,7 @@ const GoToProf = async () =>{
       <ul>
       
           <li>Course : {state.data.course}</li>
-          <li>Duration : {state.data.duration}</li>
+          <li>Duré : {state.data.duration}</li>
           <li>Date : {formattedDate(state.data.date)}</li> 
           <li>Price : {state.data.price}</li>
       </ul>
@@ -131,6 +132,15 @@ const GoToProf = async () =>{
           <li>Quartier  : {profile.quartier}</li>
        
       </ul>
+
+
+      {state.data.statut == 1 &&
+      <ul> 
+      <li>prof : {state.data.prof}</li>
+      <li>prof_number : {state.data.prof_number}</li>
+      </ul>
+
+          }
       
       <Grid container spacing={2}>
        
@@ -142,6 +152,7 @@ const GoToProf = async () =>{
         
         
         {state.data.userType == 1 &&
+        
         <Box sx={{
             display: 'flex',
             justifyContent: 'center',

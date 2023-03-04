@@ -21,6 +21,7 @@ const formattedDate = (d) => {
 };
 
 const formatCourUserType = (status) => {
+
   if (status == 1) {
     return "Parent d'élève";
   }
@@ -42,7 +43,6 @@ const formatCoursStatus = (status) => {
   {
     return "Cours terminé"
   }
-
   if (status == -1)
   {
     return "Cours annulé par le parent ou l'élève"
@@ -56,14 +56,6 @@ const formatCoursStatus = (status) => {
   {
     return "Professeur absent"
   }
-
-
-
-
-
-
-
-  
 };
 
 
@@ -85,16 +77,23 @@ export default function WaitingCourse() {
 
     const timeObj = Timestamp.fromDate(new Date());
     const allCourses = [];
-    const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 0), where('date', '>', timeObj ) );
-    const querySnapshot = await getDocs(courses);
 
+
+    const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 0),
+    where('userType', 'in', [1, 3])
+    , where('date', '>', timeObj ) );
+    
+    
+    const querySnapshot = await getDocs(courses);
+    // setMycourses(allCourses)
+    let id = 0;
     querySnapshot.forEach((doc) => {
 
       const element = doc.data()
       element.course_uid = doc.id ;
       allCourses.push(element);
-      
-      
+      id = id + 1;
+      element["id"] = id;
       setSllpendingcourses(allCourses => [...allCourses, element]);
 
     });
@@ -178,7 +177,7 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
 
   ];
 
- 
+ console.log("mycourses : ", mycourses)
 
   return (
     <div style={{ height: 400, width: '100%' }}>

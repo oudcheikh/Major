@@ -1,4 +1,4 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar  } from '@mui/x-data-grid';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../firebase";

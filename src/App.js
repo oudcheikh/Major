@@ -27,7 +27,7 @@ function App() {
       <Login/>
         <Routes>
 
-          {/* <Route exact path="/todaycours" element={<TodyCours />}/> */}
+          <Route exact path="/todaycours" element={<TodyCours />}/>
           
           <Route exact path="/waitingcourse" element={<WaitingCourse />}/>
           <Route exact path="/profs" element={<ListProf />}/>
