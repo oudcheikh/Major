@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper';
 
 import AnnulCourse from "./annulecourse"
 import UpdateCourseDateTime from "./chnagedate"
+import ResentNotif from "./resentNotif"
 
 const currencies = [
   {
@@ -230,6 +231,27 @@ const GoToProf = async () =>{
       
       {state.data.statut == 0 &&
       <UpdateCourseDateTime props = {state.data}/>
+      }
+
+  
+      
+      
+      </Box>
+    </Grid>
+    <Grid  xs={12}>
+    <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+      }}
+    >
+      
+    
+      {state.data.statut == 0 &&
+      <ResentNotif props = {state.data}/>
       }
       
       

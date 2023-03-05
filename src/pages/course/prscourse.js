@@ -104,28 +104,14 @@ const FindProf = async () =>{
       /** @type {any} */
       const data = result.data;
       const sanitizedMessage = data.text;
-
       const profList = data.profList;
-  
-      
       console.log("__________________________ profList : ", profList)
-
       profList.forEach(element => {
-        
-  
         myallClients.push(element);
-
-        
-        
-    
         const distance = calculDistabce(element["location"], clientProfileSnap.data().location)
         element["distance"] = distance
-
         setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
-      
       });
-
-
     }
     
     );
