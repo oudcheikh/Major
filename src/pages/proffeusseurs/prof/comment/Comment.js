@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Grid } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 const style = {
   position: 'absolute',
@@ -62,20 +63,31 @@ export default function CreditModal(Props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+  const formRef = React.useRef();
   let [isDisabled, setIsDisabled] = React.useState(false);
   const [value, setValue] = React.useState('Crédit de recharge contre argent du Professeur');
 
-    const handleChange = (event) => {
-      setValue(event.target.value);
-    };
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const [textInput, setTextInput] = React.useState('');
+
+  const handleTextInputChange = event => {
+      setTextInput(event.target.value);
+  };
 
 
 
   const updateCours = async () => {
 
+
+    console.log("textInput : ", textInput);
+    console.log("Props : ", Props.prof)
+
     setIsDisabled(true)
-    const current_cours = Props.coursToBeActivated;
-    const prof_uid = Props.props;
+    
+    const prof_uid = Props.prof;
     const profProfile = doc(db, "Users", prof_uid);
     const profProfileSnap = await getDoc(profProfile);
 
@@ -86,26 +98,23 @@ export default function CreditModal(Props) {
     } else {
       console.log("``");
     }
+
+
+    console.log("textInput : ", textInput)
     
-    const querySnapshotCredit = collection(db, "Users", prof_uid, "Credit")
+    const querySnapshotCredit = collection(db, "Users", prof_uid, "Comments")
     
 
     const docRef = await addDoc(querySnapshotCredit, 
       
       {
-      added_value: Props.credit_value,
       by: "Admin",
       email : user.email,
-      old_credit: profProfileSnap.data().credit,
       created_at : new Date(),
-      operation : "old_credit : " + profProfileSnap.data().credit + "  udpate_value : " + Props.credit_value, 
-      raison : raisontatus(value),
+      comment : textInput
     }
     );
 
-    await updateDoc(profProfile, {
-      credit: parseInt(profProfileSnap.data().credit) + parseInt(Props.credit_value)
-   });
 
    setOpen(false)
 
@@ -123,7 +132,7 @@ export default function CreditModal(Props) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Update credit</Button>
+      <Button onClick={handleOpen}>Ajouter un commentaire</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -131,34 +140,28 @@ export default function CreditModal(Props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Vous voulez augmenter le credit du prof de  {Props.credit_value} MRU
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Box component="form"
+            sx={{
+              '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off">
+      <TextField
+          id="filled-multiline-static"
+          label="Commentaire"
+          multiline
+          rows={7}
+          defaultValue=" "
+          onChange= {handleTextInputChange}
+          style = {{width: 400}}
+        />
+      
+    </Box>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
-          </Typography>
-          
-        <Grid>
-        <FormControl>
-          <FormLabel id="demo-controlled-radio-buttons-group">Pourquoi : </FormLabel>
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            value={value}
-            onChange={handleChange}
-          >
-            <FormControlLabel value="Crédit de recharge contre argent du Professeur" control={<Radio />} label="Crédit de recharge contre argent du Professeur" />
-            <FormControlLabel value="Geste de bienvenue pour professeur" control={<Radio />} label="Geste de bienvenue pour professeur" />
-            <FormControlLabel value="Remboursement après promotion pour le client" control={<Radio />} label="Remboursement après promotion pour le client" />
-            <FormControlLabel value="Crédit donné par Major aux professeurs pour cadeau ou motivation" control={<Radio />} label="Crédit donné par Major aux professeurs pour cadeau ou motivation" />
-            <FormControlLabel value="Dédommagement exptionnel" control={<Radio />} label="Dédommagement exptionnel" />
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-
-          </Typography>
-          </RadioGroup>
-        </FormControl>
-        </Grid>
-        <Grid> <Button onClick={updateCours} disabled={isDisabled}>Valider</Button></Grid> 
+        </Typography>
+       
+        <Grid> <Button onClick={updateCours} disabled={isDisabled}>Ajouter</Button></Grid> 
         </Box>
          
        

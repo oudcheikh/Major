@@ -1,24 +1,26 @@
 // import React, { useEffect, useState } from "react";
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { collection, getDoc, doc, onSnapshot,orderBy } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import React, { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, db } from "../../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import CoursHistory from "./activite/history"
-import CreditHistory from "./credit/history"
-import ActiveOffre from "./offres/listActiveOffre"
-import DesActiveOffre from "./offres/listDesActiveOffre"
-import NotationHistory from "./notation/history"
-import Gerer from "./gestion/generer"
-import React, { useEffect } from "react";
+import CoursHistory from "./activite/history";
+import CommentModal from "./comment/Comment";
+import CommenttHistory from "./comment/history";
+import CreditHistory from "./credit/history";
+import Gerer from "./gestion/generer";
+import NotationHistory from "./notation/history";
+import ActiveOffre from "./offres/listActiveOffre";
+import DesActiveOffre from "./offres/listDesActiveOffre";
 
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import PropTypes from 'prop-types';
 
 const formattedDate = (d) => {
   let month = ("0" +(d.getMonth()+1)).slice(-2);
@@ -72,7 +74,7 @@ export default function ProfProfile(Props) {
   const [cours, setCours] = React.useState([]);
   const [profile, setProfile] = React.useState({});
   const [uid, setUid] = React.useState("");
-  const [switchstate, setswitchstate] = React.useState(state.data.isAgreed);
+ 
 
   
   const navigate = useNavigate();
@@ -222,6 +224,7 @@ const goToCredit = () => {
           <Tab label="Offres_Non_Validés" {...a11yProps(3)} />
           <Tab label="Notations" {...a11yProps(4)} />
           <Tab label="Gestion" {...a11yProps(5)} />
+          <Tab label="Commentairs" {...a11yProps(6)} />
         </Tabs>
         
       </Box>
@@ -244,7 +247,13 @@ const goToCredit = () => {
       </TabPanel>
       <TabPanel value={value} index={5}>
       <Gerer state = {state.data} prof = {state.uid}/> 
+      </TabPanel>
+
+      <TabPanel value={value} index={6}>
+      <CommentModal state = {state.data} prof = {state.uid}/>
+      <CommenttHistory  prof = {state.uid}/>
       </TabPanel> 
+
     </Box>
     </div>
   );

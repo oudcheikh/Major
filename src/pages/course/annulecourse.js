@@ -35,7 +35,7 @@ export default function AnnulCourse(Props) {
       await docRef.update({
         [property]: value
       });
-      console.log("Propriété mise à jour avec succès");
+   
     } catch (error) {
       console.error("Erreur lors de la mise à jour de la propriété: ", error);
     }

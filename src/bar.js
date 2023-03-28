@@ -72,10 +72,16 @@ const ResponsiveAppBar = () => {
     navigate("/waitingcourse")
   }
 
+  const goTodyCoursComfirme = () => {
+
+    navigate("/todaycourscomfirme")
+  }
+
   const goTodyCours = () => {
 
     navigate("/todaycours")
   }
+
 
 
 
@@ -168,9 +174,16 @@ const ResponsiveAppBar = () => {
 
         
           <Button 
-            onClick={goTodyCours}
+            onClick={goTodyCoursComfirme}
             sx={{ my: 2, color: 'white', display: 'block' }}>
             Cours Comfirmés
+          </Button> 
+
+
+          <Button 
+            onClick={goTodyCours}
+            sx={{ my: 2, color: 'white', display: 'block' }}>
+            Cours Aujourd'hui
           </Button> 
         
           

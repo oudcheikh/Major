@@ -14,8 +14,8 @@ const formattedDate = (d) => {
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
   const year = String(d.getFullYear());
-  const hour = String(d.getHours());
-  const minutes = String(d.getMinutes());
+  const hour = ("0" + d.getHours()).slice(-2);
+  const minutes = ("0" + d.getMinutes()).slice(-2);
 
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
@@ -37,25 +37,30 @@ const formatCoursStatus = (status) => {
   }
   if (status == 1)
   {
-    return "Cours confirmé par le professeur"
+    return "🚣 Cours confirmé par le professeur 🚣 "
   }
   if (status == 2)
   {
-    return "Cours terminé"
+    return "🚣 👌 Cours terminé  🚣 👌 "
   }
   if (status == -1)
   {
-    return "Cours annulé par le parent ou l'élève"
+    return "🙌 Cours annulé par le parent ou l'élève 🙌"
   }
-
   if (status == -2)
   {
-    return "Cours annulé par le professeur"
+    return "🚩 👎 Cours annulé par le professeur 🚩 👎"
   }
   if (status == -3)
   {
-    return "Professeur absent"
+    return "🚩 🤫 Professeur absent 🚩 🤫"
   }
+
+  if (status == -4)
+  {
+    return "🚩 🚩 🚩l'admin annule le cours comfirmé"
+  }
+
 };
 
 
@@ -139,7 +144,7 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
     width: 180 },
     { field: 'course', headerName: 'course', width: 180 },
     { field: 'duration', headerName: 'Duré', width: 130 },
-    { field: 'statut', headerName: 'statut', width: 130, 
+    { field: 'statut', headerName: 'statut', width: 330, 
     
     valueFormatter: (params) => formatCoursStatus(params.value),
      },
@@ -174,10 +179,8 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
     }
 
 
-
   ];
 
- console.log("mycourses : ", mycourses)
 
   return (
     <div style={{ height: 400, width: '100%' }}>

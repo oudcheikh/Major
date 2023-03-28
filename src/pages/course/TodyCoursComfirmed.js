@@ -6,6 +6,7 @@ import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { query, getDocs, where, getDoc, doc,collectionGroup ,onSnapshot,collection, orderBy, Timestamp} from "firebase/firestore";
 import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from '../../features/counter/counterSlice'
 import Button from '@mui/material/Button';
 
 
@@ -31,6 +32,7 @@ const formattedDate = (d) => {
 };
 
 const formatCourUserType = (userType) => {
+
 
 
   if (userType == 1) {
@@ -74,7 +76,8 @@ const formatCoursStatus = (status) => {
 
 };
 
-export default function TodyCours() {
+
+export default function TodyCoursCofimed() {
 
 
   const count = useSelector((state) => state.pendingCours.value)
@@ -90,27 +93,11 @@ export default function TodyCours() {
   const fetchAllClient = async () => {
 
 
-  
-    // Get today's date
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Set time to midnight
-
-      // Create a firestore Timestamp object for today
-      const todayTimestamp = Timestamp.fromDate(today);
-
-      // set tomorrow's date
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowTimestamp = Timestamp.fromDate(tomorrow);
-
-
+    const timeObj = Timestamp.fromDate(new Date());
     const allCourses = [];
-    const courses = await query(collectionGroup(db, 'Courses'),
+    const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 1),
     where('userType', 'in', [1, 3])
-    , where('date', '>=', todayTimestamp ),
-    where('date', '<', tomorrowTimestamp )
-
-     );
+    , where('date', '>', timeObj ) );
     const querySnapshot = await getDocs(courses);
     // setMycourses(allCourses)
     let id = 0;
@@ -124,6 +111,7 @@ export default function TodyCours() {
       setSllpendingcourses(allCourses => [...allCourses, element]);
 
     });
+   
     setMycourses(orderByCreatedAt(allCourses))
   };
 
@@ -165,12 +153,12 @@ export default function TodyCours() {
     valueFormatter: (params) => formattedDate(params.value.toDate()),
     width: 180 },
     { field: 'course', headerName: 'course', width: 180 },
-    { field: 'duration', headerName: 'Duré', width: 100 },
-    { field: 'statut', headerName: 'statut', width: 350, 
+    { field: 'duration', headerName: 'Duré', width: 130 },
+    { field: 'statut', headerName: 'statut', width: 330, 
     
     valueFormatter: (params) => formatCoursStatus(params.value),
      },
-    { field: 'userType', headerName: 'userType', width: 150,
+    { field: 'userType', headerName: 'userType', width: 130,
     valueFormatter: (params) => formatCourUserType(params.value) },
     {
       field: 'date', headerName: 'date',
@@ -203,7 +191,6 @@ export default function TodyCours() {
 
 
   ];
-
 
 
   return (

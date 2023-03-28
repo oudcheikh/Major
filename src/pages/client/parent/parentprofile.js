@@ -17,6 +17,9 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AjouterEnfent from "./ajoutenfent"
+import CommentModal from "./comment/ClientComment"
+import CommenttHistory from "./comment/history"
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,7 +54,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ParentProfile() {
+export default function ParentProfile(Props) {
 
 
   const [value, setValue] = React.useState(0);
@@ -64,8 +67,11 @@ export default function ParentProfile() {
   const [enfents, setEnfents] = React.useState([]);
   const [profile, setProfile] = React.useState({});
   const [uid, setUid] = React.useState("");
-  const [switchstate, setswitchstate] = React.useState(state.data.isAgreed);
+  
 
+
+
+console.log("---------state --------------------- : ", state, Props)
   
   const navigate = useNavigate();
 
@@ -169,22 +175,22 @@ const goToAddChildren= () => {
           {/* <Avatar alt="Travis Howard" style={{ alignSelf: 'center' }} /> */}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Nom : {state.data.lastname}
+              Nom : {profile.lastname}
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-              Prenon : {state.data.firstname}
+              Prenon : {profile.firstname}
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              Phone : {state.data.phone}
+              Phone : {profile.phone}
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              notes : {state.data.notes} MRU
+              notes : {profile.notes} MRU
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              city : {state.data.city}
+              city : {profile.city}
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              quartier : {state.data.quartier}
+              quartier : {profile.quartier}
             </Typography>
           </CardContent>
         </Card>
@@ -196,6 +202,7 @@ const goToAddChildren= () => {
           <Tab label="notes" {...a11yProps(1)} />
           <Tab label="Notifications" {...a11yProps(2)} />
           <Tab label="Enfents" {...a11yProps(3)} />
+          <Tab label="Comment" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -212,12 +219,16 @@ const goToAddChildren= () => {
       </TabPanel>
 
       <TabPanel value={value} index={3}>
-
-
       <Button onClick={goToAddChildren}> Ajouter un enfent </Button>
         <h1>List enfents : </h1>
         <ListChildren enfents = {enfents} client = {state.uid}/>
       </TabPanel>
+
+      <TabPanel value={value} index={4}>
+      <CommentModal client = {state.uid}/>
+      <CommenttHistory  client = {state.uid}/>
+      </TabPanel> 
+
     </Box>
     </div>
   );

@@ -1,12 +1,11 @@
-import { DataGrid, GridToolbar  } from '@mui/x-data-grid';
+import { DataGrid  } from '@mui/x-data-grid';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { query, getDocs, where, getDoc, doc,collectionGroup ,onSnapshot,collection, orderBy, Timestamp} from "firebase/firestore";
+import { query, where, getDoc, doc,onSnapshot,collection} from "firebase/firestore";
 
-import Link from '@mui/material/Link'
 import Button from '@mui/material/Button';
 
 
@@ -24,8 +23,8 @@ const formattedDate = (d) => {
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
   const year = String(d.getFullYear());
-  const hour = String(d.getHours());
-  const minutes = String(d.getMinutes());
+  const hour = ("0" + d.getHours()).slice(-2) // ("0" + d.getHours()).slice(-2)   ;
+  const minutes = ("0" + d.getMinutes()).slice(-2);
 
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
@@ -53,6 +52,7 @@ export default function ListProf() {
     { field: 'lastname', headerName: 'lastname', width: 130 },
     { field: 'phone', headerName: 'phone', width: 130 },
     //credit
+    { field: 'courses', headerName: 'courses', width: 110 , },
     { field: 'credit', headerName: 'credit', width: 110 },
     { field: 'notation', headerName: 'notation', width: 110 },
     { field: 'isActif', headerName: 'isActif', width: 130 },
@@ -97,11 +97,8 @@ export default function ListProf() {
 
       querySnapshot.forEach((doc) => {
         myallClients.push(doc.data());
-        const element = doc.data()
-        element["uid"] = doc.id
-
-        
-
+        const element = doc.data();
+        element["uid"] = doc.id;
         setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
 
       }

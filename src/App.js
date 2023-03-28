@@ -11,6 +11,7 @@ import ListProf from "./pages/proffeusseurs/AllProf"
 import ProfProfile from "./pages/proffeusseurs/prof/profProfile"
 import Credit from "./pages/proffeusseurs/prof/credit/credit"
 import WaitingCourse from "./pages/course/WaitingCourse"
+import TodyCoursCofimed from "./pages/course/TodyCoursComfirmed.js";
 import TodyCours from "./pages/course/TodyCours.js";
 import StudentfProfile from "./pages/client/eleve/eleveprofile"
 import ParentProfile from "./pages/client/parent/parentprofile"
@@ -27,6 +28,7 @@ function App() {
       <Login/>
         <Routes>
 
+          <Route exact path="/todaycourscomfirme" element={<TodyCoursCofimed />}/>
           <Route exact path="/todaycours" element={<TodyCours />}/>
           
           <Route exact path="/waitingcourse" element={<WaitingCourse />}/>

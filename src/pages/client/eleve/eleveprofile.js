@@ -14,6 +14,10 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import CommentModal from "./comment/ClientComment"
+import CommenttHistory from "./comment/history"
+import AddCours from "./commandcours/AddCours"
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,7 +64,7 @@ export default function StudentfProfile() {
   const [cours, setCours] = React.useState([]);
   const [profile, setProfile] = React.useState({});
   const [uid, setUid] = React.useState("");
-  const [switchstate, setswitchstate] = React.useState(state.data.isAgreed);
+ 
 
   
   const navigate = useNavigate();
@@ -145,19 +149,19 @@ export default function StudentfProfile() {
           {/* <Avatar alt="Travis Howard" style={{ alignSelf: 'center' }} /> */}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Nom : {state.data.lastname}
+              Nom : {profile.lastname}
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-              Prenon : {state.data.firstname}
+              Prenon : {profile.firstname}
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              Phone : {state.data.phone}
+              Phone : {profile.phone}
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              notes : {state.data.notes} MRU
+              notes : {profile.notes} MRU
             </Typography>
             <Typography variant="h5" color="text.secondary">
-              classroom : {state.data.classroom}
+              classroom : {profile.classroom}
             </Typography>
           </CardContent>
         </Card>
@@ -168,6 +172,8 @@ export default function StudentfProfile() {
           <Tab label="Activité" {...a11yProps(0)} />
           <Tab label="notes" {...a11yProps(1)} />
           <Tab label="Notifications" {...a11yProps(2)} />
+          <Tab label="Commentaire" {...a11yProps(3)} />
+          <Tab label="Ajouter un cours" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -182,6 +188,14 @@ export default function StudentfProfile() {
         <h1>Activité NotificationHistory : </h1>
         <NotificationHistory notifications = {notifications} client = {state.uid}/>
       </TabPanel>
+      <TabPanel value={value} index={3}>
+      <CommentModal  client = {state.uid}/>
+      <CommenttHistory  client = {state.uid}/>
+      </TabPanel> 
+
+      {/* <TabPanel>
+        <AddCours client = {state.uid} />
+      </TabPanel> */}
     </Box>
     </div>
   );

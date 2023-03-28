@@ -57,8 +57,8 @@ const formattedDate = (d) => {
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
   const year = String(d.getFullYear());
-  const hour = String(d.getHours());
-  const minutes = String(d.getMinutes());
+  const hour = ("0" + d.getHours()).slice(-2);
+  const minutes = ("0" + d.getMinutes()).slice(-2);
 
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
@@ -66,6 +66,8 @@ const formattedDate = (d) => {
 
 export default function CoursHistory(Props) {
 
+  console.log("_______________________________ Props.client : ", Props)
+  
   const [cours, setCours] = React.useState([]);
   const [profile, setProfile] = React.useState({});
   const navigate = useNavigate();
@@ -84,6 +86,7 @@ export default function CoursHistory(Props) {
 
   
   };
+
   useEffect(() => {
     fetchAllClient();
   }, []);

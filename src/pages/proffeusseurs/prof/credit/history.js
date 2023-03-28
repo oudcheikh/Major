@@ -17,14 +17,42 @@ function orderByCreatedAt(arr) {
 }
 
 
+const raisontxt = (raison) => {
+
+  if (raison == 1) {
+    return "Crédit de recharge contre argent du Professeur";
+  }
+  if (raison == 2)
+  {
+    return "Geste de bienvenue pour professeur"
+  }
+  if (raison == 3  )
+  {
+    return "Remboursement après promotion pour le client"
+  }
+  if (raison == 4)
+  {
+    return "Crédit donné par Major aux professeurs pour cadeau ou motivation"
+  }
+  if (raison == 5)
+  {
+    return "Dédommagement exptionnel" 
+  }
+  else{
+    return " "
+  }
+};
+
+
+
 const formattedDate = (d) => {
 
   
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
   const year = String(d.getFullYear());
-  const hour = String(d.getHours());
-  const minutes = String(d.getMinutes());
+  const hour = ("0" + d.getHours()).slice(-2);
+  const minutes = ("0" + d.getMinutes()).slice(-2);
 
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
@@ -106,10 +134,12 @@ export default function CreditHistory(Props) {
     </Typography>
       }
           
-         
-          
           <Typography>
             Faite par  : {item.by}
+          </Typography>
+
+          <Typography>
+            Raison  : {raisontxt(item.raison)}
           </Typography>
 
         </AccordionDetails>

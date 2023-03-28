@@ -30,8 +30,8 @@ const formattedDate = (dtime) => {
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
   const year = String(d.getFullYear());
-  const hour = String(d.getHours());
-  const minutes = String(d.getMinutes());
+  const hour = ("0" + d.getHours()).slice(-2);
+  const minutes = ("0" + d.getMinutes()).slice(-2);
 
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
@@ -56,7 +56,6 @@ export default function Course(Props) {
   const { state } = useLocation();
 
 
-  console.log(" The state is ................................... : " , state)
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
@@ -252,7 +251,9 @@ const GoToProf = async () =>{
     
       {state.data.statut == 0 &&
       <ResentNotif props = {state.data}/>
-      }
+      } 
+      
+     
       
       
       </Box>

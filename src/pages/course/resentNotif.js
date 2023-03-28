@@ -46,15 +46,16 @@ export default function ResentNotif(Props) {
     const mycourseKey = Props.props.course_uid ;
     const myclient_uid = Props.props.client_uid ;
 
-    console.log("_______________________________ : " , Props)
+    console.log("_______________________________ courseKey : ", mycourseKey)
+    console.log("_______________________________ clientUid : ", myclient_uid)
+    setOpen(false);
     
     sentNotif({ courseKey: mycourseKey,  clientUid : myclient_uid})
     .then((result) => {
       // Read result of the Cloud Function.
+     
       /** @type {any} */
       const data = result.data;
-
-      console.log("_________________________________________ send notif to prof ", data)
       setOpen(false)
      
     }
