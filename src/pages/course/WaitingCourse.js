@@ -183,7 +183,7 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
 
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 1000, width: '100%' }}>
       <DataGrid
         rows={mycourses}
         getRowId={(row) => row.course_uid}

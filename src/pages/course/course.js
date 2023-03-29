@@ -87,7 +87,7 @@ const newdate = new Date(jsonObject.seconds * 1000 + jsonObject.nanoseconds / 10
 
 
 
-console.log("___________________________ state.data.date : " , cours_date  > newdate )
+console.log("___________________________ state.data.statut : " , state.data.statut )
     
     const fetchAllClient = async () => {
 
@@ -292,7 +292,7 @@ const GoToProf = async () =>{
       }}
     >
       
-      {cours_date  > newdate  &&
+      {cours_date  > newdate && state.data.statut != -1  &&
       <CancelCours props = {state.data}/>}
       
       

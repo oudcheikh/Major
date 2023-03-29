@@ -207,7 +207,7 @@ export default function TodyCours() {
 
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 1000, width: '100%' }}>
       <DataGrid
         rows={mycourses}
         getRowId={(row) => row.course_uid}
