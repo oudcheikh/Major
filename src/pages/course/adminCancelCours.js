@@ -27,7 +27,7 @@ const style = {
   p: 4,
 };
 
-export default function ResentNotif(Props) {
+export default function CancelCours(Props) {
 
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = React.useState(false);
@@ -37,7 +37,7 @@ export default function ResentNotif(Props) {
   let [isDisabled, setIsDisabled] = React.useState(false);
   const [valueDateTile, setValue] = React.useState(new Date());
 
-  const sentNotif = httpsCallable(functions, 'adminResendNotifNewCourse');
+  const cancelCours = httpsCallable(functions, 'adminCancelCourse');
 
   const updateCours = async () => {
 
@@ -46,16 +46,19 @@ export default function ResentNotif(Props) {
     const mycourseKey = Props.props.course_uid ;
     const myclient_uid = Props.props.client_uid ;
 
+    
+    console.log("----------------------- Props.props : ", Props.props)
    
     setOpen(false);
     
-    sentNotif({ courseKey: mycourseKey,  clientUid : myclient_uid})
+    cancelCours({ courseKey: mycourseKey,  uid : myclient_uid})
     .then((result) => {
       // Read result of the Cloud Function.
      
       /** @type {any} */
       const data = result.data;
       setOpen(false)
+      navigate("/")
      
     }
    
@@ -94,7 +97,7 @@ export default function ResentNotif(Props) {
       <Button sx={{ 
       color: 'yellow', 
       backgroundColor: 'red',
-      borderColor: 'green' }} onClick={handleOpen}>Renvoie les notifs aux profs</Button>
+      borderColor: 'green' }} onClick={handleOpen}>Annuler ce Cours</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -103,8 +106,7 @@ export default function ResentNotif(Props) {
       >
         <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-            Etes vous sur de vouloir renvoyer les notifs aux profs pour ce cours ?  
-            Si Oui clicker sur Oui si Non clicker ur l'ecrean
+            Etes vous sur de vouloir annuler ce cours ?
           </Typography>
           <Button onClick={updateCours} disabled={isDisabled} >Oui</Button>
         </Box>

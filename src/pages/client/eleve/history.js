@@ -66,7 +66,6 @@ const formattedDate = (d) => {
 
 export default function CoursHistory(Props) {
 
-  console.log("_______________________________ Props.client : ", Props)
   
   const [cours, setCours] = React.useState([]);
   const [profile, setProfile] = React.useState({});

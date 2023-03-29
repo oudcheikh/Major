@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import AnnulCourse from "./annulecourse"
 import UpdateCourseDateTime from "./chnagedate"
 import ResentNotif from "./resentNotif"
+import CancelCours from "./adminCancelCours"
 
 const currencies = [
   {
@@ -62,6 +63,31 @@ export default function Course(Props) {
 
 
 
+
+  // Créer une instance de Date
+const date = new Date();
+
+// Extraire le timestamp Unix en millisecondes de la date
+const timestampInMillis = date.getTime();
+
+// Convertir le timestamp Unix en secondes et nanosecondes
+const seconds = Math.floor(timestampInMillis / 1000);
+const nanoseconds = (timestampInMillis % 1000) * 1000000;
+
+// Créer l'objet JSON avec les propriétés "seconds" et "nanoseconds"
+const jsonObject = { seconds, nanoseconds };
+
+
+
+// Convertir les objets JSON en objets Date
+const cours_date = new Date(state.data.date.seconds * 1000 + state.data.date.nanoseconds / 1000000);
+const newdate = new Date(jsonObject.seconds * 1000 + jsonObject.nanoseconds / 1000000);
+
+
+
+
+
+console.log("___________________________ state.data.date : " , cours_date  > newdate )
     
     const fetchAllClient = async () => {
 
@@ -211,9 +237,7 @@ const GoToProf = async () =>{
         borderRadius: 1,
       }}
     >
-      {state.data.statut == 0 &&
-      <AnnulCourse props = {state.data}/>
-      }
+      
       </Box>
     </Grid>
 
@@ -237,6 +261,26 @@ const GoToProf = async () =>{
       
       </Box>
     </Grid>
+    
+    
+    <Grid  xs={12}>
+    <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+      }}
+    >
+      {state.data.statut == 0 &&
+      <ResentNotif props = {state.data}/>
+      } 
+      
+      </Box>
+    </Grid>
+
+
     <Grid  xs={12}>
     <Box sx={{
         display: 'flex',
@@ -248,16 +292,14 @@ const GoToProf = async () =>{
       }}
     >
       
-    
-      {state.data.statut == 0 &&
-      <ResentNotif props = {state.data}/>
-      } 
-      
-     
+      {cours_date  > newdate  &&
+      <CancelCours props = {state.data}/>}
       
       
       </Box>
     </Grid>
+
+    
     
     </Box>
     );
