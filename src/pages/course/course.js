@@ -84,19 +84,12 @@ const cours_date = new Date(state.data.date.seconds * 1000 + state.data.date.nan
 const newdate = new Date(jsonObject.seconds * 1000 + jsonObject.nanoseconds / 1000000);
 
 
-
-
-
-console.log("___________________________ state.data.statut : " , state.data.statut )
-    
     const fetchAllClient = async () => {
-
 
       const profProfile = doc(db, "Users", state.data.client_uid);
       const profProfileSnap = await getDoc(profProfile);
       
   
-     
       if (profProfileSnap.exists()) {
   
         setProfile(profProfileSnap.data())
@@ -105,7 +98,6 @@ console.log("___________________________ state.data.statut : " , state.data.stat
   
       }
 
-      
     };
 
     useEffect(() => {
@@ -117,6 +109,19 @@ console.log("___________________________ state.data.statut : " , state.data.stat
     }, []);
   
 
+    
+
+  const GoToProfDispo = async () =>{
+
+    navigate("/user/course/profdispocandidate"
+    ,
+    
+    {
+      state: { state },
+    }
+    );
+    
+  };
 
 const GoToProf = async () =>{
 
@@ -160,6 +165,15 @@ const GoToProf = async () =>{
       </ul>
 
 
+      <ul>
+      {"Candidate" in  state.data &&
+        <li> Candidat : {state.data.Candidate.length}</li> }
+      {"NoCandidate" in  state.data && 
+      <li> No Candidat : {state.data.NoCandidate.length}</li>}
+        
+      </ul>
+
+
       {state.data.statut == 1 &&
       <ul> 
       <li>prof : {state.data.prof}</li>
@@ -169,16 +183,8 @@ const GoToProf = async () =>{
           }
       
       <Grid container spacing={2}>
-       
-      
-
         <Grid  xs={12}>
-          
-        
-        
-        
         {state.data.userType == 1 &&
-        
         <Box sx={{
             display: 'flex',
             justifyContent: 'center',
@@ -206,6 +212,28 @@ const GoToProf = async () =>{
       
       <Grid  xs={12}>
       
+
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+        bgcolor: '#22596c',
+        borderRadius: 1,
+            }}
+            >
+     
+     {state.data.statut == 0 && "Candidate" in  state.data &&
+     <Button 
+        onClick={GoToProfDispo} 
+        sx={{ color: 'yellow', 
+        backgroundColor: 'blue', 
+        borderColor: 'green' }}  > 
+     Assigner un Prof parmis les candidat ( mode semi auto )
+     </Button> }
+    </Box>
+
+
       <Box sx={{
         display: 'flex',
         justifyContent: 'center',

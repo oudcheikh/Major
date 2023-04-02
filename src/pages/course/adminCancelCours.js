@@ -47,8 +47,8 @@ export default function CancelCours(Props) {
     const myclient_uid = Props.props.client_uid ;
 
     
-    console.log("----------------------- Props.props : ", Props.props)
    
+    let track = false;
     setOpen(false);
     
     cancelCours({ courseKey: mycourseKey,  uid : myclient_uid})
@@ -58,28 +58,28 @@ export default function CancelCours(Props) {
       /** @type {any} */
       const data = result.data;
       setOpen(false)
-      navigate("/")
+
+      track = true ;
+      
      
     }
    
     
     );
     
-   
-    setIsDisabled(false);
-//   const querySnapshotTrackProcess = collection(db, "Users",prof_uid, "Courses", Props.props.course_uid, "TrackProcess")
-//   const docReef = await addDoc(querySnapshotTrackProcess, 
+     
+  const querySnapshotTrackProcess = collection(db, "Users",myclient_uid, "Courses", Props.props.course_uid, "TrackProcess")
+  const docReef = await addDoc(querySnapshotTrackProcess, 
     
-//     {
+    {
+      by: user.email,
+      date : new Date(),
+      satus: "Cancel Cours",
+    });
 
-//       by: user.email,
-//       old_date : Props.props.date,
-//       date : new Date(),
-//       satus: "Resent Notif to prof", 
-//       remarque : " ", 
-//     });
-
-//     navigate("/waitingcourse",)
+    navigate("/")
+  
+//    navigate("/waitingcourse",)
 //    setOpen(false)
 
   };

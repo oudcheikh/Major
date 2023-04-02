@@ -13,11 +13,12 @@ import Credit from "./pages/proffeusseurs/prof/credit/credit"
 import WaitingCourse from "./pages/course/WaitingCourse"
 import TodyCoursCofimed from "./pages/course/TodyCoursComfirmed.js";
 import TodyCours from "./pages/course/TodyCours.js";
-import StudentfProfile from "./pages/client/eleve/eleveprofile"
-import ParentProfile from "./pages/client/parent/parentprofile"
-import AjouterEnfent from "./pages/client/parent/ajoutenfent"
-import ProfDispo from "./pages/course/prscourse"
-import NextCommand from "./pages/commands/nextCommand"
+import StudentfProfile from "./pages/client/eleve/eleveprofile";
+import ParentProfile from "./pages/client/parent/parentprofile";
+import AjouterEnfent from "./pages/client/parent/ajoutenfent";
+import ProfDispo from "./pages/course/prscourse";
+import ProfDispoCandidate from "./pages/course/prscourseCandidate";
+import NextCommand from "./pages/commands/nextCommand";
 
 
 
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/parent/enfent/ajout" element={<AjouterEnfent /> } /> 
           <Route exact path="/user/profile/course" element={<Course /> } /> 
           <Route exact path="/user/course/profdispo" element={<ProfDispo /> } /> 
+          <Route exact path="/user/course/profdispocandidate" element={<ProfDispoCandidate /> } /> 
         </Routes>
       </Router>
     </div>

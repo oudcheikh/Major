@@ -149,7 +149,6 @@ export default function AllStudents() {
     }
   ];
 
-console.log("---------------------------------- allclients : ", allclients)
 
  
   return (

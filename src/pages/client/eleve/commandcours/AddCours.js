@@ -95,20 +95,17 @@ export default function AddCours(Props) {
     if (clientProfileSnap.exists()) {
       console.log(clientProfileSnap.data());
       let classroom = clientProfileSnap.data().classroom.split(" ");
-      console.log("classroom ................................. : ", classroom);
     } else {
       console.log("``");
     }
 
 
     if (offercours.exists()) {
-      console.log("offercours ......................... : ", offercours.data())
     } else {
       console.log("``");
     }
 
     let classroom = clientProfileSnap.data().classroom.split(" ");    
-    console.log("-------------- filterObjects() : ",offercours.data()[classroom[0]].filter(element => element.actif === true) )
 
     setoffre(offercours.data()[classroom[0]].filter(element => element.actif === true))
   
@@ -127,7 +124,6 @@ export default function AddCours(Props) {
   const updateCours = async () => {
 
 
-    console.log("__________________offre__________________________ : ", offre)
 
     setIsDisabled(true)
     

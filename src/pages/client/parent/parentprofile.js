@@ -71,7 +71,6 @@ export default function ParentProfile(Props) {
 
 
 
-console.log("---------state --------------------- : ", state, Props)
   
   const navigate = useNavigate();
 

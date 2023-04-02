@@ -46,7 +46,11 @@ export default function ResentNotif(Props) {
     const mycourseKey = Props.props.course_uid ;
     const myclient_uid = Props.props.client_uid ;
 
-   
+   var track = false ; 
+
+   function change_value(e) {
+    return true;
+}
     setOpen(false);
     
     sentNotif({ courseKey: mycourseKey,  clientUid : myclient_uid})
@@ -55,29 +59,34 @@ export default function ResentNotif(Props) {
      
       /** @type {any} */
       const data = result.data;
-      setOpen(false)
+    
+
+      track = change_value(track);
+      
      
     }
    
     
     );
     
-   
-    setIsDisabled(false);
-//   const querySnapshotTrackProcess = collection(db, "Users",prof_uid, "Courses", Props.props.course_uid, "TrackProcess")
-//   const docReef = await addDoc(querySnapshotTrackProcess, 
+
     
-//     {
+  const querySnapshotTrackProcess = collection(db, "Users",myclient_uid, "Courses", mycourseKey, "TrackProcess")
+  const docReef = await addDoc(querySnapshotTrackProcess, 
+    
+    {
 
-//       by: user.email,
-//       old_date : Props.props.date,
-//       date : new Date(),
-//       satus: "Resent Notif to prof", 
-//       remarque : " ", 
-//     });
+      by: user.email,
+      date : new Date(),
+      satus: "Sent Notif to prof", 
+  
+    });
+    setOpen(false)
 
-//     navigate("/waitingcourse",)
-//    setOpen(false)
+    navigate("/waitingcourse",)
+   
+   
+setIsDisabled(false);
 
   };
 
