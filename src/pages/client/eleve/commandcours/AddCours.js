@@ -215,7 +215,7 @@ export default function AddCours(Props) {
         <br></br>
 
         <br>
-        <Grid> 
+        {/* <Grid> 
       <FormControl>
       <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
       <RadioGroup
@@ -234,7 +234,7 @@ export default function AddCours(Props) {
         />
       </RadioGroup>
        </FormControl>
-       </Grid>
+       </Grid> */}
         </br>
       
         <Grid> <Button onClick={updateCours} disabled={isDisabled}>Ajouter</Button></Grid> 

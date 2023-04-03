@@ -166,8 +166,17 @@ const GoToProf = async () =>{
 
 
       <ul>
-      {"Candidate" in  state.data &&
-        <li> Candidat : {state.data.Candidate.length}</li> }
+
+      {("Candidate" in  state.data) ? (
+        <li> Candidat : {state.data.Candidate.length}</li> 
+      ) : (
+        <li> Candidat : 0 </li> 
+      )}
+       
+      {/* {"Candidate" in  state.data &&
+        <li> Candidat : {state.data.Candidate.length}</li> } */}
+      
+      
       {"NoCandidate" in  state.data && 
       <li> No Candidat : {state.data.NoCandidate.length}</li>}
         
