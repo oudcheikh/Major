@@ -53,6 +53,7 @@ export default function ListProf() {
     { field: 'phone', headerName: 'phone', width: 130 },
     //credit
     { field: 'courses', headerName: 'courses', width: 110 , },
+    { field: 'coursesToValidate', headerName: 'ToValidate', width: 110 , },
     { field: 'credit', headerName: 'credit', width: 110 },
     { field: 'notation', headerName: 'notation', width: 110 },
     { field: 'isActif', headerName: 'isActif', width: 130 },

@@ -167,13 +167,13 @@ const GoToProf = async () =>{
 
       <ul>
 
-      {("Candidate" in  state.data) ? (
-        <li> Candidat : {state.data.Candidate.length}</li> 
+      {("notifIds" in  state.data) ? (
+        <li> count_notif : {state.data.notifIds.length}</li> 
       ) : (
-        <li> Candidat : 0 </li> 
+        <li> count_notif : 0 </li> 
       )}
        
-      {/* {"Candidate" in  state.data &&
+      {/* {"notifIds" in  state.data && 
         <li> Candidat : {state.data.Candidate.length}</li> } */}
       
       

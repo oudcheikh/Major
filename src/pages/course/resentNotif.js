@@ -48,6 +48,8 @@ export default function ResentNotif(Props) {
 
    var track = false ; 
 
+   console.log("-------rttrtrtrtr : Props.props : " , Props.props)
+
    function change_value(e) {
     return true;
 }
@@ -81,6 +83,11 @@ export default function ResentNotif(Props) {
       satus: "Sent Notif to prof", 
   
     });
+
+
+  const docRef = doc(db, "Users",myclient_uid, "Courses", mycourseKey);
+  // updateDoc(docRef, {count_sent_notif : 1})
+
     setOpen(false)
 
     navigate("/waitingcourse",)

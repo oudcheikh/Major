@@ -45,11 +45,6 @@ function filterActiveCourses(courses, niveau) {
   return activeCourses;
 }
 
-function filterObjects(obj) {
-  return obj.filter(function(item) {
-    return item.valeur === "Lycée";
-  });
-}
 
 
 
@@ -59,17 +54,22 @@ export default function AddCours(Props) {
   const [open, setOpen] = React.useState(false);
   const [profile, setProfile] = React.useState({});
   const [offre, setoffre] = React.useState([]);
+  const [cours, setcours] = React.useState();
   const [valueDateTile, setValue] = React.useState(new Date());
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const formRef = React.useRef();
   let [isDisabled, setIsDisabled] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState('a');
+  const [valuen, setValuen] = React.useState(1);
 
   const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+    setValuen(event.target.value);
   };
+
+  function handleInputChange(event, value) {
+    setcours(value);
+  }
 
   const [textInput, setTextInput] = React.useState('');
 
@@ -93,7 +93,7 @@ export default function AddCours(Props) {
     
 
     if (clientProfileSnap.exists()) {
-      console.log(clientProfileSnap.data());
+      setProfile(clientProfileSnap.data());
       let classroom = clientProfileSnap.data().classroom.split(" ");
     } else {
       console.log("``");
@@ -134,20 +134,41 @@ export default function AddCours(Props) {
     const AllCourses = doc(db, "Courses", "français");
     const offercours = await getDoc(AllCourses);
 
+
+    console.log(profile.classroom)
+
     
     
-    // const querySnapshotCredit = collection(db, "Users", client_uid, "Comments")
+    const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
 
-    // const docRef = await addDoc(querySnapshotCredit, 
+    const docRef = await addDoc(querySnapshotCredit, 
       
-    //   {
       
-    //   email : user.email,
-    //   created_at : new Date(),
-    //   comment : textInput
-    // }
-    // );
+      {
+        booking_date : new Date(),
+        classroom : profile.classroom,
+        client_uid : client_uid,
+        course : cours,
+        date : valueDateTile.toDate(),
+        duration : valuen,
+        noted : false,
+        price : null,
+        prof : ""  ,
+        prof_number : "",
+        prof_uid :"",
+        serie : "",
+        statut : 0,
+        statut_date : new Date(),
+        subject : textInput,
+        userType : 3 ,
+        by: user.email,
+        from: "website"
+    }
+
+    )
+    ;
+    
 
 
    setOpen(false)
@@ -168,7 +189,7 @@ export default function AddCours(Props) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Ajouter un comentaire</Button>
+      <Button onClick={handleOpen}>Ajouter un cours</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -193,8 +214,13 @@ export default function AddCours(Props) {
       disablePortal
       id="combo-box-demo"
       options={offre.map((option) => option.course)}
+      onInputChange={handleInputChange}
+
       sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="course" />}
+      renderInput={(params) => <TextField {...params} label="course" 
+      
+      
+      />}
     />
         </Grid>
        
@@ -214,28 +240,39 @@ export default function AddCours(Props) {
         </Grid>
         <br></br>
 
-        <br>
-        {/* <Grid> 
-      <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+        
+         <Grid> 
+         <div>
+      
+         <FormControl>
+      
       <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
+        value={valuen}
+        onChange={handleChange}
       >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
-        <FormControlLabel
-          value="disabled"
-          disabled
-          control={<Radio />}
-          label="other"
-        />
+        <FormControlLabel value = "1" control={<Radio />} label="1h" />
+        <FormControlLabel value="2" control={<Radio />} label="2h" />
+        <FormControlLabel value="3" control={<Radio />} label="3h" />
+        <FormControlLabel value="4" control={<Radio />} label="4h" />
       </RadioGroup>
-       </FormControl>
-       </Grid> */}
+    </FormControl>
+    </div>
+       </Grid> 
+       <br>
         </br>
+
+        <Grid><TextField
+          
+          label="sujet"
+          multiline
+          rows={2}
+          defaultValue=" "
+          onChange= {handleTextInputChange}
+          style = {{width: 400}}
+        /></Grid>
+        
       
         <Grid> <Button onClick={updateCours} disabled={isDisabled}>Ajouter</Button></Grid> 
         </Box>
