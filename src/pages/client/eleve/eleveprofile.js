@@ -193,7 +193,7 @@ export default function StudentfProfile() {
       <CommenttHistory  client = {state.uid}/>
       </TabPanel> 
 
-       <TabPanel>
+       <TabPanel value={value} index={4} >
         <AddCours client = {state.uid} />
       </TabPanel> 
       

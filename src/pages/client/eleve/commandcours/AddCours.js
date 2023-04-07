@@ -33,16 +33,13 @@ const style = {
   p: 4,
 };
 
-function filterActiveCourses(courses, niveau) {
-  const activeCourses = [];
-  for (const category in courses) {
-    for (const course of courses[category]) {
-      if (course.actif === true) {
-        activeCourses.push(course);
-      }
+function getPriceByCourse(courses, course) {
+  for (let i = 0; i < courses.length; i++) {
+    if (courses[i].course === course) {
+      return courses[i].price;
     }
   }
-  return activeCourses;
+  return null;
 }
 
 
@@ -54,6 +51,8 @@ export default function AddCours(Props) {
   const [open, setOpen] = React.useState(false);
   const [profile, setProfile] = React.useState({});
   const [offre, setoffre] = React.useState([]);
+  const [nclient, setnclient] = React.useState('');
+  const [price, setprice] = React.useState('');
   const [cours, setcours] = React.useState();
   const [valueDateTile, setValue] = React.useState(new Date());
   const handleOpen = () => setOpen(true);
@@ -69,6 +68,8 @@ export default function AddCours(Props) {
 
   function handleInputChange(event, value) {
     setcours(value);
+
+    setprice(getPriceByCourse(offre, value))
   }
 
   const [textInput, setTextInput] = React.useState('');
@@ -76,6 +77,11 @@ export default function AddCours(Props) {
   const handleTextInputChange = event => {
       setTextInput(event.target.value);
   };
+
+
+  const handleTextInputChangenclient = event => {
+    setnclient(event.target.value);
+};
 
   const fetchAllClient = async () => {
 
@@ -135,13 +141,15 @@ export default function AddCours(Props) {
     const offercours = await getDoc(AllCourses);
 
 
-    console.log(profile.classroom)
+    console.log("offre .................................: ", offre)
+    console.log("offre.filter(element => element.cours === cours) -------------------- : ", 
+    valuen * getPriceByCourse(offre,cours))
 
-    
-    
+    const prix = valuen * getPriceByCourse(offre,cours);
+    // offre.filter(element => element.cours === cours)
+
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
-
     const docRef = await addDoc(querySnapshotCredit, 
       
       
@@ -153,7 +161,7 @@ export default function AddCours(Props) {
         date : valueDateTile.toDate(),
         duration : valuen,
         noted : false,
-        price : null,
+        price : prix ,
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
@@ -161,6 +169,7 @@ export default function AddCours(Props) {
         statut : 0,
         statut_date : new Date(),
         subject : textInput,
+        num_client : nclient,
         userType : 3 ,
         by: user.email,
         from: "website"
@@ -226,6 +235,10 @@ export default function AddCours(Props) {
        
         <br></br>
         <Grid>
+          Prix (1h) : {price}
+        </Grid>
+        <br></br>
+        <Grid>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
@@ -267,10 +280,26 @@ export default function AddCours(Props) {
           
           label="sujet"
           multiline
-          rows={2}
+          rows={1}
           defaultValue=" "
           onChange= {handleTextInputChange}
-          style = {{width: 400}}
+          inputProps={{ maxLength: 64 }}
+          style = {{width: 300}}
+        /></Grid>
+
+        <br>
+        </br>
+
+
+<Grid>  <TextField
+          
+          label="Numéro_client"
+          multiline
+          rows={1}
+          defaultValue=" "
+          onChange= {handleTextInputChange}
+          inputProps={{ maxLength: 64 }}
+          style = {{width: 300}}
         /></Grid>
         
       
