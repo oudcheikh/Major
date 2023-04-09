@@ -36,7 +36,7 @@ const style = {
 function getPriceByCourse(courses, course) {
   for (let i = 0; i < courses.length; i++) {
     if (courses[i].course === course) {
-      return courses[i].price;
+      return courses[i].priceSA ;
     }
   }
   return null;
@@ -68,8 +68,7 @@ export default function AddCours(Props) {
 
   function handleInputChange(event, value) {
     setcours(value);
-
-    setprice(getPriceByCourse(offre, value))
+   setprice(getPriceByCourse(offre, value)[profile.classroom.split(" ")[1]])
   }
 
   const [textInput, setTextInput] = React.useState('');
@@ -86,8 +85,7 @@ export default function AddCours(Props) {
   const fetchAllClient = async () => {
 
 
- 
-    
+
     const client_uid = Props.client;
     const clientProfile = doc(db, "Users", client_uid);
     const clientProfileSnap = await getDoc(clientProfile);
@@ -96,8 +94,7 @@ export default function AddCours(Props) {
     const offercours = await getDoc(AllCourses);
 
     
-    
-
+  
     if (clientProfileSnap.exists()) {
       setProfile(clientProfileSnap.data());
       let classroom = clientProfileSnap.data().classroom.split(" ");
@@ -142,17 +139,15 @@ export default function AddCours(Props) {
 
 
     console.log("offre .................................: ", offre)
-    console.log("offre.filter(element => element.cours === cours) -------------------- : ", 
-    valuen * getPriceByCourse(offre,cours))
+    console.log("profile -------------------- : ", getPriceByCourse(offre,cours),
+    profile.classroom.split(" ")[1])
 
-    const prix = valuen * getPriceByCourse(offre,cours);
+    const prix = valuen * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
     // offre.filter(element => element.cours === cours)
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
     const docRef = await addDoc(querySnapshotCredit, 
-      
-      
       {
         booking_date : new Date(),
         classroom : profile.classroom,
