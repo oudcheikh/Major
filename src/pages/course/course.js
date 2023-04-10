@@ -152,6 +152,7 @@ const GoToProf = async () =>{
           <li>Duré : {state.data.duration}</li>
           <li>Date : {formattedDate(state.data.date)}</li> 
           <li>Price : {state.data.price}</li>
+          <li>Serie : {state.data.serie}</li>
       </ul>
 
       <ul>
@@ -168,7 +169,7 @@ const GoToProf = async () =>{
       <ul>
 
       {("notifIds" in  state.data) ? (
-        <li> count_notif : {state.data.notifIds.length}</li> 
+        <li> count_notif : </li> 
       ) : (
         <li> count_notif : 0 </li> 
       )}

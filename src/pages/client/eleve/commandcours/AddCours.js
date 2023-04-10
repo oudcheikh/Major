@@ -138,9 +138,7 @@ export default function AddCours(Props) {
     const offercours = await getDoc(AllCourses);
 
 
-    console.log("offre .................................: ", offre)
-    console.log("profile -------------------- : ", getPriceByCourse(offre,cours),
-    profile.classroom.split(" ")[1])
+    
 
     const prix = valuen * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
     // offre.filter(element => element.cours === cours)
@@ -160,7 +158,7 @@ export default function AddCours(Props) {
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
-        serie : "",
+        serie : profile.classroom.split(" ")[1],
         statut : 0,
         statut_date : new Date(),
         subject : textInput,
@@ -292,7 +290,7 @@ export default function AddCours(Props) {
           multiline
           rows={1}
           defaultValue=" "
-          onChange= {handleTextInputChange}
+          onChange= {handleTextInputChangenclient}
           inputProps={{ maxLength: 64 }}
           style = {{width: 300}}
         /></Grid>
