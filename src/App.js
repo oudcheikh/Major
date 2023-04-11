@@ -19,6 +19,7 @@ import AjouterEnfent from "./pages/client/parent/ajoutenfent";
 import ProfDispo from "./pages/course/prscourse";
 import ProfDispoCandidate from "./pages/course/prscourseCandidate";
 import NextCommand from "./pages/commands/nextCommand";
+import CanceledCours from "./pages/course/allcanceledcours";
 
 
 
@@ -37,13 +38,14 @@ function App() {
           <Route exact path="/clients" element={<AllStudents />}/>
           <Route exact path="/profProfile" element={<ProfProfile/>}/>
           <Route exact path="/commands" element={<NextCommand/>}/>
+          <Route exact path="/allcanceledcours" element={<CanceledCours/>}/>
           <Route exact path="/profProfile/credit" element={<Credit/> }/>
           <Route exact path="/user/profile/student" element={<StudentfProfile /> } />
           <Route exact path="/user/profile/parent" element={<ParentProfile /> } />
           <Route exact path="/parent/enfent/ajout" element={<AjouterEnfent /> } /> 
           <Route exact path="/user/profile/course" element={<Course /> } /> 
           <Route exact path="/user/course/profdispo" element={<ProfDispo /> } /> 
-          <Route exact path="/user/course/profdispocandidate" element={<ProfDispoCandidate /> } /> 
+          <Route exact path="/user/course/profdispocandidate" element={<ProfDispoCandidate /> } />   // canceledcours
         </Routes>
       </Router>
     </div>

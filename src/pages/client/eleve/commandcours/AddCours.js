@@ -54,6 +54,7 @@ export default function AddCours(Props) {
   const [nclient, setnclient] = React.useState('');
   const [price, setprice] = React.useState('');
   const [cours, setcours] = React.useState();
+  const [serie, setserie] = React.useState('');
   const [valueDateTile, setValue] = React.useState(new Date());
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -69,6 +70,11 @@ export default function AddCours(Props) {
   function handleInputChange(event, value) {
     setcours(value);
    setprice(getPriceByCourse(offre, value)[profile.classroom.split(" ")[1]])
+  }
+
+  function handleInputChangeSerie(event, value) {
+    setserie(value);
+   
   }
 
   const [textInput, setTextInput] = React.useState('');
@@ -158,7 +164,7 @@ export default function AddCours(Props) {
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
-        serie : profile.classroom.split(" ")[1],
+        serie : serie,
         statut : 0,
         statut_date : new Date(),
         subject : textInput,
@@ -213,19 +219,27 @@ export default function AddCours(Props) {
         </Typography>
         <Grid>
         <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={offre.map((option) => option.course)}
-      onInputChange={handleInputChange}
-
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="course" 
-      
-      
-      />}
-    />
+          disablePortal
+          id="combo-box-demo"
+          options={offre.map((option) => option.course)}
+          onInputChange={handleInputChange}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="course" 
+          />}/>
         </Grid>
+        <br></br>
        
+        <Grid>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={[{serie: "C"}, {serie: "D"}, {serie: "A"}, {serie: "O"},{serie: " "}].map((option) => option.serie)}
+          onInputChange={handleInputChangeSerie}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="serie" 
+          />}/>
+        </Grid>
+
         <br></br>
         <Grid>
           Prix (1h) : {price}
