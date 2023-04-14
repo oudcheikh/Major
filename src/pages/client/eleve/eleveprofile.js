@@ -17,6 +17,8 @@ import Box from '@mui/material/Box';
 import CommentModal from "./comment/ClientComment"
 import CommenttHistory from "./comment/history"
 import AddCours from "./commandcours/AddCours"
+import { useMediaQuery } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 
 function TabPanel(props) {
@@ -136,50 +138,51 @@ export default function StudentfProfile() {
 
 
   return (
-    <div>
-    <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-      }}>
-        <Card sx={{ maxWidth: 345 }} style={{ alignSelf: 'center' }} >
-          {/* <Avatar alt="Travis Howard" style={{ alignSelf: 'center' }} /> */}
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Nom : {profile.lastname}
-            </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              Prenon : {profile.firstname}
-            </Typography>
-            <Typography variant="h5" color="text.secondary">
-              Phone : {profile.phone}
-            </Typography>
-            <Typography variant="h5" color="text.secondary">
-              notes : {profile.notes} MRU
-            </Typography>
-            <Typography variant="h5" color="text.secondary">
-              classroom : {profile.classroom}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Activité" {...a11yProps(0)} />
-          <Tab label="notes" {...a11yProps(1)} />
-          <Tab label="Notifications" {...a11yProps(2)} />
-          <Tab label="Commentaire" {...a11yProps(3)} />
-          <Tab label="Ajouter un cours" {...a11yProps(4)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        <h1>Activité : </h1>
-        <CoursHistory cours = {cours} client = {state.uid}/>
-      </TabPanel>
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            bgcolor: 'background.paper',
+            borderRadius: 1,
+          }}>
+            <Card sx={{ maxWidth: 345 }} style={{ alignSelf: 'center' }} >
+              {/* <Avatar alt="Travis Howard" style={{ alignSelf: 'center' }} /> */}
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Nom : {profile.lastname}
+                </Typography>
+                <Typography gutterBottom variant="h5" component="div">
+                  Prenon : {profile.firstname}
+                </Typography>
+                <Typography variant="h5" color="text.secondary">
+                  Phone : {profile.phone}
+                </Typography>
+                <Typography variant="h5" color="text.secondary">
+                  notes : {profile.notes} MRU
+                </Typography>
+                <Typography variant="h5" color="text.secondary">
+                  classroom : {profile.classroom}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Box>
+          <Tabs value={value} onChange={handleChange} variant="scrollable"
+        scrollButtons="auto" >
+            <Tab label="Activité" {...a11yProps(0)} />
+            <Tab label="notes" {...a11yProps(1)} />
+            <Tab label="Notifications" {...a11yProps(2)} />
+            <Tab label="Commentaire" {...a11yProps(3)} />
+            <Tab label="Ajouter un cours" {...a11yProps(4)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <h1>Activité : </h1>
+          <CoursHistory cours={cours} client={state.uid} />
+        </TabPanel>
       <TabPanel value={value} index={1}>
         <h1>Note  NotesHistory : </h1>
         <NotesHistory notes = {notes} client = {state.uid}/>
@@ -197,8 +200,8 @@ export default function StudentfProfile() {
         <AddCours client = {state.uid} />
       </TabPanel> 
       
-    </Box>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

@@ -26,11 +26,23 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  maxWidth: '100%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  '@media (max-width: 600px)': {
+    width: '80%',
+  },
+  '@media (min-width: 601px) and (max-width: 960px)': {
+    width: '60%',
+  },
+  '@media (min-width: 961px) and (max-width: 1280px)': {
+    width: '50%',
+  },
+  '@media (min-width: 1281px)': {
+    width: 400,
+  },
 };
 
 function getPriceByCourse(courses, course) {
@@ -197,7 +209,14 @@ export default function AddCours(Props) {
 
   return (
     <div>
+
+      
       <Button onClick={handleOpen}>Ajouter un cours</Button>
+      <Box sx={{
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}}>
       <Modal
         open={open}
         onClose={handleClose}
@@ -217,7 +236,7 @@ export default function AddCours(Props) {
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
         </Typography>
-        <Grid>
+        <Grid xs={12}>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -229,7 +248,7 @@ export default function AddCours(Props) {
         </Grid>
         <br></br>
        
-        <Grid>
+        <Grid xs={12}>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -241,11 +260,11 @@ export default function AddCours(Props) {
         </Grid>
 
         <br></br>
-        <Grid>
+        <Grid xs={12}>
           Prix (1h) : {price}
         </Grid>
         <br></br>
-        <Grid>
+        <Grid xs={12}>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
@@ -261,7 +280,7 @@ export default function AddCours(Props) {
         <br></br>
 
         
-         <Grid> 
+         <Grid xs={12}> 
          <div>
       
          <FormControl>
@@ -283,7 +302,7 @@ export default function AddCours(Props) {
        <br>
         </br>
 
-        <Grid><TextField
+        <Grid xs={12}><TextField
           
           label="sujet"
           multiline
@@ -298,7 +317,7 @@ export default function AddCours(Props) {
         </br>
 
 
-<Grid>  <TextField
+<Grid xs={12}>  <TextField
           
           label="Numéro_client"
           multiline
@@ -310,11 +329,12 @@ export default function AddCours(Props) {
         /></Grid>
         
       
-        <Grid> <Button onClick={updateCours} disabled={isDisabled}>Ajouter</Button></Grid> 
+        <Grid xs={12}> <Button onClick={updateCours} disabled={isDisabled}>Ajouter</Button></Grid> 
         </Box>
          
        
       </Modal>
+      </Box>
     </div>
   );
 }
