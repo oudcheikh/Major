@@ -19,10 +19,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import Badge from '@mui/material/Badge';
 import toast, { Toaster } from 'react-hot-toast';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // const notify = () => toast('Here is your toast.');
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "allcanceledcours","profs", "clients"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -39,6 +40,7 @@ const ResponsiveAppBar = () => {
     if (user) navigate("/");
   }, [user, loading]);
 
+  const isMobile = useMediaQuery('(max-width:600px)');
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -105,7 +107,7 @@ const ResponsiveAppBar = () => {
             component="a"
             href="/"
             sx={{
-              mr: 2,
+              mr: isMobile ? 1 : 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -116,7 +118,7 @@ const ResponsiveAppBar = () => {
           >
             MajorApp
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: 'flex'}}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -128,27 +130,47 @@ const ResponsiveAppBar = () => {
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              
-
-      
-            </Menu>
+  id="menu-appbar"
+  anchorEl={anchorElNav}
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'left',
+  }}
+  keepMounted
+  transformOrigin={{
+    vertical: 'top',
+    horizontal: 'left',
+  }}
+  open={Boolean(anchorElNav)}
+  onClose={handleCloseNavMenu}
+  sx={{
+    display: { xs: 'block', md: 'none' },
+  }}
+>
+  {pages.map((page, index) => (
+    <MenuItem key={index} onClick={handleCloseNavMenu} component={Link} to={`/${page.toLowerCase()}`}>
+      {page}
+    </MenuItem>
+  ))}
+  {/* {user ? (
+    <>
+      {settings.map((setting, index) => (
+        <MenuItem key={index} onClick={handleCloseNavMenu} component={Link} to={`/${setting.toLowerCase()}`}>
+          {setting}
+        </MenuItem>
+      ))}
+    </>
+  ) : (
+    <>
+      <MenuItem onClick={handleCloseNavMenu} component={Link} to="/login">
+        Log In
+      </MenuItem>
+      <MenuItem onClick={handleCloseNavMenu} component={Link} to="/signup">
+        Sign Up
+      </MenuItem>
+    </>
+  )} */}
+</Menu>
           </Box>
      
           <Typography
