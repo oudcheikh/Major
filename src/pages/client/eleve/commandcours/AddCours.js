@@ -142,6 +142,10 @@ export default function AddCours(Props) {
     fetchAllClient();
   }, []);
 
+  const closeModal = async () => {
+    setOpen(false)
+  }
+
   const updateCours = async () => {
 
 
@@ -328,8 +332,9 @@ export default function AddCours(Props) {
           style = {{width: 300}}
         /></Grid>
         
-      
-        <Grid xs={12}> <Button onClick={updateCours} disabled={isDisabled}>Ajouter</Button></Grid> 
+        <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button></Grid>
+        <Grid xs={6}> <Button onClick={closeModal} disabled={isDisabled}>close</Button></Grid> 
+
         </Box>
          
        
