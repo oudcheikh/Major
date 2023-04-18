@@ -24,22 +24,22 @@ import {
 
 const firebaseConfig = {
 
-  // apiKey: "AIzaSyCnDE-9VGEttJeZRtraFeNmVDMRCQn8VmE",
-  // authDomain: "majorprod-9a7e6.firebaseapp.com",
-  // projectId: "majorprod-9a7e6",
-  // storageBucket: "majorprod-9a7e6.appspot.com",
-  // messagingSenderId: "873947755897",
-  // appId: "1:873947755897:web:7eecf9f797e79a2e15aba8",
-  // measurementId: "G-GRMXC2RNMB"
+  apiKey: "AIzaSyCnDE-9VGEttJeZRtraFeNmVDMRCQn8VmE",
+  authDomain: "majorprod-9a7e6.firebaseapp.com",
+  projectId: "majorprod-9a7e6",
+  storageBucket: "majorprod-9a7e6.appspot.com",
+  messagingSenderId: "873947755897",
+  appId: "1:873947755897:web:7eecf9f797e79a2e15aba8",
+  measurementId: "G-GRMXC2RNMB"
 
-  apiKey: "AIzaSyBSwhTnr4zt3sqF-Wysf9SbQhrN23q2WLI",
-  authDomain: "major-24a8b.firebaseapp.com",
-  databaseURL: "https://major-24a8b-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "major-24a8b",
-  storageBucket: "major-24a8b.appspot.com",
-  messagingSenderId: "88860572937",
-  appId: "1:88860572937:web:4b42e089552c5b5c4427d8",
-  measurementId: "G-Q9G5J16FJN"
+  // apiKey: "AIzaSyBSwhTnr4zt3sqF-Wysf9SbQhrN23q2WLI",
+  // authDomain: "major-24a8b.firebaseapp.com",
+  // databaseURL: "https://major-24a8b-default-rtdb.europe-west1.firebasedatabase.app",
+  // projectId: "major-24a8b",
+  // storageBucket: "major-24a8b.appspot.com",
+  // messagingSenderId: "88860572937",
+  // appId: "1:88860572937:web:4b42e089552c5b5c4427d8",
+  // measurementId: "G-Q9G5J16FJN"
 
 };
 

@@ -86,7 +86,7 @@ export default function WaitingCourse() {
 
     const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 0),
     where('userType', 'in', [1, 3])
-    , where('date', '>', timeObj ) );
+    , where('date', '<', timeObj ) );
     
     
     const querySnapshot = await getDocs(courses);

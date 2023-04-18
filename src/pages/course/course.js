@@ -233,14 +233,17 @@ const GoToProf = async () =>{
             }}
             >
      
-     {state.data.statut == 0 && "Candidate" in  state.data &&
+     {/* {state.data.statut == 0 && "Candidate" in  state.data && */}
+     
      <Button 
         onClick={GoToProfDispo} 
         sx={{ color: 'yellow', 
         backgroundColor: 'blue', 
         borderColor: 'green' }}  > 
      Assigner un Prof parmis les candidat ( mode semi auto )
-     </Button> }
+     </Button> 
+     
+    //  }
     </Box>
 
 

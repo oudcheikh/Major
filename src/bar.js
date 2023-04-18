@@ -23,7 +23,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // const notify = () => toast('Here is your toast.');
 
-const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "allcanceledcours","profs", "clients"];
+const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "allcanceledcours","profs", "clients", "kpi"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -88,6 +88,11 @@ const ResponsiveAppBar = () => {
   const goTodyCours = () => {
 
     navigate("/todaycours")
+  }
+
+  const goTokpi = () => {
+
+    navigate("/kpi")
   }
 
 
@@ -193,6 +198,12 @@ const ResponsiveAppBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
+          <Button 
+                onClick={goTokpi}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                KPI
+          </Button>
           <Button 
                 onClick={goToWaitingCourses}
                 sx={{ my: 2, color: 'white', display: 'block' }}

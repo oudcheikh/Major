@@ -8,6 +8,7 @@ import Course from "./pages/course/course"
 import ResponsiveAppBar from "./bar"
 import AllStudents from "./pages/client/listUser"
 import ListProf from "./pages/proffeusseurs/AllProf"
+import Kpi from "./pages/course/kpi"
 import ProfProfile from "./pages/proffeusseurs/prof/profProfile"
 import Credit from "./pages/proffeusseurs/prof/credit/credit"
 import WaitingCourse from "./pages/course/WaitingCourse"
@@ -32,7 +33,7 @@ function App() {
 
           <Route exact path="/todaycourscomfirme" element={<TodyCoursCofimed />}/>
           <Route exact path="/todaycours" element={<TodyCours />}/>
-          
+          <Route exact path="/kpi" element={<Kpi />}/>
           <Route exact path="/waitingcourse" element={<WaitingCourse />}/>
           <Route exact path="/profs" element={<ListProf />}/>
           <Route exact path="/clients" element={<AllStudents />}/>
