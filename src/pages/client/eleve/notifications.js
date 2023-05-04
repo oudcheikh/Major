@@ -4,14 +4,25 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import formattedDate from "../../../utils"
+
+
+const formattedDate = (d) => {
+
+  
+  let month = ("0" + (d.getMonth() + 1)).slice(-2);
+  let day = ("0" + d.getDate()).slice(-2);
+  const year = String(d.getFullYear());
+  const hour = ("0" + d.getHours()).slice(-2);
+  const minutes = ("0" + d.getMinutes()).slice(-2);
+
+  return `${day}/${month}/${year}-${hour}h${minutes}`;
+};
 
 export default function NotificationHistory(Props) {
 
+  console.log("_____________________ : Props.notifications : ", Props.notifications)
+
   return (
-
-
-    
     <div>
 
 {Props.notifications.map((item) =>   <Accordion>
@@ -20,7 +31,8 @@ export default function NotificationHistory(Props) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography> Date : {item.body} </Typography>
+                    <Typography> date : {formattedDate(item.date.toDate())}  </Typography>
+
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -28,10 +40,7 @@ export default function NotificationHistory(Props) {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      )}
-    
-
-      
+      )}      
     </div>
   );
 }

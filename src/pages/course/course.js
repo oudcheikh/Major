@@ -153,6 +153,7 @@ const GoToProf = async () =>{
           <li>Date : {formattedDate(state.data.date)}</li> 
           <li>Price : {state.data.price}</li>
           <li>Serie : {state.data.serie}</li>
+          <li>Classroom : {state.data.classroom}</li> 
       </ul>
 
       <ul>

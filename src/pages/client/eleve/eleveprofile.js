@@ -159,11 +159,20 @@ export default function StudentfProfile() {
                   Phone : {profile.phone}
                 </Typography>
                 <Typography variant="h5" color="text.secondary">
-                  notes : {profile.notes} MRU
+                Quartier  : {profile.quartier}
+                </Typography>
+                <Typography variant="h5" color="text.secondary">
+                Adresse : {profile.adress}
+                </Typography>
+                <Typography variant="h5" color="text.secondary">
+                  Ville : {profile.city}
                 </Typography>
                 <Typography variant="h5" color="text.secondary">
                   classroom : {profile.classroom}
                 </Typography>
+                <Typography variant="h5" color="text.secondary">
+                  Serie : {profile.serie}
+                </Typography> 
               </CardContent>
             </Card>
           </Box>

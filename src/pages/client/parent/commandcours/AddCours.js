@@ -19,12 +19,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-import de from 'date-fns/locale/de';
-import enGB from 'date-fns/locale/en-GB';
-import zhCN from 'date-fns/locale/zh-CN';
-
-
-const locales = { 'en-us': undefined, 'en-gb': enGB, 'zh-cn': zhCN, de };
 
 
 const style = {
@@ -65,8 +59,6 @@ function getPriceByCourse(courses, course) {
 
 export default function AddCours(Props) {
 
-  const [locale, setLocale] = React.useState('en-us');
-
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = React.useState(false);
   const [profile, setProfile] = React.useState({});
@@ -74,7 +66,10 @@ export default function AddCours(Props) {
   const [nclient, setnclient] = React.useState('');
   const [price, setprice] = React.useState('');
   const [cours, setcours] = React.useState();
+  const [children, setchildren] = React.useState([]);
+  const [selectedchildren, setselectedchildrenchildren] = React.useState('');
   const [serie, setserie] = React.useState('');
+  const [offercours, setoffercours] = React.useState()
   const [valueDateTile, setValue] = React.useState(new Date());
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -87,9 +82,27 @@ export default function AddCours(Props) {
     setValuen(event.target.value);
   };
 
+  function handleInputChangeSetSelectedChildern(event, value) {
+    setselectedchildrenchildren(value);
+    // console.log(' selected children ................', value)
+    // let classroom = clientProfileSnap.data().classroom.split(" ");    
+    console.log("classromme.................." , children.filter(element => element.firstname === value)[0].classroom.split(" "));
+    
+    let thisclassroom = children.filter(element => element.firstname === value)[0].classroom.split(" ");
+    setoffre(offercours.data()[thisclassroom[0]].filter(element => element.actif === true))
+ 
+
+  }
+
   function handleInputChange(event, value) {
     setcours(value);
-   setprice(getPriceByCourse(offre, value)[profile.classroom.split(" ")[1]])
+
+  let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
+   setprice(getPriceByCourse(offre, value)[thisclassroom[1]])
+
+
+   console.log("_________getPriceByCourse____________________ : ", 
+   getPriceByCourse(offre, value)[thisclassroom[1]])
   }
 
   function handleInputChangeSerie(event, value) {
@@ -111,7 +124,6 @@ export default function AddCours(Props) {
   const fetchAllClient = async () => {
 
 
-
     const client_uid = Props.client;
     const clientProfile = doc(db, "Users", client_uid);
     const clientProfileSnap = await getDoc(clientProfile);
@@ -119,24 +131,35 @@ export default function AddCours(Props) {
     const AllCourses = doc(db, "Courses", "français");
     const offercours = await getDoc(AllCourses);
 
+
+    const children = [];
+    const querySnapshotCourse = collection(db, "Users", client_uid, "Children")
+    onSnapshot(querySnapshotCourse, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
     
+        children.push(doc.data())
+      });
+      setchildren(children)
+    });
+
   
     if (clientProfileSnap.exists()) {
       setProfile(clientProfileSnap.data());
-      let classroom = clientProfileSnap.data().classroom.split(" ");
+     //  let classroom = clientProfileSnap.data().classroom.split(" ");
     } else {
       console.log("``");
     }
 
 
     if (offercours.exists()) {
+      setoffercours(offercours)
     } else {
       console.log("``");
     }
 
-    let classroom = clientProfileSnap.data().classroom.split(" ");    
+    // let classroom = clientProfileSnap.data().classroom.split(" ");    
 
-    setoffre(offercours.data()[classroom[0]].filter(element => element.actif === true))
+   // setoffre(offercours.data()[classroom[0]].filter(element => element.actif === true))
   
 
   };
@@ -167,18 +190,19 @@ export default function AddCours(Props) {
     const AllCourses = doc(db, "Courses", "français");
     const offercours = await getDoc(AllCourses);
 
+    let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
 
-    
-
-    const prix = valuen * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
+    const prix = valuen * getPriceByCourse(offre, cours)[thisclassroom[1]];
     // offre.filter(element => element.cours === cours)
+    console.log("_______________________ log : prix", prix)
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
     const docRef = await addDoc(querySnapshotCredit, 
       {
         booking_date : new Date(),
-        classroom : profile.classroom,
+        classroom : children.filter(element => element.firstname === selectedchildren)[0].classroom,
+        kid : selectedchildren,
         client_uid : client_uid,
         course : cours,
         date : valueDateTile.toDate(),
@@ -193,7 +217,7 @@ export default function AddCours(Props) {
         statut_date : new Date(),
         subject : textInput,
         num_client : nclient,
-        userType : 3 ,
+        userType : 1 ,
         by: user.email,
         from: "website"
     }
@@ -219,6 +243,7 @@ export default function AddCours(Props) {
 
   };
 
+  console.log("--------------------------- children : " , children)
   return (
     <div>
 
@@ -248,6 +273,17 @@ export default function AddCours(Props) {
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
         </Typography>
+        <Grid xs={12}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={children.map((option) => option.firstname)}
+          onInputChange={handleInputChangeSetSelectedChildern}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="firstname" 
+          />}/>
+        </Grid>
+        <br></br>
         <Grid xs={12}>
         <Autocomplete
           disablePortal

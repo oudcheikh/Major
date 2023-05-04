@@ -108,8 +108,7 @@ export default function CanceledCours() {
 
     const allCourses = [];
     const courses = await query(collectionGroup(db, 'Courses'),
-    where('statut', 'in', [-1, -3, -4]),
-    where('date', '<', todayTimestamp )
+    where('statut', 'in', [-1, -3, -4])
 
      );
     const querySnapshot = await getDocs(courses);

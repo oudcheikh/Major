@@ -10,6 +10,17 @@ import { decrement, increment } from '../../features/counter/counterSlice'
 import Button from '@mui/material/Button';
 
 
+
+function orderByCreatedAt(arr) {
+  return arr.sort((a, b) => {
+    return a.booking_date
+    <
+     b.booking_date
+     ? 1 : -1;
+  });
+}
+
+
 const formattedDate = (d) => {
   let month = ("0" + (d.getMonth() + 1)).slice(-2);
   let day = ("0" + d.getDate()).slice(-2);
@@ -86,7 +97,7 @@ export default function WaitingCourse() {
 
     const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==', 0),
     where('userType', 'in', [1, 3])
-    , where('date', '<', timeObj ) );
+    , where('date', '>', timeObj ) );
     
     
     const querySnapshot = await getDocs(courses);
@@ -102,7 +113,7 @@ export default function WaitingCourse() {
       setSllpendingcourses(allCourses => [...allCourses, element]);
 
     });
-    setMycourses(allCourses)
+    setMycourses( orderByCreatedAt(allCourses))
   };
 
   const getRole = async ()=> {
@@ -148,6 +159,9 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
     
     valueFormatter: (params) => formatCoursStatus(params.value),
      },
+
+     {field: 'classroom', headerName: 'classroom', width: 330}, //classroom
+
     { field: 'userType', headerName: 'userType', width: 130,
     valueFormatter: (params) => formatCourUserType(params.value) },
     {
@@ -168,7 +182,6 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
             variant="contained"
             color="primary"
             onClick={(event) => {
-
               goToCourse(cellValues.row)
             }}
           >
@@ -177,8 +190,6 @@ const courStatus = {1:"Parent d'élève", 3: "Élève-étudiant"}
         );
       }
     }
-
-
   ];
 
 
