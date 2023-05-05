@@ -55,6 +55,12 @@ function getPriceByCourse(courses, course) {
 }
 
 
+const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
+{course_type: "Cours package à domicile", index:2}, 
+{course_type:"Cours individuel à distance", index:3}, 
+{course_type:"Cours package à distance", index:4}]
+
+
 
 
 export default function AddCours(Props) {
@@ -68,7 +74,7 @@ export default function AddCours(Props) {
   const [cours, setcours] = React.useState();
   const [children, setchildren] = React.useState([]);
   const [selectedchildren, setselectedchildrenchildren] = React.useState('');
-  const [serie, setserie] = React.useState('');
+  const [coursType, setcourType] = React.useState("Cours individuel à distance");
   const [offercours, setoffercours] = React.useState()
   const [valueDateTile, setValue] = React.useState(new Date());
   const handleOpen = () => setOpen(true);
@@ -100,22 +106,23 @@ export default function AddCours(Props) {
   let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
    setprice(getPriceByCourse(offre, value)[thisclassroom[1]])
 
-
-   console.log("_________getPriceByCourse____________________ : ", 
-   getPriceByCourse(offre, value)[thisclassroom[1]])
   }
 
-  function handleInputChangeSerie(event, value) {
-    setserie(value);
+  function handleInputChangeTypeCours(event, value) {
+    setcourType(value);
    
   }
 
   const [textInput, setTextInput] = React.useState('');
+  const [textInputPrix, setTextInputPrix] = React.useState();
 
-  const handleTextInputChange = event => {
-      setTextInput(event.target.value);
+  const handleTextInputChangeTypeCours = event => {
+      setTextInputPrix(event.target.value);
   };
 
+  const handleTextInputChange = event => {
+    setTextInput(event.target.value);
+};
 
   const handleTextInputChangenclient = event => {
     setnclient(event.target.value);
@@ -192,9 +199,22 @@ export default function AddCours(Props) {
 
     let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
 
-    const prix = valuen * getPriceByCourse(offre, cours)[thisclassroom[1]];
+    let prix ;
+    if (coursType =="Cours package à domicile" || coursType == "Cours package à distance")
+    { prix = textInputPrix}
+    else {
+       prix = valuen * getPriceByCourse(offre, cours)[thisclassroom[1]];
+    }
+
+
+    const cours_type =  course_type.filter(element => element.course_type === coursType)[0].index;
     // offre.filter(element => element.cours === cours)
-    console.log("_______________________ log : prix", prix)
+    console.log("_______________________ course_type : ",cours_type
+   )
+
+   console.log("children.filter(element => element.firstname === selectedchildren)[0].serie   : ", 
+   children.filter(element => element.firstname === selectedchildren)[0].serie)
+ 
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
@@ -202,7 +222,7 @@ export default function AddCours(Props) {
       {
         booking_date : new Date(),
         classroom : children.filter(element => element.firstname === selectedchildren)[0].classroom,
-        kid : selectedchildren,
+        kid : selectedchildren + children.filter(element => element.firstname === selectedchildren)[0].classroom.lastname,
         client_uid : client_uid,
         course : cours,
         date : valueDateTile.toDate(),
@@ -212,14 +232,15 @@ export default function AddCours(Props) {
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
-        serie : serie,
+        serie : children.filter(element => element.firstname === selectedchildren)[0].serie,
         statut : 0,
         statut_date : new Date(),
         subject : textInput,
         num_client : nclient,
         userType : 1 ,
         by: user.email,
-        from: "website"
+        from: "website",
+        course_type : cours_type
     }
 
     )
@@ -243,7 +264,6 @@ export default function AddCours(Props) {
 
   };
 
-  console.log("--------------------------- children : " , children)
   return (
     <div>
 
@@ -267,24 +287,26 @@ export default function AddCours(Props) {
             }}
             noValidate
             autoComplete="off">
-      
-      
     </Box>
+ 
+   
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-
         </Typography>
-        <Grid xs={12}>
+        <div> 
+        <Grid xs={6}>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
           options={children.map((option) => option.firstname)}
           onInputChange={handleInputChangeSetSelectedChildern}
           sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="firstname" 
+          renderInput={(params) => <TextField {...params} label="enfant" 
           />}/>
         </Grid>
-        <br></br>
-        <Grid xs={12}>
+        
+        <br>
+        </br>
+        <Grid xs={6}>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -294,20 +316,9 @@ export default function AddCours(Props) {
           renderInput={(params) => <TextField {...params} label="course" 
           />}/>
         </Grid>
+        </div>
         <br></br>
-       
-        <Grid xs={12}>
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={[{serie: "C"}, {serie: "D"}, {serie: "A"}, {serie: "O"},{serie: " "}].map((option) => option.serie)}
-          onInputChange={handleInputChangeSerie}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="serie" 
-          />}/>
-        </Grid>
-
-        <br></br>
+     
         <Grid xs={12}>
           Prix (1h) : {price}
         </Grid>
@@ -326,6 +337,16 @@ export default function AddCours(Props) {
         </LocalizationProvider>
         </Grid>
         <br></br>
+        <Grid xs={12}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={course_type.map((option) => option.course_type)}
+          onInputChange={handleInputChangeTypeCours}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="courseType" 
+          />}/>
+        </Grid>
 
         
          <Grid xs={12}> 
@@ -338,6 +359,7 @@ export default function AddCours(Props) {
         name="controlled-radio-buttons-group"
         value={valuen}
         onChange={handleChange}
+        row
       >
         <FormControlLabel value = "1" control={<Radio />} label="1h" />
         <FormControlLabel value="2" control={<Radio />} label="2h" />
@@ -349,6 +371,27 @@ export default function AddCours(Props) {
        </Grid> 
        <br>
         </br>
+
+        { (coursType =="Cours package à domicile" || coursType == "Cours package à distance") &&
+        <Grid xs={12}>
+          <TextField
+        id="outlined-number"
+          label="Prix en MRU"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        
+        onChange= {handleTextInputChangeTypeCours}
+       
+      /></Grid>
+        
+        }
+         <br>
+        </br>
+        
+
+
 
         <Grid xs={12}><TextField
           
@@ -376,8 +419,10 @@ export default function AddCours(Props) {
           style = {{width: 300}}
         /></Grid>
         
-        <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button></Grid>
-        <Grid xs={6}> <Button onClick={closeModal} disabled={isDisabled}>close</Button></Grid> 
+        <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
+        
+        <Button onClick={closeModal} disabled={isDisabled}>close</Button></Grid>
+        <Grid xs={6}>    </Grid> 
 
         </Box>
          
