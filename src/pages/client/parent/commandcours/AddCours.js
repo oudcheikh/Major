@@ -19,7 +19,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 
 const style = {
   position: 'absolute',
@@ -54,6 +54,7 @@ function getPriceByCourse(courses, course) {
   return null;
 }
 
+dayjs.extend(advancedFormat);
 
 const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
 {course_type: "Cours package à domicile", index:2}, 
@@ -222,13 +223,13 @@ export default function AddCours(Props) {
       {
         booking_date : new Date(),
         classroom : children.filter(element => element.firstname === selectedchildren)[0].classroom,
-        kid : selectedchildren + children.filter(element => element.firstname === selectedchildren)[0].classroom.lastname,
+        kid : selectedchildren + children.filter(element => element.firstname === selectedchildren)[0].lastname,
         client_uid : client_uid,
         course : cours,
         date : valueDateTile.toDate(),
         duration : valuen,
         noted : false,
-        price : prix ,
+        price : Number(prix) ,
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
@@ -240,7 +241,7 @@ export default function AddCours(Props) {
         userType : 1 ,
         by: user.email,
         from: "website",
-        course_type : cours_type
+        type : cours_type
     }
 
     )
@@ -331,10 +332,15 @@ export default function AddCours(Props) {
             label="DateTimePicker"
             value={valueDateTile}
             onChange={(newValue) => {
-              setValue(newValue);
+              const dateWithSecondsZero = dayjs(newValue).set('second', 0);
+              console.log("dateWithSecondsZero ..................... : ", dateWithSecondsZero);
+              console.log("newValue ..................... : ", newValue.toDate());
+              setValue(dateWithSecondsZero);
             }}
           />
         </LocalizationProvider>
+
+        
         </Grid>
         <br></br>
         <Grid xs={12}>

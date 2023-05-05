@@ -19,10 +19,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import de from 'date-fns/locale/de';
 import enGB from 'date-fns/locale/en-GB';
 import zhCN from 'date-fns/locale/zh-CN';
 
+dayjs.extend(advancedFormat);
 
 const locales = { 'en-us': undefined, 'en-gb': enGB, 'zh-cn': zhCN, de };
 
@@ -284,10 +286,14 @@ export default function AddCours(Props) {
             label="DateTimePicker"
             value={valueDateTile}
             onChange={(newValue) => {
-              setValue(newValue);
+              const dateWithSecondsZero = dayjs(newValue).set('second', 0);
+              console.log("dateWithSecondsZero ..................... : ", dateWithSecondsZero);
+              console.log("newValue ..................... : ", newValue.toDate());
+              setValue(dateWithSecondsZero);
             }}
           />
         </LocalizationProvider>
+        
         </Grid>
         <br></br>
 
