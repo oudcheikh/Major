@@ -75,7 +75,7 @@ export default function AddCours(Props) {
   const [cours, setcours] = React.useState();
   const [children, setchildren] = React.useState([]);
   const [selectedchildren, setselectedchildrenchildren] = React.useState('');
-  const [coursType, setcourType] = React.useState("Cours individuel à distance");
+  const [coursType, setcourType] = React.useState("Cours individuel à domicile");
   const [offercours, setoffercours] = React.useState()
   const [valueDateTile, setValue] = React.useState(new Date());
   const handleOpen = () => setOpen(true);
@@ -204,7 +204,13 @@ export default function AddCours(Props) {
     if (coursType =="Cours package à domicile" || coursType == "Cours package à distance")
     { prix = textInputPrix}
     else {
-       prix = valuen * getPriceByCourse(offre, cours)[thisclassroom[1]];
+      if (valuen== 1) {
+        prix = 1.5 * getPriceByCourse(offre, cours)[thisclassroom[1]];
+      }
+      else {
+        prix = valuen * getPriceByCourse(offre, cours)[thisclassroom[1]];
+      }
+       
     }
 
 
@@ -223,7 +229,7 @@ export default function AddCours(Props) {
       {
         booking_date : new Date(),
         classroom : children.filter(element => element.firstname === selectedchildren)[0].classroom,
-        kid : selectedchildren + children.filter(element => element.firstname === selectedchildren)[0].lastname,
+        kid : selectedchildren + ' ' + children.filter(element => element.firstname === selectedchildren)[0].lastname,
         client_uid : client_uid,
         course : cours,
         date : valueDateTile.toDate(),
@@ -233,7 +239,7 @@ export default function AddCours(Props) {
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
-        serie : children.filter(element => element.firstname === selectedchildren)[0].serie,
+        serie : children.filter(element => element.firstname === selectedchildren)[0].serie ?  children.filter(element => element.firstname === selectedchildren)[0].serie:'',
         statut : 0,
         statut_date : new Date(),
         subject : textInput,

@@ -170,9 +170,15 @@ export default function AddCours(Props) {
     const offercours = await getDoc(AllCourses);
 
 
-    
+    let prix ;
+    if (valuen== 1) {
+      prix = 1.5 * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
+    }
+    else {
+      prix = valuen * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
+    }
 
-    const prix = valuen * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
+   
     // offre.filter(element => element.cours === cours)
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
