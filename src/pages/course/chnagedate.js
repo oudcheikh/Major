@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../firebase";
+import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db, functions } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import dayjs from 'dayjs';
@@ -12,7 +12,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { query, collection, addDoc, getDocs, getDoc, setDoc, deleteDoc, arrayUnion, arrayRemove, updateDoc, where, doc, onSnapshot } from "firebase/firestore";
-
+import { getFunctions, httpsCallable } from "firebase/functions";
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 
 const style = {
   position: 'absolute',
@@ -25,6 +26,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+dayjs.extend(advancedFormat);
 
 export default function UpdateCourseDateTime(Props) {
 
@@ -34,74 +36,128 @@ export default function UpdateCourseDateTime(Props) {
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
 
-  const [valueDateTile, setValue] = React.useState(new Date());
+  const [valueDateTile, setValue] = React.useState(new Date(Props.props.date.toString()));
+
+  const changeHour = httpsCallable(functions, 'adminChangeHoraire');
 
 
   const updateCours = async () => {
 
-    const current_cours = Props.coursToBeActivated;
-    const prof_uid = Props.props.client_uid ;
-    const profProfile = doc(db, "Users", prof_uid);
-    const profProfileSnap = await getDoc(profProfile);
+    //setIsDisabled(true);
 
-    if (profProfileSnap.exists()) {
-      console.log("``");
-    } else {
-      console.log("``");
-    }
-    
-    const docRef = doc(db, "Users", prof_uid, "Courses", Props.props.course_uid)
-
-    // const docRef = await updateDoc(querySnapshotCourses, {
-    //   statut: -4
-    // });
-
-    await updateDoc(docRef, {
-    
-        date : valueDateTile.toDate() ,
-      statut_date : new Date()
-   });
-
-
-   // Props.setdatecours(valueDateTile.toDate())
-
-   // await deleteDoc(doc(db, "In_Process", Props.props.course_uid));
+    const mycourseKey = Props.props.course_uid ;
+    const myclient_uid = Props.props.client_uid ;
 
    
-   const docinInProcess = doc(db, "In_Process",  Props.props.course_uid);
-   const docinInProcessSnap = await getDoc(docinInProcess);
+   var track = false ; 
 
-   if (docinInProcessSnap.exists()) {
 
-    await updateDoc(docinInProcess, {
+
+   function change_value(e) {
+    return true;
+}
+    setOpen(false);
     
-      course_date : valueDateTile.toDate() ,
-  
- });
-  } else {
-  }
+    changeHour({ courseKey: mycourseKey,  uid : myclient_uid, horaire :new Date(valueDateTile)})
+    .then((result) => {
+      // Read result of the Cloud Function.
+      /** @type {any} */
+      const data = result.data;
+      track = change_value(track);
+    }
+    );
+    
 
-
-  const querySnapshotTrackProcess = collection(db, "Users",prof_uid, "Courses", Props.props.course_uid, "TrackProcess")
-
+    
+  const querySnapshotTrackProcess = collection(db, "Users",myclient_uid, "Courses", mycourseKey, "TrackProcess")
   const docReef = await addDoc(querySnapshotTrackProcess, 
     
     {
 
       by: user.email,
-      old_date : Props.props.date,
       date : new Date(),
-      satus: "change_date", 
-      remarque : " ", 
+      satus: "Change Date", 
+  
     });
 
 
+  const docRef = doc(db, "Users",myclient_uid, "Courses", mycourseKey);
+  // updateDoc(docRef, {count_sent_notif : 1})
+
+    setOpen(false)
+
     navigate("/waitingcourse",)
-
-
-   setOpen(false)
+   
+   
+// setIsDisabled(false);
 
   };
+
+//   const updateCours = async () => {
+
+//     const current_cours = Props.coursToBeActivated;
+//     const prof_uid = Props.props.client_uid ;
+//     const profProfile = doc(db, "Users", prof_uid);
+//     const profProfileSnap = await getDoc(profProfile);
+
+//     if (profProfileSnap.exists()) {
+//       console.log("``");
+//     } else {
+//       console.log("``");
+//     }
+    
+//     const docRef = doc(db, "Users", prof_uid, "Courses", Props.props.course_uid)
+
+//     // const docRef = await updateDoc(querySnapshotCourses, {
+//     //   statut: -4
+//     // });
+
+//     await updateDoc(docRef, {
+    
+//         date : valueDateTile.toDate() ,
+//       statut_date : new Date()
+//    });
+
+
+//    // Props.setdatecours(valueDateTile.toDate())
+
+//    // await deleteDoc(doc(db, "In_Process", Props.props.course_uid));
+
+   
+//    const docinInProcess = doc(db, "In_Process",  Props.props.course_uid);
+//    const docinInProcessSnap = await getDoc(docinInProcess);
+
+//    if (docinInProcessSnap.exists()) {
+
+//     await updateDoc(docinInProcess, {
+    
+//       course_date : valueDateTile.toDate() ,
+  
+//  });
+//   } else {
+//   }
+
+
+//   const querySnapshotTrackProcess = collection(db, "Users",prof_uid, "Courses", Props.props.course_uid, "TrackProcess")
+
+//   const docReef = await addDoc(querySnapshotTrackProcess, 
+    
+//     {
+
+//       by: user.email,
+//       old_date : Props.props.date,
+//       date : new Date(),
+//       satus: "change_date", 
+//       remarque : " ", 
+//     });
+
+
+//     navigate("/waitingcourse",)
+
+
+//    setOpen(false)
+
+//   };
 
   useEffect(() => {
     
@@ -130,7 +186,8 @@ export default function UpdateCourseDateTime(Props) {
             label="DateTimePicker"
             value={valueDateTile}
             onChange={(newValue) => {
-              setValue(newValue);
+              const dateWithSecondsZero = dayjs(newValue).set('second', 0);
+              setValue(dateWithSecondsZero);
             }}
           />
         </LocalizationProvider>

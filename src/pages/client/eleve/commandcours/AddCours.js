@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../../../firebase";
+import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db,functions } from "../../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { query, collection, addDoc, getDocs, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, where, doc, onSnapshot } from "firebase/firestore";
 import Radio from '@mui/material/Radio';
@@ -62,7 +62,10 @@ function getPriceByCourse(courses, course) {
   return null;
 }
 
-
+const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
+{course_type: "Cours package à domicile", index:2}, 
+{course_type:"Cours individuel à distance", index:3}, 
+{course_type:"Cours package à distance", index:4}]
 
 
 export default function AddCours(Props) {
@@ -84,6 +87,7 @@ export default function AddCours(Props) {
   const formRef = React.useRef();
   let [isDisabled, setIsDisabled] = React.useState(false);
   const [valuen, setValuen] = React.useState(1);
+  const [coursType, setcourType] = React.useState("Cours individuel à domicile");
 
   const handleChange = (event) => {
     setValuen(event.target.value);
@@ -109,6 +113,11 @@ export default function AddCours(Props) {
   const handleTextInputChangenclient = event => {
     setnclient(event.target.value);
 };
+
+function handleInputChangeTypeCours(event, value) {
+  setcourType(value);
+ 
+}
 
   const fetchAllClient = async () => {
 
@@ -196,13 +205,14 @@ export default function AddCours(Props) {
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
-        serie : serie,
+        serie : profile.serie ? profile.serie:serie,
         statut : 0,
         statut_date : new Date(),
         subject : textInput,
         num_client : nclient,
         userType : 3 ,
         by: user.email,
+        tyoe: coursType,
         from: "website"
     }
 
@@ -302,6 +312,16 @@ export default function AddCours(Props) {
         
         </Grid>
         <br></br>
+        <Grid xs={12}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={course_type.map((option) => option.course_type)}
+          onInputChange={handleInputChangeTypeCours}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="courseType" 
+          />}/>
+        </Grid>
 
         
          <Grid xs={12}> 
@@ -314,6 +334,7 @@ export default function AddCours(Props) {
         name="controlled-radio-buttons-group"
         value={valuen}
         onChange={handleChange}
+        row
       >
         <FormControlLabel value = "1" control={<Radio />} label="1h" />
         <FormControlLabel value="2" control={<Radio />} label="2h" />
@@ -352,9 +373,9 @@ export default function AddCours(Props) {
           style = {{width: 300}}
         /></Grid>
         
-        <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button></Grid>
-        <Grid xs={6}> <Button onClick={closeModal} disabled={isDisabled}>close</Button></Grid> 
-
+        <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
+        <Button onClick={closeModal} disabled={isDisabled}>close</Button></Grid>
+        <Grid xs={6}>    </Grid> 
         </Box>
          
        

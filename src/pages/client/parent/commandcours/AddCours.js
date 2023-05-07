@@ -153,7 +153,6 @@ export default function AddCours(Props) {
   
     if (clientProfileSnap.exists()) {
       setProfile(clientProfileSnap.data());
-     //  let classroom = clientProfileSnap.data().classroom.split(" ");
     } else {
       console.log("``");
     }
@@ -165,10 +164,7 @@ export default function AddCours(Props) {
       console.log("``");
     }
 
-    // let classroom = clientProfileSnap.data().classroom.split(" ");    
-
-   // setoffre(offercours.data()[classroom[0]].filter(element => element.actif === true))
-  
+    
 
   };
 

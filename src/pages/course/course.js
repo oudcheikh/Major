@@ -234,7 +234,7 @@ const GoToProf = async () =>{
             }}
             >
      
-     {/* {state.data.statut == 0 && "Candidate" in  state.data && */}
+     {state.data.statut == 0 &&
      
      <Button 
         onClick={GoToProfDispo} 
@@ -244,7 +244,7 @@ const GoToProf = async () =>{
      Assigner un Prof parmis les candidat ( mode semi auto )
      </Button> 
      
-    //  }
+    }
     </Box>
 
 
@@ -294,7 +294,7 @@ const GoToProf = async () =>{
       }}
     >
       
-      {state.data.statut == 0 &&
+      {state.data.statut != 2  &&
       <UpdateCourseDateTime props = {state.data}/>
       }
 
