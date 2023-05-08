@@ -8,6 +8,8 @@ import Link from '@mui/material/Link'
 import Button from '@mui/material/Button';
 
 
+
+
 const formatCourUserType = (userType) => {
 
 
@@ -64,21 +66,27 @@ export default function AllStudents() {
 
     const myallClients = [];
     const myallClientssecode = [];
+    const myCollectionRef = collection(db, "Users");
 
-    const q = query(collection(db, "Users"), where("userType", "!=", 2));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
-      querySnapshot.forEach((doc) => {
-        myallClients.push(doc.data());
-        const element = doc.data();
-        element["uid"] = doc.id;
-        setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
-      }
-      );
-      setAlltClient(orderByCreatedAt(myallClientssecode))
-      
+const qd = query(myCollectionRef, where("userType", "in", [1,3]), orderBy("subscription_date","desc"));
 
-    })
+
+const querySnapshot = await getDocs(qd);
+
+
+querySnapshot.forEach((doc) => {
+
+  const element = doc.data();
+  element["uid"] = doc.id;
+  myallClients.push(element);
+  
+});
+
+
+setAlltClient(myallClients)
+
+  
   };
   
   const getRole = async ()=> {
@@ -154,7 +162,7 @@ export default function AllStudents() {
   return (
     <div style={{ height: 650, width: '100%' }}>
       <DataGrid
-        rows={allclientssecond}
+        rows={allclients}
         getRowId={(row) => row.uid}
         columns={columns}
         pageSize={10}

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { query, where, getDoc, doc,onSnapshot,collection} from "firebase/firestore";
+import { query, where, getDoc, doc,onSnapshot,collection,getDocs,orderBy} from "firebase/firestore";
 
 import Button from '@mui/material/Button';
 
@@ -93,21 +93,40 @@ export default function ListProf() {
     const myallClients = [];
     const myallClientssecode = [];
 
-    const q = query(collection(db, "Users"), where("userType", "==", 2));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    // const q = query(collection(db, "Users"), where("userType", "==", 2));
+    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
-      querySnapshot.forEach((doc) => {
-        myallClients.push(doc.data());
-        const element = doc.data();
-        element["uid"] = doc.id;
-        setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
+    //   querySnapshot.forEach((doc) => {
+    //     myallClients.push(doc.data());
+    //     const element = doc.data();
+    //     element["uid"] = doc.id;
+    //     setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
+    //   }
+    //   );
+    // })
 
-      }
-      );
-      
+const myCollectionRef = collection(db, "Users");
+const qd = query(myCollectionRef, where("userType", "in", [2]), orderBy("subscription_date","desc"));
 
-    })
+const querySnapshot = await getDocs(qd);
+
+
+querySnapshot.forEach((doc) => {
+
+  const element = doc.data();
+  element["uid"] = doc.id;
+  myallClients.push(element);
+  
+});
+
+
+setAlltClient(myallClients)
+
+
   };
+
+
+
   
   const getRole = async ()=> {
     const profProfile = doc(db, "Admin",  user["uid"]);
@@ -129,7 +148,7 @@ export default function ListProf() {
   return (
     <div style={{ height: 650, width: '100%' }}>
       <DataGrid
-        rows={orderByCreatedAt(allclientssecond)}
+        rows={allclients}
         getRowId={(row) => row.phone}
         columns={columns}
         pageSize={10}

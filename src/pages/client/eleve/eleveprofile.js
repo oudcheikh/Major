@@ -136,7 +136,8 @@ export default function StudentfProfile() {
   };
 
 
-
+console.log("eleve uid .......................... : ", state)
+console.log("profile uid .......................... : ", profile)
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>

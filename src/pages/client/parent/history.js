@@ -120,6 +120,12 @@ export default function CoursHistory(Props) {
           <Typography>
           noted : {item.noted}
           </Typography>
+          <Typography>
+          prof : {item.prof}
+          </Typography>
+          <Typography>
+          prof_number : {item.prof_number}
+          </Typography>
         </AccordionDetails>
       </Accordion>
       

@@ -62,7 +62,36 @@ export default function Course(Props) {
   };
 
 
+  const goToProfProfile = () => {
+    const uid = state.data.prof_uid ;
+    const data = '';
+    const phone = '';
+    navigate("/profProfile",
+      {
+        state: { phone, data, uid },
+      });
+  };
 
+
+  const goToUser = () => {
+    const uid = state.data.client_uid;
+    const userType = state.data.userType;
+    const data = state.data;
+    if (userType == 3) {
+    navigate("/user/profile/student",
+      {
+        state: {data, uid },
+      }
+      
+      );
+    }
+      else {
+        navigate("/user/profile/parent",
+      {
+        state: {data, uid },
+      });
+      }
+  };
 
   // Créer une instance de Date
 const date = new Date();
@@ -76,8 +105,6 @@ const nanoseconds = (timestampInMillis % 1000) * 1000000;
 
 // Créer l'objet JSON avec les propriétés "seconds" et "nanoseconds"
 const jsonObject = { seconds, nanoseconds };
-
-
 
 // Convertir les objets JSON en objets Date
 const cours_date = new Date(state.data.date.seconds * 1000 + state.data.date.nanoseconds / 1000000);
@@ -135,7 +162,7 @@ const GoToProf = async () =>{
     
   };
 
-  
+  console.log("---------------------- state.data : ", state.data)
   return (
     <Box sx={{
       padding: 20,
@@ -163,8 +190,17 @@ const GoToProf = async () =>{
           <li>Numero client : {profile.phone}</li>
           <li>Adresse : {profile.adress}</li>
           <li>Quartier  : {profile.quartier}</li>
+          <Button 
+            onClick={goToUser} 
+            sx={{ color: 'yellow', 
+            backgroundColor: 'blue', 
+            borderColor: 'green' }}  > 
+            Go to Client
+          </Button> 
        
       </ul>
+
+      
 
 
       <ul>
@@ -190,7 +226,18 @@ const GoToProf = async () =>{
       <li>prof : {state.data.prof}</li>
       <li>prof_number : {state.data.prof_number}</li>
       </ul>
+          }
 
+{state.data.statut > 0 &&
+      <ul> 
+      <Button 
+        onClick={goToProfProfile} 
+        sx={{ color: 'yellow', 
+        backgroundColor: 'blue', 
+        borderColor: 'green' }}  > 
+     Go to Prof
+     </Button> 
+      </ul>
           }
       
       <Grid container spacing={2}>
