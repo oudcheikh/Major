@@ -104,6 +104,11 @@ export default function AddCours(Props) {
   }
 
   const [textInput, setTextInput] = React.useState('');
+  const [textInputPrix, setTextInputPrix] = React.useState();
+
+  const handleTextInputChangeTypeCours = event => {
+      setTextInputPrix(event.target.value);
+  };
 
   const handleTextInputChange = event => {
       setTextInput(event.target.value);
@@ -180,12 +185,16 @@ function handleInputChangeTypeCours(event, value) {
 
 
     let prix ;
+    if (coursType =="Cours package à domicile" || coursType == "Cours package à distance")
+    { prix = textInputPrix}
+    else {
     if (valuen== 1) {
       prix = 1.5 * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
     }
     else {
       prix = valuen * getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]];
     }
+  }
 
    
     // offre.filter(element => element.cours === cours)
@@ -201,7 +210,7 @@ function handleInputChangeTypeCours(event, value) {
         date : valueDateTile.toDate(),
         duration : valuen,
         noted : false,
-        price : prix ,
+        price : Number(prix) ,
         prof : ""  ,
         prof_number : "",
         prof_uid :"",
@@ -345,6 +354,24 @@ function handleInputChangeTypeCours(event, value) {
     </div>
        </Grid> 
        <br>
+        </br>
+
+        { (coursType =="Cours package à domicile" || coursType == "Cours package à distance") &&
+        <Grid xs={12}>
+          <TextField
+        id="outlined-number"
+          label="Prix en MRU"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        
+        onChange= {handleTextInputChangeTypeCours}
+       
+      /></Grid>
+        
+        }
+         <br>
         </br>
 
         <Grid xs={12}><TextField

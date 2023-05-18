@@ -212,12 +212,8 @@ export default function AddCours(Props) {
 
     const cours_type =  course_type.filter(element => element.course_type === coursType)[0].index;
     // offre.filter(element => element.cours === cours)
-    console.log("_______________________ course_type : ",cours_type
-   )
+   
 
-   console.log("children.filter(element => element.firstname === selectedchildren)[0].serie   : ", 
-   children.filter(element => element.firstname === selectedchildren)[0].serie)
- 
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
