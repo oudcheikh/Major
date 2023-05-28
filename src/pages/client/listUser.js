@@ -69,24 +69,14 @@ export default function AllStudents() {
     const myCollectionRef = collection(db, "Users");
 
 
-const qd = query(myCollectionRef, where("userType", "in", [1,3]), orderBy("subscription_date","desc"));
-
-
-const querySnapshot = await getDocs(qd);
-
-
-querySnapshot.forEach((doc) => {
-
-  const element = doc.data();
-  element["uid"] = doc.id;
-  myallClients.push(element);
-  
-});
-
-
-setAlltClient(myallClients)
-
-  
+    const qd = query(myCollectionRef, where("userType", "in", [1,3]), orderBy("subscription_date","desc"));
+    const querySnapshot = await getDocs(qd);
+    querySnapshot.forEach((doc) => {
+      const element = doc.data();
+      element["uid"] = doc.id;
+      myallClients.push(element); 
+    });
+    setAlltClient(myallClients)
   };
   
   const getRole = async ()=> {

@@ -23,23 +23,15 @@ const formattedDate = (d) => {
 
 
 export default function NotesHistory(Props) {
-
-  
- 
-  
   return (
-
-
-    
     <div>
-
 {Props.notes.map((item) =>   <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography> Chapitre : {item.chapitre} | Note Globale : {item.note_globale} </Typography>
+          <Typography> Chapitre : {item.chapitre} | Note Globale : {item.note_globale} | Date : {formattedDate(item.date.toDate())} </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -52,19 +44,17 @@ export default function NotesHistory(Props) {
           environment : {item.environment} 
           </Typography>
           <Typography>
-          ponctualite : {item.ponctualite} 
+          ponctualite : {item.ponctualite}   
           </Typography>
-
           <Typography>
-          date : {formattedDate(item.course_date.toDate())} 
+          remarque : {item.remarque}   
           </Typography>
-          
+          <Typography>
+           date du course : {formattedDate(item.course_date.toDate())} 
+          </Typography>
         </AccordionDetails>
       </Accordion>
       )}
-    
-
-      
     </div>
   );
 }

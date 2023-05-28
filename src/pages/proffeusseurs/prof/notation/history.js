@@ -115,6 +115,12 @@ export default function NotationHistory(Props) {
             Donné par  : {item.by}
           </Typography>
           <Typography>
+          num_client  : {item.num_client ? item.num_client : " "} 
+          </Typography>
+          <Typography>
+          remarque : {item.remarque}   
+          </Typography>
+          <Typography>
           course_date  : {formattedDate(item.course_date.toDate())}
           </Typography>
         </AccordionDetails> 

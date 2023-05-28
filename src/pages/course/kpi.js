@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid';
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot, query, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
@@ -21,20 +21,34 @@ const Chart = () => {
     const myallClients = [];
     const myallClientssecode = [];
 
-    const q = query(collection(db, "KPI"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    // const q = query(collection(db, "KPI"));
+    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
-      querySnapshot.forEach((doc) => {
-        myallClients.push(doc.data());
-        const element = doc.data();
-        element["uid"] = doc.id;
-        setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
-      }
-      );
-      setAlltClient(myallClientssecode)
-      
+    //   querySnapshot.forEach((doc) => {
+    //     myallClients.push(doc.data());
+    //     const element = doc.data();
+    //     element["uid"] = doc.id;
+    //     setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
+    //   }
+    //   );
+    //   setAlltClient(myallClientssecode)
+    // })
 
-    })
+    const myCollectionRef = collection(db, "KPI");
+
+
+    const qd = query(myCollectionRef);
+    const querySnapshot = await getDocs(qd);
+    querySnapshot.forEach((doc) => {
+      const element = doc.data();
+      element["uid"] = doc.id;
+      myallClients.push(element); 
+     
+    });
+    setAlltClient(myallClients)
+    console.log("_______________________ myallClients : ", myallClients)
+
+
   };
 
   useEffect(() => {
@@ -46,24 +60,17 @@ const Chart = () => {
     fetchAllClient();
   }, []);
 
-  console.log("_______________________ kpi : ", allclientssecond)
+  // console.log("_______________________ kpi : ", allclientssecond)
 
   return (
-    // <LineChart width={600} height={300} data={data}>
-    //   <XAxis dataKey="uid" />
-    //   <YAxis />
-    //   <CartesianGrid strokeDasharray="3 3" />
-    //   <Tooltip />
-    //   <Legend />
-    //   <Line type="monotone" dataKey="ProfInscrit" stroke="#8884d8" activeDot={{ r: 8 }} />
-    // </LineChart>
+
 
     <div>
     <Grid sx={6}> 
         <ComposedChart
           width={1500}
           height={600}
-          data={allclientssecond}
+          data={allclients}
           margin={{
             top: 20,
             right: 20,
@@ -91,7 +98,7 @@ const Chart = () => {
 <ComposedChart
           width={1500}
           height={600}
-          data={allclientssecond}
+          data={allclients}
           margin={{
             top: 20,
             right: 20,
@@ -125,7 +132,7 @@ const Chart = () => {
 <ComposedChart
           width={1500}
           height={600}
-          data={allclientssecond}
+          data={allclients}
           margin={{
             top: 20,
             right: 20,
@@ -150,7 +157,7 @@ const Chart = () => {
 <BarChart
   width={1500}
   height={500}
-  data={allclientssecond}
+  data={allclients}
   margin={{
     top: 20,
     right: 30,
