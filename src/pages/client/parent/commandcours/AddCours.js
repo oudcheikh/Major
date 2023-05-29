@@ -183,6 +183,15 @@ export default function AddCours(Props) {
 
   const updateCours = async () => {
 
+    if (nclient.trim() === '') {
+      // Le champ "Numéro_client" est vide, affichez un message d'erreur ou effectuez l'action appropriée
+      
+      window.alert("Le champ 'Numéro_client' est obligatoire");
+      return;
+    }
+
+    else {
+
 
 
     setIsDisabled(true)
@@ -241,6 +250,7 @@ export default function AddCours(Props) {
         from: "website",
         type : cours_type
     }
+    
 
     )
     ;
@@ -260,7 +270,7 @@ export default function AddCours(Props) {
 
    setIsDisabled(false);
    
-
+  }
   };
 
   return (
@@ -421,6 +431,7 @@ export default function AddCours(Props) {
           onChange= {handleTextInputChangenclient}
           inputProps={{ maxLength: 64 }}
           style = {{width: 300}}
+          required
         /></Grid>
         
         <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>

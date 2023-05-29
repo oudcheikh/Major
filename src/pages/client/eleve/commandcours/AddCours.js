@@ -53,6 +53,8 @@ const style = {
   },
 };
 
+
+
 function getPriceByCourse(courses, course) {
   for (let i = 0; i < courses.length; i++) {
     if (courses[i].course === course) {
@@ -172,7 +174,16 @@ function handleInputChangeTypeCours(event, value) {
 
   const updateCours = async () => {
 
+    if (nclient.trim() === '') {
+      // Le champ "Numéro_client" est vide, affichez un message d'erreur ou effectuez l'action appropriée
+      
+      window.alert("Le champ 'Numéro_client' est obligatoire");
+      return;
+    }
 
+    else {
+
+    
 
     setIsDisabled(true)
     
@@ -242,7 +253,7 @@ function handleInputChangeTypeCours(event, value) {
    });
 
    setIsDisabled(false);
-   
+  }
 
   };
 
@@ -398,6 +409,7 @@ function handleInputChangeTypeCours(event, value) {
           onChange= {handleTextInputChangenclient}
           inputProps={{ maxLength: 64 }}
           style = {{width: 300}}
+          required
         /></Grid>
         
         <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>

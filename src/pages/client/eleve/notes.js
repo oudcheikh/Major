@@ -46,6 +46,11 @@ export default function NotesHistory(Props) {
           <Typography>
           remarque : {item.remarque}   
           </Typography>
+
+          <Typography>
+          num_client  : {item.num_client ? item.num_client : " "} 
+          </Typography>
+          
           <Typography>
            date du course : {formattedDate(item.course_date.toDate())} 
           </Typography>
