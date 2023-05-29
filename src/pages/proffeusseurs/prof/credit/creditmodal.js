@@ -49,6 +49,16 @@ const raisontatus = (raison) => {
   {
     return 5
   }
+
+  if (raison == "Retrait de frais pour cours assuré")
+  {
+    return 6
+  }
+
+  if (raison == "Récupération du crédit par le professeur")
+  {
+    return 7
+  }
   else{
     return " "
   }
@@ -152,6 +162,9 @@ export default function CreditModal(Props) {
             <FormControlLabel value="Remboursement après promotion pour le client" control={<Radio />} label="Remboursement après promotion pour le client" />
             <FormControlLabel value="Crédit donné par Major aux professeurs pour cadeau ou motivation" control={<Radio />} label="Crédit donné par Major aux professeurs pour cadeau ou motivation" />
             <FormControlLabel value="Dédommagement exptionnel" control={<Radio />} label="Dédommagement exptionnel" />
+            <FormControlLabel value="Récupération du crédit par le professeur" control={<Radio />} label="Récupération du crédit par le professeur" />
+            <FormControlLabel value="Retrait de frais pour cours assuré" control={<Radio />} label="Retrait de frais pour cours assuré" />
+            
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 
           </Typography>

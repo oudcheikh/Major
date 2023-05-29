@@ -38,6 +38,15 @@ const raisontxt = (raison) => {
   {
     return "Dédommagement exptionnel" 
   }
+  if (raison == 6)
+  {
+    return "Retrait de frais pour cours assuré"
+  }
+
+  if (raison == 7)
+  {
+    return "Récupération du crédit par le professeur"
+  }
   else{
     return " "
   }
@@ -95,7 +104,7 @@ export default function CreditHistory(Props) {
     
   }, []);
 
-  
+  console.log("----------------------- credits : ", credits)
   return (
     <div>
 
