@@ -232,7 +232,7 @@ function handleInputChangeTypeCours(event, value) {
         num_client : nclient,
         userType : 3 ,
         by: user.email,
-        tyoe: coursType,
+        type: coursType,
         from: "website"
     }
 
