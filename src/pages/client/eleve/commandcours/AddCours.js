@@ -67,7 +67,9 @@ function getPriceByCourse(courses, course) {
 const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
 {course_type: "Cours package à domicile", index:2}, 
 {course_type:"Cours individuel à distance", index:3}, 
-{course_type:"Cours package à distance", index:4}]
+{course_type:"Cours package à distance", index:4},
+{course_type:"Cours chez Major", index:5}
+]
 
 
 export default function AddCours(Props) {
@@ -110,6 +112,11 @@ export default function AddCours(Props) {
 
   const handleTextInputChangeTypeCours = event => {
       setTextInputPrix(event.target.value);
+      setprice(event.target.value)
+
+      if (event.target.value.trim() === '') {
+        setprice(getPriceByCourse(offre, cours)[profile.classroom.split(" ")[1]])
+      }
   };
 
   const handleTextInputChange = event => {
@@ -207,11 +214,15 @@ function handleInputChangeTypeCours(event, value) {
     }
   }
 
-   
+  const cours_type =  course_type.filter(element => element.course_type === coursType)[0].index;
+
     // offre.filter(element => element.cours === cours)
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
+    console.log("cours_typecours_typecours_typecours_typecours_type : ", cours_type)
+
+
     const docRef = await addDoc(querySnapshotCredit, 
       {
         booking_date : new Date(),
@@ -232,7 +243,7 @@ function handleInputChangeTypeCours(event, value) {
         num_client : nclient,
         userType : 3 ,
         by: user.email,
-        type: coursType,
+        type: cours_type,
         from: "website"
     }
 
@@ -323,8 +334,6 @@ function handleInputChangeTypeCours(event, value) {
             value={valueDateTile}
             onChange={(newValue) => {
               const dateWithSecondsZero = dayjs(newValue).set('second', 0);
-              console.log("dateWithSecondsZero ..................... : ", dateWithSecondsZero);
-              console.log("newValue ..................... : ", newValue.toDate());
               setValue(dateWithSecondsZero);
             }}
           />
@@ -367,7 +376,8 @@ function handleInputChangeTypeCours(event, value) {
        <br>
         </br>
 
-        { (coursType =="Cours package à domicile" || coursType == "Cours package à distance") &&
+        {/* { (coursType =="Cours package à domicile" || coursType == "Cours package à distance") && */}
+        
         <Grid xs={12}>
           <TextField
         id="outlined-number"
@@ -381,7 +391,8 @@ function handleInputChangeTypeCours(event, value) {
        
       /></Grid>
         
-        }
+       
+         
          <br>
         </br>
 

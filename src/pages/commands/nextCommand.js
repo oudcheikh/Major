@@ -61,13 +61,7 @@ export default function NextCommand(Props) {
     fetchAllClient();
   }, [user, loading]);
 
-
-
-
-
   return (
-
-
 
     <div>
 

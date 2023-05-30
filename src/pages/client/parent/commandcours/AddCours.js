@@ -59,7 +59,8 @@ dayjs.extend(advancedFormat);
 const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
 {course_type: "Cours package à domicile", index:2}, 
 {course_type:"Cours individuel à distance", index:3}, 
-{course_type:"Cours package à distance", index:4}]
+{course_type:"Cours package à distance", index:4},
+{course_type:"Cours chez Major", index:5}]
 
 
 
@@ -119,6 +120,12 @@ export default function AddCours(Props) {
 
   const handleTextInputChangeTypeCours = event => {
       setTextInputPrix(event.target.value);
+      setprice(event.target.value)
+      if (event.target.value.trim() === '') {
+    
+        let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
+        setprice(getPriceByCourse(offre, cours)[thisclassroom[1]])
+      }
   };
 
   const handleTextInputChange = event => {
@@ -221,6 +228,9 @@ export default function AddCours(Props) {
 
     const cours_type =  course_type.filter(element => element.course_type === coursType)[0].index;
     // offre.filter(element => element.cours === cours)
+
+
+    console.log("cours_typecours_typecours_typecours_typecours_type : ", cours_type)
    
 
 
@@ -386,8 +396,8 @@ export default function AddCours(Props) {
        <br>
         </br>
 
-        { (coursType =="Cours package à domicile" || coursType == "Cours package à distance") &&
-        <Grid xs={12}>
+       
+       <Grid xs={12}>
           <TextField
         id="outlined-number"
           label="Prix en MRU"
@@ -400,7 +410,7 @@ export default function AddCours(Props) {
        
       /></Grid>
         
-        }
+       
          <br>
         </br>
         
