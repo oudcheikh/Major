@@ -23,7 +23,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // const notify = () => toast('Here is your toast.');
 
-const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "allcanceledcours","profs", "clients", "kpi"];
+const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "ancienscours","allcanceledcours","profs", "clients", "kpi"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
