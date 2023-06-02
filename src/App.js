@@ -21,7 +21,7 @@ import ProfDispo from "./pages/course/prscourse";
 import ProfDispoCandidate from "./pages/course/prscourseCandidate";
 import NextCommand from "./pages/commands/nextCommand";
 import CanceledCours from "./pages/course/allcanceledcours";
-
+import AnciensCours from "./pages/course/ancienCoure";
 
 
 function App() {
@@ -39,6 +39,7 @@ function App() {
           <Route exact path="/clients" element={<AllStudents />}/>
           <Route exact path="/profProfile" element={<ProfProfile/>}/>
           <Route exact path="/commands" element={<NextCommand/>}/>
+          <Route exact path="/ancienscours" element={<AnciensCours/>}/>
           <Route exact path="/allcanceledcours" element={<CanceledCours/>}/>
           <Route exact path="/profProfile/credit" element={<Credit/> }/>
           <Route exact path="/user/profile/student" element={<StudentfProfile /> } />

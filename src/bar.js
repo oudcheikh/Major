@@ -79,6 +79,10 @@ const ResponsiveAppBar = () => {
     navigate("/todaycourscomfirme")
   }
 
+  const goToAncienCours = () => {
+
+    navigate("/ancienscours")
+  }
 
   const goToAllCoursCanceled = () => {
 
@@ -224,6 +228,13 @@ const ResponsiveAppBar = () => {
             sx={{ my: 2, color: 'white', display: 'block' }}>   
             Cours Aujourd'hui
           </Button> 
+
+          <Button 
+            onClick={goToAncienCours}
+            sx={{ my: 2, color: 'white', display: 'block' }}>   
+            Anciens cours
+          </Button> 
+
 
 
           <Button 
