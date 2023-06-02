@@ -93,11 +93,25 @@ export default function AnciensCours() {
   const fetchAllClient = async () => {
 
 
+    // set tomorrow's date
+    // const tomorrow = new Date(today);
+    // tomorrow.setDate(tomorrow.getDate() - 3);
+    // const avant = Timestamp.fromDate(tomorrow);
+
+
+
+
     const timeObj = Timestamp.fromDate(new Date());
+
+    let currentDate = new Date(); // Création d'un objet Date pour la date actuelle
+currentDate.setDate(currentDate.getDate() - 5); // Définition de la date à trois jours avant la date actuelle
+let avanthier = Timestamp.fromDate(currentDate); // Création d'un Timestamp Firebase à partir de cette date
+
     const allCourses = [];
     const courses = await query(collectionGroup(db, 'Courses'), where('statut', '==' ,1),
     where('userType', 'in', [1, 3])
-    , where('date', '<', timeObj ) );
+    , where('date', '<', timeObj )
+    , where('date', '>', avanthier ) );
     const querySnapshot = await getDocs(courses);
     // setMycourses(allCourses)
     let id = 0;
