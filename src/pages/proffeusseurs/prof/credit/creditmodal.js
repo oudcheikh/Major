@@ -103,10 +103,11 @@ export default function CreditModal(Props) {
     const docRef = await addDoc(querySnapshotCredit, 
       
       {
-      added_value: Props.credit_value,
+      added_value: parseInt(Props.credit_value),
       by: "Admin",
       email : user.email,
       old_credit: profProfileSnap.data().credit,
+      prof_phone : profProfileSnap.data().phone,
       created_at : new Date(),
       operation : "old_credit : " + profProfileSnap.data().credit + "  udpate_value : " + Props.credit_value, 
       raison : raisontatus(value),

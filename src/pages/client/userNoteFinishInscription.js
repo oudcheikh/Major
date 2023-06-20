@@ -44,7 +44,7 @@ const formattedDate = (d) => {
   return `${day}/${month}/${year}-${hour}h${minutes}`;
 };
 
-export default function AllStudents() {
+export default function NotFinishInscription() {
 
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -67,10 +67,10 @@ export default function AllStudents() {
 
     const myallClients = [];
     const myallClientssecode = [];
-    const myCollectionRef = collection(db, "Users");
+    const myCollectionRef = collection(db, "UsersNotCompleted");
 
 
-    const qd = query(myCollectionRef, where("userType", "in", [1,3]), orderBy("subscription_date","desc"));
+    const qd = query(myCollectionRef,  orderBy("subscription_date","desc"));
     const querySnapshot = await getDocs(qd);
     querySnapshot.forEach((doc) => {
       const element = doc.data();
@@ -117,35 +117,31 @@ export default function AllStudents() {
   const columns = [
   
 
-    { field: 'firstname', headerName: 'First name', width: 130 },
-    { field: 'lastname', headerName: 'lastname', width: 130 },
     { field: 'phone', headerName: 'phone', width: 130 },
-    { field: 'userType', headerName: 'userType', width: 130 },
-    { field: 'quartier', headerName: 'quartier', width: 130 },
     { field: 'subscription_date', headerName: 'subscription_date',
     
     valueFormatter: (params) => formattedDate(params.value.toDate()) ,
     width: 200 },
   
-    {
+    // {
      
-      field: "id",
-      headerName: 'user',
-      renderCell: (cellValues) => {
-        return (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={(event) => {
+    //   field: "id",
+    //   headerName: 'user',
+    //   renderCell: (cellValues) => {
+    //     return (
+    //       <Button
+    //         variant="contained"
+    //         color="primary"
+    //         onClick={(event) => {
              
-              goToUser(cellValues.row, cellValues.row.uid)
-            }}
-          >
-            Detaille
-          </Button>
-        );
-      }
-    }
+    //           goToUser(cellValues.row, cellValues.row.uid)
+    //         }}
+    //       >
+    //         Detaille
+    //       </Button>
+    //     );
+    //   }
+    // }
   ];
 
 
@@ -153,9 +149,7 @@ export default function AllStudents() {
   return (
     <div style={{ height: 650, width: '100%' }}>
       <br></br>
-      <br></br>
-      <AddCount/>
-      <br></br>
+    
       <DataGrid
         rows={allclients}
         getRowId={(row) => row.uid}

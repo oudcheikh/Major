@@ -22,6 +22,7 @@ import ProfDispoCandidate from "./pages/course/prscourseCandidate";
 import NextCommand from "./pages/commands/nextCommand";
 import CanceledCours from "./pages/course/allcanceledcours";
 import AnciensCours from "./pages/course/ancienCoure";
+import NotFinishInscription from "./pages/client/userNoteFinishInscription"
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route exact path="/waitingcourse" element={<WaitingCourse />}/>
           <Route exact path="/profs" element={<ListProf />}/>
           <Route exact path="/clients" element={<AllStudents />}/>
+          <Route exact path="/Inscritnotcomplet" element={<NotFinishInscription />}/>
           <Route exact path="/profProfile" element={<ProfProfile/>}/>
           <Route exact path="/commands" element={<NextCommand/>}/>
           <Route exact path="/ancienscours" element={<AnciensCours/>}/>

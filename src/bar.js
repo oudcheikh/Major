@@ -23,8 +23,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // const notify = () => toast('Here is your toast.');
 
-const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "ancienscours","allcanceledcours","profs", "clients", "kpi"];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "ancienscours","allcanceledcours","profs", "clients",'InscritNotComplet', "kpi"];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout', ];
 
 const ResponsiveAppBar = () => {
 
@@ -93,6 +93,12 @@ const ResponsiveAppBar = () => {
 
     navigate("/todaycours")
   }
+
+  // InscritNotComplet
+  const goToInscritNotComplet = () => {
+    navigate("/Inscritnotcomplet")
+  }
+  
 
   const goTokpi = () => {
 
@@ -247,7 +253,7 @@ const ResponsiveAppBar = () => {
           <Button 
             onClick={goToProfs}
             sx={{ my: 2, color: 'white', display: 'block' }}>
-            Professeurs
+            Profs
           </Button>
 
             <Button 
@@ -257,12 +263,12 @@ const ResponsiveAppBar = () => {
                 Clients
               </Button>
 
-              {/* <Button 
-               onClick={goToCommandes}
+             <Button 
+               onClick={goToInscritNotComplet}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                Commandes
-              </Button> */}
+               Inscrit NotComplet
+              </Button> 
           </Box>
 
           <MenuItem>

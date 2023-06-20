@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import TermineCours from './adminTerminecours'
 import Typography from '@mui/material/Typography';
 import { query, collection, getDocs, getDoc, where, doc, onSnapshot } from "firebase/firestore";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -96,6 +97,13 @@ export default function Course(Props) {
   // Créer une instance de Date
 const date = new Date();
 
+let beforfiredays = new Date(); // Création d'un objet Date pour la date actuelle
+beforfiredays.setDate(beforfiredays.getDate() - 5); 
+
+const beforfiredaystimestampInMillis = beforfiredays.getTime();
+const bfseconds = Math.floor(beforfiredaystimestampInMillis / 1000);
+const bfnanoseconds = (beforfiredaystimestampInMillis % 1000) * 1000000;
+
 // Extraire le timestamp Unix en millisecondes de la date
 const timestampInMillis = date.getTime();
 
@@ -109,6 +117,9 @@ const jsonObject = { seconds, nanoseconds };
 // Convertir les objets JSON en objets Date
 const cours_date = new Date(state.data.date.seconds * 1000 + state.data.date.nanoseconds / 1000000);
 const newdate = new Date(jsonObject.seconds * 1000 + jsonObject.nanoseconds / 1000000);
+
+const bfjsonObject = { bfseconds, bfnanoseconds };
+const bfdate = new Date(bfjsonObject.bfseconds * 1000 + bfjsonObject.bfnanoseconds / 1000000);
 
 
     const fetchAllClient = async () => {
@@ -388,8 +399,20 @@ const GoToProf = async () =>{
       </Box>
     </Grid>
 
-    
-    
+    <Grid  xs={12}>
+    <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+      }}
+    >
+      { (cours_date  < newdate) && state.data.statut == 1  &&
+      <TermineCours props = {state.data}/>}       
+      </Box>
+    </Grid>
     </Box>
     );
   }

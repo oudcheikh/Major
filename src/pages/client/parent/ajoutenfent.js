@@ -1,38 +1,128 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import AddModal from "./addenfentmodal"
-import { query, collection, getDocs, getDoc, where, doc, onSnapshot } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, db } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-const currencies = [
-  {
-    value: 'MRU',
-    label: '฿',
-  },
-];
+import Autocomplete from '@mui/material/Autocomplete';
+import { Grid } from '@mui/material';
+
+
 
 export default function AjouterEnfent() {
   
   
   const [user, loading, error] = useAuthState(auth);
-  const [currency, setCurrency] = React.useState('EUR');
-  const [firstname, setFirstname] = React.useState();
-  const [lastname, setLastname] = React.useState();
-  const [school, setSchool] = React.useState();
-  const [birthdate, setBirthdate] = React.useState();
-  const [classroom, setClassroom] = React.useState();
+
+  const [nom, setnom] = React.useState('');
+  const [prenom, setprenom] = React.useState('');
+
+  const [school, setschool] = React.useState('');
+  const [serie, setserie] = React.useState('');
+  const [classroom, setClassroom] = React.useState([]);
+  const [selectedClasrom, setselectedClasrom] = React.useState('');
 
 
   const { state } = useLocation();
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
+  const navigate = useNavigate();
+  let [isDisabled, setIsDisabled] = React.useState(false);
+
+
+  const handlenom = event => {
+    setnom(event.target.value);
+};
+
+const handleprenom = event => {
+  setprenom(event.target.value);
+};
+
+const handlesecole = event => {
+  setschool(event.target.value);
+};
+
+  function selectSelectedClassroom(event, value) {
+    
+    setselectedClasrom(value) 
+    
+ 
+  }
+  function handleInputChangeSerie(event, value) {
+    setserie(value);
+   
+  }
+
+
+
+  const fetchAllClient = async () => {
+
+    const docRef = doc(db, 'Classroom', 'français'); // Remplacez 'collectionName' et 'documentId' par vos valeurs
+  
+    const docSnap = await getDoc(docRef);
+  
+    if (docSnap.exists()) {
+  
+      setClassroom(docSnap.data().classroom)
+  
+    } else {
+      // doc.data() sera 'undefined' dans ce cas
+      console.log("No such document!");
+    }
+  
+
+      
+    };
+  
+    React.useEffect(() => {
+  
+    
+      if (loading) return;
+      if (!user) return navigate("/");
+  
+      fetchAllClient();
+    }, []);
+
+ 
+
+  const updateCours = async () => {
+
+    
+
+    setIsDisabled(true)
+
+ 
+
+
+    const newChildren = collection(db, "Users", state.uid, "Children")
+    const docRef = await addDoc(newChildren, 
+      {
+
+        classroom:selectedClasrom,
+        firstname:prenom,
+        lastname:nom,
+        school:school ,
+        serie:serie,
+        birthdate : new Date('01/01/2000')
+
+      }
+    )
+
+    const phone = ""
+   const data = ""
+   const uid = state.uid
+   
+   navigate("/user/profile/parent",
+   {
+     state: { uid },
+   });
+
+   setIsDisabled(false);
+
+
+
   };
-
-
   return (
 
 <div>
@@ -46,8 +136,11 @@ export default function AjouterEnfent() {
         borderRadius: 1,
       }}
     >
-      Ajouter un enfents
+      Ajouter un enfent
     </Box>
+    
+    <br></br>
+        
     <Box
     sx={{
         display: 'flex',
@@ -56,19 +149,20 @@ export default function AjouterEnfent() {
         m: 1,
         bgcolor: 'background.paper',
         borderRadius: 1,
-      }}
-    >
+      }}>
+        <Grid xs={12}>  
+      
       <TextField
-          id="outlined-number"
-          label="firstname"
-          type="text"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={firstname} onChange={(e) => setFirstname(e.target.value)} 
+      label="nom"
+        defaultValue=" "
+        onChange= {handlenom}
+        inputProps={{ maxLength: 64 }}
+        style = {{width: 300}}
         />
-    </Box>
-    <Box
+        </Grid>
+        </Box>
+        <br></br>
+        <Box
     sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -76,20 +170,21 @@ export default function AjouterEnfent() {
         m: 1,
         bgcolor: 'background.paper',
         borderRadius: 1,
-      }}
-    >
+      }}>
+        <Grid xs={12}>  
       <TextField
-          id="outlined-number"
-          label="lastname"
-          type="text"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={lastname} onChange={(e) => setLastname(e.target.value)} 
+          label="prenom"
+          
+          defaultValue=" "
+          onChange= {handleprenom}
+          inputProps={{ maxLength: 64 }}
+          style = {{width: 300}}
+          
         />
-    </Box>
-
-    <Box
+        </Grid>
+        </Box>
+        <br></br>
+        <Box
     sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -97,57 +192,50 @@ export default function AjouterEnfent() {
         m: 1,
         bgcolor: 'background.paper',
         borderRadius: 1,
-      }}
-    >
+      }}>
+        <Grid xs={12}>  
       <TextField
-          id="outlined-number"
           label="school"
-          type="text"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={school} onChange={(e) => setSchool(e.target.value)} 
+          defaultValue=" "
+          onChange= {handlesecole}
+          inputProps={{ maxLength: 64 }}
+          style = {{width: 300}}
+          
         />
+        </Grid>
+        </Box>
+        <br></br>
+
+   
+
+    
+    <Box
+    sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+      }}
+    >
+      <Grid xs={12}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={classroom}
+          onInputChange={selectSelectedClassroom}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="classroom" 
+          />}/>
+        </Grid>
     </Box>
 
-    <Box
-    sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-      }}
-    >
-      <TextField
-          id="outlined-number"
-          label="birthdate"
-          type="text"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={birthdate} onChange={(e) => setBirthdate(e.target.value)} 
-        />
-    </Box>
-    <Box
-    sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-      }}
-    >
-      <TextField
-          id="outlined-number"
-          label="classroom"
-          value={classroom} onChange={(e) => setClassroom(e.target.value)} 
-        />
-    </Box>
 
-    <Box
+
+    {selectedClasrom.includes("Lycée") &&
+   
+   <Box
     sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -156,13 +244,26 @@ export default function AjouterEnfent() {
         bgcolor: 'background.paper',
         borderRadius: 1,
       }}
-    >
-  <AddModal props = {state.uid}  
-                    firstname={firstname}
-                    school ={school}
-                    classroom ={classroom}
-                    /> 
-    </Box>
+    > 
+
+
+    <Grid xs={12}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={[{serie: "C"}, {serie: "D"}, {serie: "A"}, {serie: "O"},{serie: " "}].map((option) => option.serie)}
+          onInputChange={handleInputChangeSerie}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="serie" 
+          />}/>
+        </Grid></Box>}
+
+   
+   
+    <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
+    </Grid> 
+
+    
     </div>
   );
 }
