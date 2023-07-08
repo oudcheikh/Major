@@ -100,11 +100,12 @@ const handlesecole = event => {
       {
 
         classroom:selectedClasrom,
-        firstname:prenom,
-        lastname:nom,
-        school:school ,
-        serie:serie,
-        birthdate : new Date('01/01/2000')
+        firstname:prenom.trimStart(),
+        lastname:nom.trimStart(),
+        school:school.trimStart() ,
+        serie:serie.trimStart(),
+        birthdate : new Date('01/01/2000'),
+        from: "website"
 
       }
     )
@@ -259,10 +260,21 @@ const handlesecole = event => {
         </Grid></Box>}
 
    
+
+        <Box
+    sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+      }}
+    > 
    
     <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
     </Grid> 
-
+    </Box>
     
     </div>
   );

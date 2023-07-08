@@ -194,11 +194,11 @@ const handleadresse = event =>{
     adress : adresse,
     avatar :"",
     city : ville,
-    firstname : prenom,
+    firstname : prenom.trimStart(),
     isBlocked : false,
     kyc : false,
-    language :"er",
-    lastname : nom,
+    language :"",
+    lastname : nom.trimStart(),
     location : allvilles[ville][quartier],
     phone :  "+222" + String(nclient),
     quartier : quartier,
@@ -217,11 +217,11 @@ const handleadresse = event =>{
     adress : adresse,
     avatar :"",
     city : ville,
-    firstname : prenom,
+    firstname : prenom.trimStart(),
     isBlocked : false,
     kyc : false,
     language :"",
-    lastname : nom,
+    lastname : nom.trimStart(),
     location : allvilles[ville][quartier],
     phone :  "+222" + String(nclient),
     quartier : quartier,
@@ -410,9 +410,12 @@ const handleadresse = event =>{
            
            </Grid> }
 
-        <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
-        <Button onClick={closeModal} disabled={isDisabled}>close</Button></Grid>
-        <Grid xs={6}>    </Grid> 
+        <Grid xs={6}> 
+        <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
+        <Button onClick={closeModal} disabled={isDisabled}>close</Button>
+        </Grid>
+        <Grid xs={6}>    
+        </Grid> 
 
         </Box>
          
