@@ -23,7 +23,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // const notify = () => toast('Here is your toast.');
 
-const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', "ancienscours","allcanceledcours","profs", "clients",'InscritNotComplet', "kpi"];
+const pages = ['waitingcourse', 'todaycourscomfirme', 'todaycours', 
+"ancienscours","allcanceledcours",
+"profs", "clients",'InscritNotComplet', "package","kpi"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout', ];
 
 const ResponsiveAppBar = () => {
@@ -57,6 +59,11 @@ const ResponsiveAppBar = () => {
 
   const goToClients = () => {
     navigate("/clients");
+  };
+
+
+  const goToPackage = () => {
+    navigate("/package");
   };
 
   const goToCommandes = () => {
@@ -242,14 +249,13 @@ const ResponsiveAppBar = () => {
           </Button> 
 
 
-
+{/* 
           <Button 
             onClick={goToAllCoursCanceled}
             sx={{ my: 2, color: 'white', display: 'block' }}>   
             Cours annulés
-          </Button> 
-        
-          
+          </Button>  */}
+  
           <Button 
             onClick={goToProfs}
             sx={{ my: 2, color: 'white', display: 'block' }}>
@@ -261,6 +267,13 @@ const ResponsiveAppBar = () => {
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Clients
+              </Button>
+
+              <Button 
+               onClick={goToPackage}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+              package
               </Button>
 
              <Button 

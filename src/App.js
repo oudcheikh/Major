@@ -23,7 +23,8 @@ import NextCommand from "./pages/commands/nextCommand";
 import CanceledCours from "./pages/course/allcanceledcours";
 import AnciensCours from "./pages/course/ancienCoure";
 import NotFinishInscription from "./pages/client/userNoteFinishInscription"
-
+import AllPackages from "./pages/package/listPackage";
+import MyPackage from "./pages/package/Package";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
       <Router>
       <Login/>
         <Routes>
-
+          <Route exact path="/package" element={<AllPackages />}/>
           <Route exact path="/todaycourscomfirme" element={<TodyCoursCofimed />}/>
           <Route exact path="/todaycours" element={<TodyCours />}/>
           <Route exact path="/kpi" element={<Kpi />}/>
@@ -42,14 +43,15 @@ function App() {
           <Route exact path="/profProfile" element={<ProfProfile/>}/>
           <Route exact path="/commands" element={<NextCommand/>}/>
           <Route exact path="/ancienscours" element={<AnciensCours/>}/>
-          <Route exact path="/allcanceledcours" element={<CanceledCours/>}/>
+          {/* <Route exact path="/allcanceledcours" element={<CanceledCours/>}/> */}
           <Route exact path="/profProfile/credit" element={<Credit/> }/>
           <Route exact path="/user/profile/student" element={<StudentfProfile /> } />
           <Route exact path="/user/profile/parent" element={<ParentProfile /> } />
           <Route exact path="/parent/enfent/ajout" element={<AjouterEnfent /> } /> 
           <Route exact path="/user/profile/course" element={<Course /> } /> 
           <Route exact path="/user/course/profdispo" element={<ProfDispo /> } /> 
-          <Route exact path="/user/course/profdispocandidate" element={<ProfDispoCandidate /> } />   // canceledcours
+          <Route exact path="/user/course/profdispocandidate" element={<ProfDispoCandidate /> } />
+          <Route exact path="/user/package" element={<MyPackage /> } />
         </Routes>
       </Router>
     </div>
