@@ -111,7 +111,11 @@ export default function AllPackages() {
     querySnapshot.forEach((doc) => {
       const element = doc.data();
       element["uid"] = doc.id;
-      myallClients.push(element); 
+       
+      if ([0, 1, 2, 3].includes(element.statut)) {
+        myallClients.push(element); 
+        }
+
     });
     setAlltClient(myallClients)
   };
@@ -146,12 +150,13 @@ export default function AllPackages() {
   const columns = [
  { field: "booking_date",headerName: 'booking_date', valueFormatter: (params) => formattedDate(params.value.toDate()) ,
  width: 200 } ,
- { field:  "classroom", headerName:  "classroom", width: 130 } ,
+ { field:  "classroom", headerName:  "classroom", width: 110 } ,
 { field: "client_nom",headerName:"client_nom", width: 130 },
 { field: "client_number",headerName:"client_number", width: 130 },
-{ field: "numHour",headerName:"numHour", width: 130 },
- { field: "numPackage",headerName:"numPackage", width: 130 },
- { field: 'statut', headerName: 'statut', width: 330,
+{ field: "heure_totale",headerName:"heure_totale", width: 100 },
+ { field: "heure_done",headerName:"heure_done", width: 100 },
+ { field: "course",headerName:"course", width: 200 },
+ { field: 'statut', headerName: 'statut', width: 200,
     valueFormatter: (params) => formatPackageStatus(params.value),
      },
     {

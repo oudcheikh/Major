@@ -46,7 +46,6 @@ const Chart = () => {
      
     });
     setAlltClient(myallClients)
-    console.log("_______________________ myallClients : ", myallClients)
 
 
   };
@@ -60,7 +59,6 @@ const Chart = () => {
     fetchAllClient();
   }, []);
 
-  // console.log("_______________________ kpi : ", allclientssecond)
 
   return (
 

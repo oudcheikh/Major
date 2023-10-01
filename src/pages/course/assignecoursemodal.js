@@ -30,19 +30,39 @@ export default function AssignCourseModal(Props) {
   let [isDisabled, setIsDisabled] = React.useState(false);
   const navigate = useNavigate();
 
-  const adminAttributeCourse = httpsCallable(functions, 'adminAttributeCourse');
-
-  
+  const adminAttributeCourse = httpsCallable(functions, 
+    'adminAttributeCourse');
   const updateCours = async () => {
 
-    setIsDisabled(true)
-  adminAttributeCourse({
-    
-  "courseKey" : Props.course.data.course_uid,  
-  "clientUid" :  Props.course.data.client_uid,
-  "profUid" : Props.state.value
 
-})
+
+    let params = {}
+    // assigner un cours
+    if (Props.course.data.course_uid){
+      params = { courseKey: Props.course.data.course_uid,  clientUid : Props.course.data.client_uid,
+        "profUid" : Props.state.value}
+    }
+    // assigner un package
+    if (Props.course.data.prix_totale_applicable){
+      params = { courseKey: Props.course.data.uid,  clientUid : Props.course.data.client_uid,
+        "profUid" : Props.state.value, 
+        isPackage:true }
+    }
+
+
+    // assigner cours package
+    if (Props.course.data.Package){
+
+
+      console.log(" cours package ", Props.course.data)
+      params = { courseKey: Props.course.data.course_uid,     
+                clientUid : Props.course.data.client_uid, 
+                isPackage:true
+              }
+    }
+
+    setIsDisabled(true)
+  adminAttributeCourse(params)
      .then((result) => {
        // Read result of the Cloud Function.
        /** @type {any} */

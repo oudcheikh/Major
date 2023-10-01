@@ -48,7 +48,6 @@ export default function ResentNotif(Props) {
 
    var track = false ; 
 
-   console.log("-------rttrtrtrtr : Props.props : " , Props.props)
 
    function change_value(e) {
     return true;

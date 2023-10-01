@@ -57,10 +57,8 @@ function getPriceByCourse(courses, course) {
 dayjs.extend(advancedFormat);
 
 const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
-{course_type: "Cours package à domicile", index:2}, 
-{course_type:"Cours individuel à distance", index:3}, 
-{course_type:"Cours package à distance", index:4},
-{course_type:"Cours chez Major", index:5}]
+
+{course_type:"Cours individuel à distance", index:3}]
 
 
 
@@ -94,7 +92,6 @@ export default function AddCours(Props) {
     setselectedchildrenchildren(value);
     // console.log(' selected children ................', value)
     // let classroom = clientProfileSnap.data().classroom.split(" ");    
-    console.log("classromme.................." , children.filter(element => element.firstname === value)[0].classroom.split(" "));
     
     let thisclassroom = children.filter(element => element.firstname === value)[0].classroom.split(" ");
     setoffre(offercours.data()[thisclassroom[0]].filter(element => element.actif === true))
@@ -230,7 +227,6 @@ export default function AddCours(Props) {
     // offre.filter(element => element.cours === cours)
 
 
-    console.log("cours_typecours_typecours_typecours_typecours_type : ", cours_type)
    
 
 
@@ -351,8 +347,6 @@ export default function AddCours(Props) {
             value={valueDateTile}
             onChange={(newValue) => {
               const dateWithSecondsZero = dayjs(newValue).set('second', 0);
-              console.log("dateWithSecondsZero ..................... : ", dateWithSecondsZero);
-              console.log("newValue ..................... : ", newValue.toDate());
               setValue(dateWithSecondsZero);
             }}
           />

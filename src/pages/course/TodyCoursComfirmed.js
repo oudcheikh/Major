@@ -9,7 +9,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from '../../features/counter/counterSlice'
 import Button from '@mui/material/Button';
 
-
+const course_type = [{course_type: "individuel à domicile", index:1}, 
+                      {course_type: "package à domicile", index:2}, 
+                      {course_type:"individuel à distance", index:3}, 
+                      {course_type:"package à distance", index:4},
+                      {course_type:"chez Major", index:5}]
 
 function orderByCreatedAt(arr) {
   return arr.sort((a, b) => {
@@ -154,6 +158,15 @@ export default function TodyCoursCofimed() {
     width: 180 },
     { field: 'course', headerName: 'course', width: 180 },
     { field: 'duration', headerName: 'Duré', width: 130 },
+    {
+      field: 'from', 
+      headerName: 'Crée par admin', 
+      width: 130,
+      valueGetter: (params) => params.row.from == "website" ? "Oui" : "Non"
+    },
+    { field: 'type', headerName: 'type_cours', width: 200, 
+      valueFormatter: (params) => course_type.find(element => element.index === params.value).course_type,
+    },
     { field: 'statut', headerName: 'statut', width: 330, 
     
     valueFormatter: (params) => formatCoursStatus(params.value),

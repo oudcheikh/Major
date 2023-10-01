@@ -77,7 +77,7 @@ export default function CoursHistory(Props) {
       querySnapshot.forEach((doc) => {
     
         let cours = doc.data()
-        console.log("cours : ", cours)
+        
         if (cours.package == Props.package_uid)
         { 
           Cours.push(doc.data())

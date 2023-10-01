@@ -82,8 +82,6 @@ export default function CreditModal(Props) {
   const updateCours = async () => {
 
 
-    console.log("textInput : ", textInput);
-    console.log("Props : ", Props.prof)
 
     setIsDisabled(true)
     

@@ -173,7 +173,6 @@ const GoToProf = async () =>{
     
   };
 
-  console.log("---------------------- state.data : ", state.data)
   return (
     <Box sx={{
       padding: 20,

@@ -65,10 +65,10 @@ function getPriceByCourse(courses, course) {
 }
 
 const course_type = [{course_type: "Cours individuel à domicile", index:1}, 
-{course_type: "Cours package à domicile", index:2}, 
+ 
 {course_type:"Cours individuel à distance", index:3}, 
-{course_type:"Cours package à distance", index:4},
-{course_type:"Cours chez Major", index:5}
+
+
 ]
 
 
@@ -220,7 +220,6 @@ function handleInputChangeTypeCours(event, value) {
 
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
-    console.log("cours_typecours_typecours_typecours_typecours_type : ", cours_type)
 
 
     const docRef = await addDoc(querySnapshotCredit, 

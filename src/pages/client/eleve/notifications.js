@@ -20,7 +20,6 @@ const formattedDate = (d) => {
 
 export default function NotificationHistory(Props) {
 
-  console.log("_____________________ : Props.notifications : ", Props.notifications)
 
   return (
     <div>

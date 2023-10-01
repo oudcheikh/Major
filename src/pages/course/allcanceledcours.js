@@ -212,7 +212,6 @@ export default function CanceledCours() {
   ];
 
 
-  console.log("------------------------- : test : ", mycourses )
 
   return (
     <div style={{ height: 1000, width: '100%' }}>

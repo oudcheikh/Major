@@ -103,7 +103,7 @@ const handlesecole = event => {
 };
 
 function handleville(event, value) {
-  console.log("event.target.value : ", value)
+ 
   setville(value);
   // Object.keys(allvilles).filter(key => key ===event.target.value)
   setallselectedquartier(Object.keys(allvilles[value]))
@@ -114,10 +114,7 @@ function handleville(event, value) {
 
 function handlequartier(event, value) {
 
-  
-  console.log("ville : ", ville)
-  console.log("quartier value : ", value)
-  console.log("allvilles  : ", allvilles[ville][value])
+
   setquartier(value);
 };
 

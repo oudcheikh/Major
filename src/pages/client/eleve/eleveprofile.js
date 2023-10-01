@@ -19,6 +19,7 @@ import CommenttHistory from "./comment/history"
 import AddCours from "./commandcours/AddCours"
 import { useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import AddPackage from './commandcours/AddPackage';
 
 
 function TabPanel(props) {
@@ -136,8 +137,7 @@ export default function StudentfProfile() {
   };
 
 
-console.log("eleve uid .......................... : ", state)
-console.log("profile uid .......................... : ", profile)
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
@@ -186,7 +186,7 @@ console.log("profile uid .......................... : ", profile)
             <Tab label="notes" {...a11yProps(1)} />
             <Tab label="Notifications" {...a11yProps(2)} />
             <Tab label="Commentaire" {...a11yProps(3)} />
-            <Tab label="Ajouter un cours" {...a11yProps(4)} />
+            <Tab label="Ajouter un cours/package" {...a11yProps(4)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -208,6 +208,7 @@ console.log("profile uid .......................... : ", profile)
 
        <TabPanel value={value} index={4} >
         <AddCours client = {state.uid} />
+        <AddPackage client = {state.uid} />
       </TabPanel> 
       
       </Grid>

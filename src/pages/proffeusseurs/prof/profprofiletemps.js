@@ -69,7 +69,7 @@ export default function ProfProfile(Props) {
     const querySnapshotCourse = collection(db, "Users", state.uid, "Courses")
     onSnapshot(querySnapshotCourse, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // console.log("Courses: ", doc.data());
+        
         Cours.push(doc.data())
       });
       setCours(Cours)

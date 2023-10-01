@@ -19,7 +19,8 @@ import Button from '@mui/material/Button';
 import AjouterEnfent from "./ajoutenfent"
 import CommentModal from "./comment/ClientComment"
 import CommenttHistory from "./comment/history"
-import AddCours from "./commandcours/AddCours"
+import AddCours from "./commandcours/AddCours";
+import AddPackage from './commandcours/AddPackage';
 
 
 function TabPanel(props) {
@@ -204,7 +205,7 @@ const goToAddChildren= () => {
           <Tab label="Notifications" {...a11yProps(2)} />
           <Tab label="Enfents" {...a11yProps(3)} />
           <Tab label="Comment" {...a11yProps(4)} />
-          <Tab label="Ajouter un cours" {...a11yProps(5)} />
+          <Tab label="Ajouter un cours/package" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -234,6 +235,7 @@ const goToAddChildren= () => {
 
       <TabPanel value={value} index={5} >
         <AddCours client = {state.uid} />
+        <AddPackage client = {state.uid} />
       </TabPanel> 
 
     </Box>

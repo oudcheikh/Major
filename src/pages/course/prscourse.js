@@ -84,21 +84,46 @@ export default function ProfDispo() {
 
 const FindProf = async () =>{
 
-
     const clientProfile  = doc(db, "Users", state.state.data.client_uid);
     const clientProfileSnap = await getDoc(clientProfile );
-
     const myallClients = [];
     const myallClientssecode = [];
-
-
     const q = query(collection(db, "Users"), 
                               where("userType", "==", 2),
                               where("courses", "array-contains", state.state.data.course)
                               );
+    let params = {}
+
+    console.log("----------------------- state.state : ", state.state.data)
+
+    // cours normale
+  
+    params = { courseKey: state.state.data.course_uid,  clientUid : state.state.data.client_uid}
+    
+    console.log("state.state.data.prix_totale_applicable : ", state.state.data.prix_totale_applicable)
+    // package
+    if (state.state.data.prix_totale_applicable){
+      console.log(" in package  package ")
+      params = { courseKey: state.state.data.uid,  
+                clientUid : state.state.data.client_uid, 
+                isPackage:true }
+    }
+
+    // cours package
+    if (state.state.data.Package){
 
 
-    searchProf({ courseKey: state.state.data.course_uid,  clientUid : state.state.data.client_uid})
+      console.log(" cours package ", state.state.data.course_uid)
+      params = { courseKey: state.state.data.course_uid,     
+                clientUid : state.state.data.client_uid, 
+                isPackage:true,
+                isPackageCourse:true
+              }
+    } 
+
+    console.log("paramater : ", params)
+    
+    searchProf(params)
     .then((result) => {
       // Read result of the Cloud Function.
       /** @type {any} */
@@ -113,12 +138,7 @@ const FindProf = async () =>{
         setAlltClientsecond(allclientssecond => [...allclientssecond, element]);
       });
     }
-    
     );
-
-   
-  
-    
   };
 
 
