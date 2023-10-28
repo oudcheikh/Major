@@ -74,49 +74,52 @@ export default function AddCours(Props) {
   const [price, setprice] = React.useState('');
   const [cours, setcours] = React.useState();
   const [children, setchildren] = React.useState([]);
+  const [classroom, setClassroom] = React.useState('');
   const [selectedchildren, setselectedchildrenchildren] = React.useState('');
   const [coursType, setcourType] = React.useState("Cours individuel à domicile");
   const [offercours, setoffercours] = React.useState()
   const [valueDateTile, setValue] = React.useState(new Date());
+  const [serie, setserie] = React.useState('');
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const formRef = React.useRef();
   let [isDisabled, setIsDisabled] = React.useState(false);
-  const [valuen, setValuen] = React.useState(1);
+  const [nbHour, setnbHour] = React.useState(1);
 
 
-  const getprice = (cours, nbHeur ) => {
+  const getprice = (cours, nbHour, mycoursType, serie ) => {
     const getCoursPrice = httpsCallable(functions, 'getCoursePrice');
       let place = 1 ;
-    if (coursType == "Cours individuel à distance") {
+    if (mycoursType == "Cours individuel à distance") {
       place = 2;
     }
   
-    
-    console.log("cours : ", cours , 
-                "classroom : ", profile.classroom,
-                "serie : ", children.filter(element => element.firstname === selectedchildren)[0].serie ?  children.filter(element => element.firstname === selectedchildren)[0].serie:'', 
-                "userCity : ", profile.city,
-                "duration :", nbHeur,
-                "place :",  course_type == 2 ? "Online" : "Home",
+    console.log("coursType .................  : ",   place)
+    console.log("cours ::::  : ", cours , 
+                "classroom !::::: : ", classroom,
+                "serie :::: : ", serie, 
+                "userCity :::: : ", profile.city,
+                "quartier ::: ", profile.quartier,
+                "duration::: :", nbHour,
+                "place :::::",  place,
                 )
     
     getCoursPrice({
       matiere: cours,
-      classroom : children.filter(element => element.firstname === selectedchildren)[0].classroom,
-      serie :children.filter(element => element.firstname === selectedchildren)[0].serie ?  children.filter(element => element.firstname === selectedchildren)[0].serie:'',
+      classroom : classroom,
+      serie :serie,
       city : profile.city,
       quartier :profile.quartier,
-      nbHeur : nbHeur,
-      place : course_type == 2 ? "Online" : "Home",
+      nbHeur : nbHour,
+      place : place,
     })
       .then((result) => {
         const data = result.data;
           console.log(result)
         if (data.success) {
   
-          setprice(result.price)
+          setprice(result.data.price)
           return result
         }
         else {
@@ -125,19 +128,20 @@ export default function AddCours(Props) {
       });
     }
   
-  
 
   const handleChange = (event) => {
-    setValuen(event.target.value);
+    setnbHour(event.target.value);
+    getprice(cours, event.target.value, coursType, serie)
   };
 
   function handleInputChangeSetSelectedChildern(event, value) {
     setselectedchildrenchildren(value);
     // console.log(' selected children ................', value)
-    // let classroom = clientProfileSnap.data().classroom.split(" ");    
+    //let classroom = clientProfileSnap.data().classroom.split(" ");    
     
-    let thisclassroom = children.filter(element => element.firstname === value)[0].classroom.split(" ");
-    setoffre(offercours.data()[thisclassroom[0]].filter(element => element.actif === true))
+    let thisclassroom = children.filter(element => element.firstname === value)[0].classroom;
+    setClassroom(thisclassroom)
+    setoffre(offercours.data()[thisclassroom.split(" ")[0]].filter(element => element.actif === true))
  
 
   }
@@ -145,13 +149,21 @@ export default function AddCours(Props) {
   function handleInputChange(event, value) {
     setcours(value);
 
-  let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
-   setprice(getPriceByCourse(offre, value)[thisclassroom[1]])
+   let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
+   
+   getprice(value, nbHour, coursType, serie);
 
+  }
+
+  function handleInputChangeSerie(event, value) {
+    setserie(value);
+    getprice(cours, nbHour, coursType, value);
+   
   }
 
   function handleInputChangeTypeCours(event, value) {
     setcourType(value);
+    getprice(cours, nbHour, value, serie);
    
   }
 
@@ -230,14 +242,7 @@ export default function AddCours(Props) {
 
   const updateCours = async () => {
 
-    if (nclient.trim() === '') {
-      // Le champ "Numéro_client" est vide, affichez un message d'erreur ou effectuez l'action appropriée
-      
-      window.alert("Le champ 'Numéro_client' est obligatoire");
-      return;
-    }
-
-    else {
+    
 
 
 
@@ -252,19 +257,7 @@ export default function AddCours(Props) {
 
     let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
 
-    let prix ;
-    if (coursType =="Cours package à domicile" || coursType == "Cours package à distance")
-    { prix = textInputPrix}
-    else {
-      if (valuen== 1) {
-        prix = 1.5 * getPriceByCourse(offre, cours)[thisclassroom[1]];
-      }
-      else {
-        prix = valuen * getPriceByCourse(offre, cours)[thisclassroom[1]];
-      }
-       
-    }
-
+    let prix =  textInputPrix;
 
     const cours_type =  course_type.filter(element => element.course_type === coursType)[0].index;
     // offre.filter(element => element.cours === cours)
@@ -278,7 +271,7 @@ export default function AddCours(Props) {
         client_uid : client_uid,
         course : cours,
         date : valueDateTile.toDate(),
-        duration : valuen,
+        duration : nbHour,
         noted : false,
         price : Number(prix) ,
         prof : ""  ,
@@ -310,7 +303,7 @@ export default function AddCours(Props) {
 
    setIsDisabled(false);
    
-  }
+  
   };
 
   return (
@@ -365,11 +358,53 @@ export default function AddCours(Props) {
         </Grid>
         </div>
         <br></br>
-     
+       
+       <Grid xs={12}>
+       <Autocomplete
+         disablePortal
+         id="combo-box-demo"
+         options={[{serie: "C"}, {serie: "D"}, {serie: "A"}, {serie: "O"},{serie: " "}].map((option) => option.serie)}
+         onInputChange={handleInputChangeSerie}
+         sx={{ width: 300 }}
+         renderInput={(params) => <TextField {...params} label="serie" 
+         />}/>
+       </Grid>
+       <br></br>
+        <br>
+        </br>
         <Grid xs={12}>
-          Prix (1h) : {price}
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={course_type.map((option) => option.course_type)}
+          onInputChange={handleInputChangeTypeCours}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="courseType" 
+          />}/>
         </Grid>
-        <br></br>
+        
+        <Grid xs={12}> 
+        <div>
+     
+        <FormControl>
+     
+     <RadioGroup
+       aria-labelledby="demo-controlled-radio-buttons-group"
+       name="controlled-radio-buttons-group"
+       value={nbHour}
+       onChange={handleChange}
+       row
+     >
+       <FormControlLabel value = "1" control={<Radio />} label="1h" />
+       <FormControlLabel value="2" control={<Radio />} label="2h" />
+       <FormControlLabel value="3" control={<Radio />} label="3h" />
+       <FormControlLabel value="4" control={<Radio />} label="4h" />
+     </RadioGroup>
+   </FormControl>
+   </div>
+      </Grid> 
+      
+     
         <Grid xs={12}>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -386,42 +421,12 @@ export default function AddCours(Props) {
 
         
         </Grid>
-        <br></br>
+       
+          
         <Grid xs={12}>
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={course_type.map((option) => option.course_type)}
-          onInputChange={handleInputChangeTypeCours}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="courseType" 
-          />}/>
+        Prix ( {nbHour} h) : {price}
         </Grid>
-
-        
-         <Grid xs={12}> 
-         <div>
-      
-         <FormControl>
-      
-      <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={valuen}
-        onChange={handleChange}
-        row
-      >
-        <FormControlLabel value = "1" control={<Radio />} label="1h" />
-        <FormControlLabel value="2" control={<Radio />} label="2h" />
-        <FormControlLabel value="3" control={<Radio />} label="3h" />
-        <FormControlLabel value="4" control={<Radio />} label="4h" />
-      </RadioGroup>
-    </FormControl>
-    </div>
-       </Grid> 
-       <br>
-        </br>
-
+        <br></br>
        
        <Grid xs={12}>
           <TextField
@@ -457,18 +462,6 @@ export default function AddCours(Props) {
         <br>
         </br>
 
-
-<Grid xs={12}>  <TextField
-          
-          label="Numéro_client"
-          multiline
-          rows={1}
-          defaultValue=" "
-          onChange= {handleTextInputChangenclient}
-          inputProps={{ maxLength: 64 }}
-          style = {{width: 300}}
-          required
-        /></Grid>
         
         <Grid xs={6}> <Button onClick={updateCours} disabled={isDisabled}>Add</Button>
         
