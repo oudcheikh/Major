@@ -172,12 +172,7 @@ export default function AddCours(Props) {
 
   const handleTextInputChangeTypeCours = event => {
       setTextInputPrix(event.target.value);
-      setprice(event.target.value)
-      if (event.target.value.trim() === '') {
-    
-        let thisclassroom = children.filter(element => element.firstname === selectedchildren)[0].classroom.split(" ");
-        setprice(getPriceByCourse(offre, cours)[thisclassroom[1]])
-      }
+      
   };
 
   const handleTextInputChange = event => {
