@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Link, useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db } from "../../../../firebase";
+import { auth, logInWithEmailAndPassword, signInWithGoogle, logout, db, functions } from "../../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { query, collection, addDoc, getDocs, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, where, doc, onSnapshot } from "firebase/firestore";
 import Radio from '@mui/material/Radio';
@@ -20,6 +20,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { httpsCallable } from "firebase/functions";
 
 const style = {
   position: 'absolute',
@@ -83,6 +84,48 @@ export default function AddCours(Props) {
   const formRef = React.useRef();
   let [isDisabled, setIsDisabled] = React.useState(false);
   const [valuen, setValuen] = React.useState(1);
+
+
+  const getprice = (cours, nbHeur ) => {
+    const getCoursPrice = httpsCallable(functions, 'getCoursePrice');
+      let place = 1 ;
+    if (coursType == "Cours individuel à distance") {
+      place = 2;
+    }
+  
+    
+    console.log("cours : ", cours , 
+                "classroom : ", profile.classroom,
+                "serie : ", children.filter(element => element.firstname === selectedchildren)[0].serie ?  children.filter(element => element.firstname === selectedchildren)[0].serie:'', 
+                "userCity : ", profile.city,
+                "duration :", nbHeur,
+                "place :",  course_type == 2 ? "Online" : "Home",
+                )
+    
+    getCoursPrice({
+      matiere: cours,
+      classroom : children.filter(element => element.firstname === selectedchildren)[0].classroom,
+      serie :children.filter(element => element.firstname === selectedchildren)[0].serie ?  children.filter(element => element.firstname === selectedchildren)[0].serie:'',
+      city : profile.city,
+      quartier :profile.quartier,
+      nbHeur : nbHeur,
+      place : course_type == 2 ? "Online" : "Home",
+    })
+      .then((result) => {
+        const data = result.data;
+          console.log(result)
+        if (data.success) {
+  
+          setprice(result.price)
+          return result
+        }
+        else {
+          return {}
+        }
+      });
+    }
+  
+  
 
   const handleChange = (event) => {
     setValuen(event.target.value);
@@ -225,11 +268,6 @@ export default function AddCours(Props) {
 
     const cours_type =  course_type.filter(element => element.course_type === coursType)[0].index;
     // offre.filter(element => element.cours === cours)
-
-
-   
-
-
     const querySnapshotCredit = collection(db, "Users", client_uid, "Courses")
     
     const docRef = await addDoc(querySnapshotCredit, 
@@ -256,13 +294,9 @@ export default function AddCours(Props) {
         from: "website",
         type : cours_type
     }
-    
-
     )
     ;
     
-
-
    setOpen(false)
 
    const phone = ""
@@ -303,8 +337,6 @@ export default function AddCours(Props) {
             noValidate
             autoComplete="off">
     </Box>
- 
-   
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
         </Typography>
         <div> 
